@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>魔方云</title>
+<link href="static/css/css.css" rel="stylesheet">
+<script src="static/js/AgoraRTCSDK-2.6.1.js"></script>
+<!-- <script>if (typeof module === 'object') {window.module = module; module = undefined;}  const {ipcRenderer} = require('electron');</script> -->
+<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+</head>
+<body>
+<div id="wrap">
+	<!-- <div id="header">
+		<div id="bar" style="-webkit-app-region: drag;"></div>
+		<div class="header_bar">
+			<div class="header_bar_right">
+				<content class="bar_btn" tooltip="最小化" flow="down" onclick='ipcRenderer.send("broadcast_min");'>
+					<span class="icon_box"><i class="icon iconfont icon-zuixiaohua"></i></span>
+				</content>
+				<content class="bar_btn" tooltip="全屏开关" flow="down" onclick="toggleFullScreen(event)">
+					<span class="icon_box"><i class="icon iconfont icon-quanping"></i></span>
+				</content>
+				<content class="bar_btn" tooltip="关闭会议" flow="down" onclick="store.set('channelid',{});ipcRenderer.send('disBroadcast');">
+					<span class="icon_box"><img src="static/css/down.png" width="24px"></span>
+				</content>
+			</div>
+		</div>
+	</div> -->
+	<div id="main" class="off">
+		<div id="video_box">
+			<!-- <div id="agora_local" class="main" onclick="toggleBox(this)"></div> -->
+		</div>
+		<div class="to_desktop">
+			<div id="t_rt" class="Previou t_icon" tooltip="显示成员" flow="down" onclick="Members()"></div>
+		</div>
+	</div>
+	<div id="footer">
+		<div class="bottom_bar">
+			<div class="bottom_bar_conter">
+		      <content class="bar_btn" tooltip="音频开关" onclick="voice_switch(this)">
+		      	<span class="icon_box"><i class="icon iconfont icon-yangshengqi"></i></span></content>
+		    </div>
+	    </div>
+	    <div class="hide">
+	    	开启视频？: <input id="video" type="checkbox"></input>
+          <button id="leave" class="btn btn-primary" onclick="leave()">离开会议室</button>
+          <button id="cam2screen" class="btn btn-primary" onclick="cam2screen()">切屏</button>
+	    </div>
+	</div>
+</div>
+<script src="static/js/lib.js"></script>
+</body>
+</html>

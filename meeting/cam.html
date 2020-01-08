@@ -1,0 +1,128 @@
+	<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>魔方云</title>
+<meta name="viewport" content="user-scalable=no,width=device-width,minimum-scale=1.0">
+<link href="static/css/css.css" rel="stylesheet">
+<script src="static/js/AgoraRTCSDK-2.6.1.js"></script>
+<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<script type="text/javascript">
+	var ChannelId = getUrlParam('roomId');
+	switch (ChannelId) {
+		case '1000':
+		console.log("进入了普通会议室");
+		break;
+		case '2000':
+		console.log("进入了内部会议室");
+		break;
+		case '3000':
+		console.log("进入了导演会议室");
+		break;
+		default:
+		alert('请输入会议号');
+		window.location.href = 'index.html';
+		break;
+	}
+</script>
+<style type="text/css">
+
+#wrap_set{display: none;}
+@media screen and (orientation: portrait){
+	#header{width: 70%;right: 0}
+	.header_bar_right{margin:16px 0 0;}
+	#video_box>div{height: 6.8rem}
+	.to_desktop .Previou{margin-left: 0}
+}
+@media screen and (max-width: 1200px) {
+	#pc_set{display: none!important;}
+	#wrap_set{display: block!important;}
+}
+@media screen and (min-width: 1200px) {
+	.to_desktop{left: 270px}
+}
+
+</style>
+</head>
+<body>
+<div id="wrap">
+	<div id="header">
+		<div class="header_bar">
+			<div class="header_bar_right" id="pc_set">
+				<content class="bar_btn" tooltip="全屏开关" flow="down" onclick="toggleFullScreen(event)">
+					<span class="icon_box"><i class="icon iconfont icon-quanping"></i></span>
+				</content>
+				<content class="bar_btn" tooltip="设置" flow="down" onclick="set_fun()">
+					<span class="icon_box"><i class="iconfont icon-shezhi"></i></span>
+				</content>
+			</div>
+			<div class="header_bar_right" id="wrap_set">
+				<content class="bar_btn" tooltip="切换设置麦克风" flow="down" onclick="switchDevice('audio',audiodata,audio_++)">
+					<span class="icon_box"><i class="iconfont icon-maikefeng"></i></span>
+				</content>
+				<content class="bar_btn" tooltip="切换摄像头" flow="down" onclick="switchDevice('video',videodata,video_++)">
+					<span class="icon_box"><i class="iconfont icon-shexiangtouqiehuan"></i></span>
+				</content>
+			</div>
+		</div>
+	</div>
+	<div id="main" class="off">
+		<div id="video_box">
+			<div id="agora_local" class="main" onclick="toggleBox(this)"></div>
+		</div>
+		<div class="to_desktop">
+			<div id="t_rt" class="Previou t_icon" tooltip="显示成员" flow="down" onclick="Members()"></div>
+		</div>
+	</div>
+	<div id="footer">
+		<div class="bottom_bar">
+			<div class="bottom_bar_conter">
+		      <content class="bar_btn" tooltip="音频开关" onclick="voice_switch()" id="loudspeaker">
+		      	<span class="icon_box"><i class="icon iconfont icon-yangshengqi"></i></span>
+		      </content>
+		      <content class="bar_btn" tooltip="麦克风开关" onclick="audio_switch()" id="microphone">
+		      	<span class="icon_box"><i class="icon iconfont icon-maikefeng-shi"></i></span>
+		      </content>
+		      <content class="bar_btn" tooltip="摄像头开关" onclick="video_switch()" id="camera">
+		      	<span class="icon_box"><i class="icon iconfont icon-ic_videocam_px"></i></span>
+		      </content>
+		      <content class="bar_btn" tooltip="挂断会议" onclick="leave(this)">
+		      	<span class="icon_box"><i class="icon iconfont icon-hungup"></i></span>
+		      </content>
+		      <content class="bar_btn" tooltip="抢麦" onclick="robMicrophone()">
+		      	<span class="icon_box"><i class="icon iconfont icon-maixu"></i></span>
+		      </content>
+		    </div>
+	    </div>
+	    <div class="hide">
+	    	开启视频？: <input id="video" type="checkbox" checked></input>
+          <button id="leave" class="btn btn-primary" onclick="leave()">离开会议室</button>
+          <button id="cam2screen" class="btn btn-primary" onclick="cam2screen()">切屏</button>
+	    </div>
+	</div>
+	<!-- set hide -->
+	<div class="set_box hide" id="set_box">
+		<from class="set_content">
+			<div class="set_item">
+				<label class="set_label">麦克风</label>
+				<div class="set_item_box">
+					<select id="audioSource" onchange="show_sub('audio',this.options[this.options.selectedIndex].value)"></select><div class="af"></div>
+				</div>
+				<div class="set_border"></div>
+			</div>
+			<div class="set_item">
+				<label class="set_label">摄像头</label>
+				<div class="set_item_box">
+					<select id="videoSource" onchange="show_sub('video',this.options[this.options.selectedIndex].value)"></select><div class="af"></div>
+				</div>
+				<div class="set_border"></div>
+			</div>
+			<div class="set_bar">
+				<span class="set_btn" onclick="layer.close(layerOpen)">确定</span>
+			</div>
+		</from>
+	</div>
+</div>
+<script src="static/js/lib.js"></script>
+</body>
+</html>

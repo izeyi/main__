@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+*{
+moz-user-select: -moz-none;
+-moz-user-select: none;
+-o-user-select:none;
+-khtml-user-select:none;
+-webkit-user-select:none;
+-ms-user-select:none;
+user-select:none;
+}
+body::-webkit-scrollbar { width: 0 !important }
+body{padding:0;margin:0;border:0;font-family: Microsoft YaHei,PingFangSC-Regular;user-select:none;}
+.Box{width: 472px;height: 255px;background: url(bg.png) no-repeat;overflow: hidden;.}
+.p{text-align: center;font-size: 28px;font-weight: lighter;color: #fff;margin-top: 118px;}
+.btn{width: 472px;height: 78px; margin-top: 19px;color: #fff;}
+.btn div{float: left;width: 50%;height: 78px;text-align: center;line-height: 78px;cursor: pointer;font-size: 18px;}
+.btn div:hover{background:rgba(85,83,81,0.5);    border-radius: 15px;}
+</style>
+<script>
+const {ipcRenderer} = require("electron");
+// window.onload=function(){
+// setTimeout('ipcRenderer.send("login");',5000);
+// }
+</script>
+</head>
+
+<body>
+
+	<div class="Box">
+		<div class="p">是否退出天橙魔方?</div>
+		<div class="btn">
+			<div onclick='ipcRenderer.send("window-close");'>确定</div>
+			<div onclick='ipcRenderer.send("dismexit");'>取消</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

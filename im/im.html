@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+  <title>魔方云</title>
+  <script type="text/javascript" src="http://static.namenb.com/web/js/?tcbox"></script>
+  <script type="text/javascript">
+    Vue.filter('is_face', function (str) {if(!str){return '../osmain/static/images/head.png'}else{return str}});
+    var _user = store.get('userinfo');
+    var pass = getUrlParam('pass');
+    var _ucenter = "http://api.greatorange.cn/box/ucenter/info/";
+    var _gid = _user.userinfo.gid;
+    var _uid = _user.userinfo.uid;
+    var default_data={"success": true,"userinfo": {"phone":"","openid":"","wxuserinfo":"{}","isadmin":"0","power":null,"nickname":"","position":"","face":"","content":"","status":"0"},"cominfo": {"gid":"","logo":"","comname":"","videotags":"","pictags":"","rtckey": null}};
+    // chat
+    var userinfo = _user.userinfo;
+    WEB_SOCKET_DEBUG = true;
+    var ws,room_id, client_list={};
+    room_id=pass;
+  </script>
+<style type="text/css">
+* {margin:0;padding:0;-moz-user-select:none;-khtml-user-select:none;user-select:none;}
+form,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,p {list-style:none outside none;}
+a {text-decoration:none;color:#ccc;outline:none;}
+a:hover {text-decoration:underline;color:#1298F4;}
+a img {border:none;}
+img{ pointer-events: none;}
+.fr {float:right;}
+.fl {float:left;}
+input{outline: none;}
+body {font:12px/1.8 "Microsoft YaHei","PingFangSC-Regular";height:100%;overflow:hidden;background:transparent;user-select:none;}
+#chat{
+    height: 100%;min-height: 100%;max-height: 100%;
+    position: fixed;
+    bottom: 0;right: 0;
+    transform: translateX(0%);background-color: #EEEEEE;border-radius: 3px;overflow: hidden;transition: all .5s ease-out}
+#chat.on{transform: translateX(100%);}
+#chat.min .chat_inner{min-width: 200px;}
+#chat.min .box{opacity: 0}
+#chat.min .chat_max_win{display: inline-block;}
+#chat.min .chat_min_win{display: none!important;}
+#chat .chat_inner{min-width: 500px;width: 200px;height: 100%;transition: all .5s ease-out}
+
+#chat .panel{position: relative;width: 200px;height: 100%;float: right;background: #2e3238;border-radius:0 3px 3px 0}
+.header{padding: 18px 0 10px 12px;position: relative;}
+.header .avatar {display: table-cell;vertical-align: middle;word-wrap: break-word;word-break: break-all;white-space: nowrap;padding-right: 6px;}
+.header .avatar .img {width: 40px;height: 40px;border-radius: 2px;-moz-border-radius: 2px;-webkit-border-radius: 2px;display: block;cursor: pointer;}
+.header .info {display: table-cell;vertical-align: middle;/* word-wrap: break-word; *//* word-break: break-all; */width:100%;}
+.header .info .nickname .display_name {display: inline-block;float: left;font-weight: 400;width: 72px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;word-wrap: normal;color: #fff;font-size: 16px;vertical-align: top;text-decoration: none;}
+.header .info .nickname .opt {display: inline-block;/* vertical-align: top; */margin:0 2px;float: left;}
+.web_wechat_icon{display: inline-block;vertical-align: middle;width: 30px;height: 30px;border-radius: 10%;background: rgba(102, 102, 102, .3);transform: rotate(180deg);transition: all .15s ease-out}
+/*.wechat_min_win{transform: rotate(90deg);}*/
+.header .info .nickname .opt.chat_max_win{display: none;}
+.nickname .opt:hover .web_wechat_icon{background: rgba(102, 102, 102,.6);}
+.web_wechat_icon svg{transform:scale(.66);}
+.nav_view {position: relative;overflow: hidden;}
+.nav_title{padding: 6px 18px;border-bottom: 1px solid #24272c;font-weight: 400;font-size: 14px;color: #68c864;}
+.nav_title h4{font-size: 14px;color: #68c864;display: inline-block;}
+#userlist{max-height: 28.5rem;overflow-y: auto}
+.chat_item {overflow: hidden;padding:10px 12px 9px;border-bottom: 1px solid #24272cb8;cursor: pointer;position: relative;}
+.chat_item .ext {float: right;color: #6b6f7c;font-size: 13px;text-align: right;}
+.chat_item .avatar {float: left;margin-right: 6px;position: relative;}
+.chat_item .info {overflow: hidden;}
+.chat_item .avatar img{display: block;width: 36px;height: 36px;border-radius: 2px;-moz-border-radius: 2px;-webkit-border-radius: 2px;}
+.chat_item .avatar .icon {position: absolute;top: -6px;right: -6px;color: #fff;font-style: normal;font-size: 12px;text-align: center;}
+.chat_item .info .nickname {font-weight: 400;font-size: 14px;color: #fff;line-height: 16px;}
+.chat_item .info .msg {color: #989898;font-size: 12px;width: 100%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;word-wrap: normal;height: 1.5em;}
+.chat_item .info .nickname_text {width: 100%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;word-wrap: normal;}
+.chat_item .info .nickname_text {display: inline-block;*display: inline;*zoom: 1;vertical-align: top;}
+
+.user_active{background: #3a3f45;}
+.box{position: relative;background-color: #eee;height: 100%;overflow: hidden;}
+.contentView{height: 100%}
+/**/
+/*.box_hd{line-height: 30px}*/
+.box_hd .title_wrap {position: relative;padding:6px 0 5px;margin: 0px 12px;border-bottom: 1px solid #d6d6d6;background-color: #eee;z-index: 1024;}
+.box_hd .title_box {font-weight: 400;display: inline-block;font-size: 14px;cursor: pointer;}
+.box_hd .title_box .title_name{display: inline-block;vertical-align: middle;max-width: 300px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;word-wrap: normal;text-decoration: none;color: #000;font-weight: 400;}
+.box_hd .title_box .title_count{vertical-align: middle;}
+/**/
+.contentView .box_bd{padding:0px 12px 6px;}
+.message_item{margin-top: 6px;float: left;width: 100%;}
+.message_item.default{text-align: center;margin-top: 4px}
+.message_item.me{float: right;text-align: right;clear: right;}
+.message_item.me .avatar {float: right;}
+.message_item.me .bubble.right {background-color: #b2e281;}
+.message_item .avatar {width: 36px;height: 36px;border-radius: 2px;float: left;cursor: pointer;margin-top: 4px;}
+.message_item .content {overflow: hidden;}
+.message_item .msg_userinfo{padding:0 10px;font-size: 12px;height: 20px;overflow: hidden;}
+.message_item .msg_nickname {display: inline-block;font-weight: 400;color: #4f4f4f;text-overflow: ellipsis;white-space: nowrap;word-wrap: normal;}
+.message_item .msg_time {font-size: 12px;display: inline-block;font-weight: 400;color: #4f4f4f;text-overflow: ellipsis;white-space: nowrap;word-wrap: normal;}
+.message_item .bubble{max-width: 82%;min-height:1em;display: inline-block;vertical-align: top;position: relative;text-align: left;font-size: 12px;border-radius: 3px;-moz-border-radius: 3px;-webkit-border-radius: 3px;margin: 0 10px;}
+.message_item .bubble.bubble_default {background-color: #fff;}
+.message_item .bubble:before,.message_item .bubble:after{position: absolute;top: 10px;border: 6px solid transparent;content: " ";}
+.message_item .bubble.left:before, .message_item .bubble.left:after{right: 100%;}
+.message_item .bubble.right:before, .message_item .bubble.right:after{left: 100%;}
+.message_item .bubble.left:after {border-right-color: #fff;border-right-width: 4px;}
+.message_item .bubble.right:after {border-left-color: #b2e281;border-left-width: 4px;}
+.message_item .bubble_cont {word-wrap: break-word;word-break: break-all;min-height: 25px;}
+.message_item .bubble .plain {padding: 6px 12px;}
+.message_item pre{margin: 0;font-family: inherit;font-size: inherit;white-space: pre-wrap;word-break: normal;}
+
+/*box_ft*/
+.chat .box_ft {height: 176px;border-top: 1px solid #d6d6d6;}
+.chat .box_ft .tool_bar{height:26px;padding: 5px 17px;margin-bottom: 4px;}
+.chat .box_ft .action{text-align: right;margin-top: 5px;}
+.box_ft {position: absolute;right: 0;bottom: 0;left: 0;}
+#textarea {height: 6em;overflow-y: auto;overflow-x: hidden;padding-left: 12px;outline: none;box-sizing: border-box;border: 0;font-size: 14px;background-color: transparent;resize:none}
+
+.btn {display: inline-block;border-radius: 4px;padding: 5px 20px;font-size: 13px;margin-right: 20px;}
+.btn_send {background-color: #fff;color: #222;padding-left: 30px;padding-right: 30px;border: 1px solid #fff;}
+.btn_send:hover{border: 1px solid #c1c1c1;}
+
+#chat_bar.on{right: 2%;transform: scale(1);}
+.block-sidebar{position: fixed;z-index: 9;bottom: 80px;right: -100%;transition: all .36s ease .15s;transform: scale(.6);}
+.block-sidebar .bar-item{font-size: 14px;}
+.block-sidebar .bar-item p{transition: all .15s ease;font-size: 34px;width: 50px;border-radius: 50%;background-color: rgba(204,204,204,.5);text-align: center;line-height: 27px;/*margin-bottom: 20px;*/cursor: pointer;display: block;}
+.block-sidebar .bar-item:hover p{background-color: rgba(204,204,204,1);color:#fff;}
+.block-sidebar .icon-car-count {min-width: 14px;text-align: center;line-height: 14px;display: inline-block;position: absolute;right: -10px;top: -12px;background: red;color: #fff;border-radius: 17px;padding: 6px;font-size: 16px;transform: scale(.7);}
+.block-sidebar .icon-car-count:before {content: ' ';position: absolute;left: 10px;top: 8px;opacity: .75;width: 0;height: 0;background-color: red;border-radius: 50%;box-shadow: 0 0 10px rgba(0,0,0,.3) inset;z-index: -1;}
+
+/*.icon-xiaoxi:before{content: ''}*/
+
+</style>
+
+</head>
+<body>
+
+
+<div id="openbox">
+  <!-- IM 板块 -->
+  <div class="IM_box">
+    <div class="chat_container min" id="chat">
+      <div class="chat_inner clearfix">
+        <div class="thumbnail panel">
+          <div class="header">
+            <div class="avatar"><img class="img" :src="userinfo.face | is_face"/></div>
+            <div class="info">
+              <h3 class="nickname">
+                <span class="display_name ng-binding">{{userinfo.nickname}}</span>
+                <a class="opt chat_min_win" href="javascript:;" tooltip="收起聊天" flow="down"><i class="wechat_min_win web_wechat_icon"><svg t="1563523720489" class="icon" viewBox="0 0 1086 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4880" xmlns:xlink="http://www.w3.org/1999/xlink" width="31.81640625" height="30"><defs><style type="text/css"></style></defs><path d="M954.23116 954.040083a36.685113 36.685113 0 0 1-53.040085 0l-257.704399-256.966153v173.828374c0 22.71524-15.162423 37.820875-37.877663 37.820875s-37.877663-15.105635-37.877662-37.820875v-279.624605l22.71524-22.658452h280.419638c22.772028 0 37.877663 15.105635 37.877663 37.820875 0 22.658452-15.105635 37.764087-37.877663 37.764086h-174.282679l257.64761 256.966154a36.401172 36.401172 0 0 1 0 52.869721zM150.16845 451.976489c-22.772028 0-37.934451-15.105635-37.934451-37.764086 0-22.71524 15.162423-37.820875 37.934451-37.820875h174.282679L66.803519 119.425375a36.401172 36.401172 0 0 1 0-52.869722 36.628325 36.628325 0 0 1 53.040086 0l257.704398 256.966154V149.693432c0-22.71524 15.162423-37.820875 37.877663-37.820875s37.877663 15.105635 37.877663 37.820875V429.318037l-22.71524 22.658452H150.16845z" p-id="4881" fill="#e6e6e6"></path></svg></i></a>
+                <a class="opt chat_max_win" href="javascript:;" tooltip="展开聊天" flow="down"><i class="wechat_max_win web_wechat_icon"><svg t="1563523605119" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4701" width="30" height="30" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><style type="text/css"></style></defs><path d="M236.8 192 384 192c19.2 0 32-12.8 32-32C416 140.8 403.2 128 384 128L160 128c0 0 0 0-6.4 0 0 0-6.4 0-6.4 0C140.8 134.4 134.4 140.8 128 147.2c0 0 0 6.4 0 6.4 0 0 0 0 0 6.4L128 384c0 19.2 12.8 32 32 32S192 403.2 192 384L192 236.8l217.6 217.6c12.8 12.8 32 12.8 44.8 0l0 0c12.8-12.8 12.8-32 0-44.8L236.8 192z" p-id="4702" fill="#e6e6e6"></path><path d="M864 608C844.8 608 832 620.8 832 640l0 147.2L614.4 569.6c-12.8-12.8-32-12.8-44.8 0l0 0c-12.8 12.8-12.8 32 0 44.8l217.6 217.6L640 832c-19.2 0-32 12.8-32 32 0 19.2 12.8 32 32 32l224 0c0 0 0 0 6.4 0 0 0 6.4 0 6.4 0 6.4-6.4 12.8-12.8 19.2-19.2 0 0 0-6.4 0-6.4 0 0 0 0 0-6.4L896 640C896 620.8 883.2 608 864 608z" p-id="4703" fill="#e6e6e6"></path></svg></i></a>
+                <a class="opt" href="javascript:;" tooltip="关闭聊天" flow="down"><i class="wechat_hid_win web_wechat_icon"><svg class="icon" width="30px" height="30.00px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#e6e6e6" d="M823.5 99q41.5 0 41.5 41.5v747q0 41.5-41.5 41.5T782 887.5v-747Q782 99 823.5 99zM603.5 858.83L244.89 514 603.5 169.17a40.31 40.31 0 0 0 12.5-29c0-36.58-46-54.9-72.88-29L184.51 455.94c-33.35 32.07-33.35 84.05 0 116.12l358.61 344.83c26.89 25.87 72.88 7.55 72.88-29a40.31 40.31 0 0 0-12.5-29.06z" /></svg></i></a>
+              </h3>
+            </div>
+          </div>
+          <div class="caption nav_view">
+            <div class="nav_title"><h4>参会人员 </h4> <span class="title_count" id="tit_count">(1)</span></div>
+            <div class="scroll-wrapper">
+              <ul class="scroll-content" id="userlist"></ul>
+            </div>
+          </div>
+        </div>
+        <div class="contentView column">
+          <div class="box chat" id="chatArea">
+            <div class="thumbnail">
+              <div class="caption">
+                <div class="box_hd">
+                      <div class="title_wrap">
+                          <div class="title_box">
+                              <a class="title_name">魔方云系统</a>
+                              <!-- <span class="title_count" id="tit_count">(1)</span> -->
+                          </div>
+                      </div>
+                  </div>
+                  <div class="box_bd clearfix" id="dialog"></div>
+              </div>
+            </div>
+            <div class="box_ft">
+              <div>
+                <div class="tool_bar" id="tool_bar"><select id="client_list"><option value="all">所有人</option></select></div>
+                <div class="textarea_box"><textarea class="textarea thumbnail" id="textarea"></textarea></div>
+                <div class="say-btn action"><input type="button" onclick="onSubmit()" class="btn btn-default btn_send" value="发送" /></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- block-sidebar -->
+    <div class="block-sidebar" id="chat_bar">
+      <div class="bar-item" tooltip="消息" flow="left">
+        <p class="iconfont icon-xiaoxi">
+          <span class="icon-car-count" id="newMsg">0</span>
+          <svg t="1570606098669" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1901" width="50" height="50"><path d="M517.12 925.87008H129.60768l56.6784-141.70112c-47.5136-66.4064-77.91616-170.06592-77.91616-267.04896 0-225.3824 183.36768-408.75008 408.75008-408.75008 225.39264 0 408.75008 183.36768 408.75008 408.75008 0 225.39264-183.35744 408.75008-408.75008 408.75008z m-344.64768-29.02016H517.12c209.37728 0 379.72992-170.35264 379.72992-379.72992S726.49728 137.39008 517.12 137.39008 137.39008 307.74272 137.39008 517.12c0 92.88704 30.90432 195.81952 76.91264 256.13312l4.99712 6.54336-46.82752 117.05344z" p-id="1902"></path><path d="M320 531.63008c-39.05536 0-70.83008-31.77472-70.83008-70.83008s31.77472-70.83008 70.83008-70.83008 70.83008 31.77472 70.83008 70.83008-31.77472 70.83008-70.83008 70.83008z m0-112.64c-23.05024 0-41.80992 18.75968-41.80992 41.80992s18.75968 41.80992 41.80992 41.80992 41.80992-18.75968 41.80992-41.80992-18.75968-41.80992-41.80992-41.80992zM517.12 531.63008c-39.05536 0-70.83008-31.77472-70.83008-70.83008s31.77472-70.83008 70.83008-70.83008 70.83008 31.77472 70.83008 70.83008-31.77472 70.83008-70.83008 70.83008z m0-112.64c-23.05024 0-41.80992 18.75968-41.80992 41.80992s18.75968 41.80992 41.80992 41.80992 41.80992-18.75968 41.80992-41.80992-18.75968-41.80992-41.80992-41.80992zM714.24 531.63008c-39.05536 0-70.83008-31.77472-70.83008-70.83008s31.77472-70.83008 70.83008-70.83008 70.83008 31.77472 70.83008 70.83008-31.77472 70.83008-70.83008 70.83008z m0-112.64c-23.05024 0-41.80992 18.75968-41.80992 41.80992s18.75968 41.80992 41.80992 41.80992 41.80992-18.75968 41.80992-41.80992-18.75968-41.80992-41.80992-41.80992z" p-id="1903"></path></svg>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script type="text/javascript" src="js/common.js"></script>
+<script>
+  var _app = new Vue({el : "#openbox",data:default_data})
+  updata();
+
+  function updata() {
+    if(_user.token)httpx.post(_ucenter,{'token':_user.token},function (data){
+      var _data = JSON.parse(data);
+      if(_data.success){
+        _data['token'] = _user.token;
+        store.set('userinfo',_data);
+        vmup(_app,_data);
+        $('#ucenter_phone').val(_data.userinfo.phone)}
+    })
+  }
+
+
+  $('.wechat_min_win').on('click',function (){
+    $('#chat').addClass('min')
+  IFrameResize("im","80%","200px")
+  })//收起聊天
+  $('.wechat_max_win, .chat_item').on('click',function (){
+    $('#chat').removeClass('min')
+  IFrameResize("im","80%","500px")
+  })//展开聊天
+  $('#chat_bar').on('click',function (){
+    $('#chat,#chat_bar').removeClass('on');
+    newMsg= 0;
+    $('#newMsg').html('0');
+  IFrameResize("im","80%","500px")
+  })//打开聊天
+  $('.wechat_hid_win').on('click',function (){
+    $('#chat,#chat_bar').addClass('on');
+    newMsg= 0;
+    $('#newMsg').html('0');
+  IFrameResize("im","80%","100px")
+  })//关闭聊天
+
+  function Enter_chat(tt,event) {
+    if($('#chat').hasClass('min')){
+      $('#chat').removeClass('min')
+      IFrameResize("im","80%","500px")
+    };
+    return false;
+  }
+
+  function IFrameResize(id,_h,_w){  
+  var obj = parent.document.getElementById(id);  //取得父页面IFrame对象
+  obj.style.position = 'fixed';
+  obj.style.right = '0';
+  obj.style.bottom = '0';
+  obj.style.transition="all .5s ease-out"
+  //alert(obj.height); //弹出父页面中IFrame中设置的高度  
+  obj.height = _h;  //调整父页面中IFrame的高度为此页面的高度  
+  obj.width = _w;
+  }
+  IFrameResize("im","80%","200px")
+</script>
+
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>微文圈</title>
+<link rel="stylesheet" href="../../static/css/style.css">
+<link rel="stylesheet" href="../../static/iconfont/iconfont.css" type="text/css">
+<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<!-- <script src="../static/js/rubilk.js"></script> -->
+<!-- Madong -->
+<style>
+body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
+#admin_console{width: 100%;height: 100%}
+.t_icon{margin: 0 2px;cursor: pointer;}
+.icon-all_edit{color: #03a9f4;}
+.icon-all_delete{color: #ff2d2dad}
+
+.gong .paging{display: flex;align-items: center;justify-content: center;float: none;}
+
+.iframe_mx {width:100%;height:100%;border:0}
+.nav>li>a {position:relative;display:block;padding:0 20px;color:#657892;border-left:4px solid #2b333e}
+.nav>li>a span{margin: 0}
+.nav>li>a:hover,.nav>li>a:focus,.nav>li>a.active {position:relative;display:block;padding:0 20px;color:#3b98c8;background:#252c35;border-left:4px solid #3b98c8}
+.nav>li>div {background:#141a21;display:none}
+.nav>li>div>ul {padding:0}
+.nav>li>div>ul>li>a:hover, .nav>li>div>ul>li>a:focus {color:#3b98c8;background:#141a21}
+.navbar-default {-webkit-transition:all .3s ease-in-out;-o-transition:all .3s ease-in-out;transition:all .3s ease-in-out;border-radius:0;padding:0;margin:0;border:0;background-color:#252c35;-webkit-box-shadow:0 0 15px #000;box-shadow:0 0 15px #000
+}
+
+
+</style>
+<script type="text/javascript">
+Vue.filter('is_status', function (str) {if(str == 0){return '上传中';}else if(str == 1){return '已完成';}});
+
+var _user = store.get('userinfo');
+var _GlobalsApi = "http://api.greatorange.cn/mfy";
+var del_data = {'token':_user.token,'id':[]};
+var requestData = {'token':_user.token,"pagesize":500,"order":JSON.stringify({"time":"DESC"})};//,"status[!]":9
+var default_data = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id": "14","uid": "0","gid": "0","tags": "","title": "","coverurl": "","url": "","sort": "0","ali_vid": "","status": "1"}],"videotags":[]};
+function getdata(_searchkey) {
+	if(_searchkey)requestData.filter = JSON.stringify({"tags[!]":"闪传","tags[~]":_searchkey});
+	httpx.post(_GlobalsApi+"/api/wwq/list",requestData,function (data){var _data = JSON.parse(data);_data["videotags"]=_user.cominfo.videotags;if(_data.success)vmup(_app,_data)})
+}
+getdata();
+</script>
+</head>
+<body>
+<div id="admin_console">
+	<!-- 主体 -->
+	<div class="main" id="App">
+		<div class="main_sideLf">
+			<div class="sidebar-menu">
+				<ul>
+					<li class="sidebar-dropdown">
+						<a  href="javascript:;" ><i class="fa fa-tv"><img src="../../static/images/photo1.png" alt=""></i><span>图片管理</span></a>
+						<div class="sidebar-submenu">
+							<ul>
+								<li><a href="../photo_list.html">相册分类</a> </li>
+								<li><a href="../picture_list.html">图片列表</a></li>
+							</ul>
+						</div>
+					</li>
+					<li class="sidebar-dropdown">
+						<a href="javascript:;"><i class="fa fa-photo"><img src="../../static/images/photo1.png" alt=""></i><span>视频管理</span></a>
+						<div class="sidebar-submenu">
+							<ul>
+								<li><a href="../video_tags.html">视频分类</a></li>
+								<li><a href="../index.html">视频列表</a></li>
+							</ul>
+						</div>
+					</li>
+					<li class="sidebar-dropdown active">
+						<a href="javascript:;">
+							<i class="fa fa-photo"><img src="../../static/images/photo1.png" alt=""></i>
+							<span>微文圈</span>
+						</a>
+						<div class="sidebar-submenu">
+							<ul>
+								<li><a href="index.html">微文列表</a></li>
+								<li><a href="add.html">添加微文</a></li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<a href="../FastUp.html">
+							<i class="fa fa-tv"><img src="../../static/images/photo1.png" alt=""></i>
+							<span>闪传视频</span>
+						</a>
+					</li>
+					<li>
+						<a href="../auto-upVideo.html">
+							<i class="fa fa-photo"><img src="../../static/images/photo1.png" alt=""></i>
+							<span>我们的视频</span>
+						</a>
+					</li>
+					<li>
+						<a href="../FileUp.html">
+							<i class="fa fa-photo"><img src="../../static/images/photo1.png" alt=""></i>
+							<span>文件上传</span>
+						</a>
+					</li>
+					<li>
+						<a href="../database.html">
+							<i class="fa fa-bar-chart-o"><img src="../../static/images/photo1.png" alt=""></i>
+							<span>资料库</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="main_sideRh">
+			<div class="update-box">
+				<div>
+					<div class="up_btn_head">
+						<div class='add_title' style="margin-bottom: 20px">微文圈<span></span></div>
+					</div>
+					<div>
+						<table class="v_tabmain">
+							<thead>
+								<tr>
+									<th>封面</th>
+									<th>标题</th>
+									<th>介绍</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class='content' v-for="tt in data" v-if="data.length != 0 || tt.status != 9">
+									<td><img :src="tt.cover"></td>
+									<td>{{tt.title}}</td>
+									<td>{{tt.desc}}</td>
+									<td><span class="t_icon iconfont icon-all_delete" @click="_del(tt.id)"></span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+<script src="../../static/js/rubilk.js"></script>
+<script>
+	var _app = new Vue({el : "#App",data:default_data});
+
+	function _del(_id) {//删除项目
+		del_data.id = _id;
+		layer.open({content: '真的要删掉我吗？',btn: ['是的', '算了'],yes: function(index, layero){console.log(index+'----'+layero);
+			httpx.post(_GlobalsApi+"/api/wwq/del",del_data,function (ent) {msg(JSON.parse(ent).info);getdata()})
+		}});
+	}
+	function selectMenu(index) {//下拉列表
+    //$(".select-menu-input").eq(index).val($(".select-this").eq(index).html()); //在输入框中自动填充第一个选项的值
+    //$(".select-menu-input-v[type=hidden]").eq(index).val($(".select-this").eq(index).data('value'));
+    $(".select-menu-div").eq(index).on("click", function(e) {
+        e.stopPropagation();
+        if($(".select-menu-ul").eq(index).css("display") === "block") {
+            $(".select-menu-ul").eq(index).hide();
+            $(".select-menu-div").eq(index).find("i").removeClass("select-menu-i");
+            $(".select-menu-ul").eq(index).animate({marginTop: "50px",opacity: "0"}, "fast");
+        } else {
+            $(".select-menu-ul").eq(index).show();
+            $(".select-menu-div").eq(index).find("i").addClass("select-menu-i");
+            $(".select-menu-ul").eq(index).animate({marginTop: "-15px",opacity: "1"}, "fast");
+        }
+        for(var i = 0; i < $(".select-menu-ul").length; i++) {
+            if(i !== index && $(".select-menu-ul").eq(i).css("display") === "block") {
+                $(".select-menu-ul").eq(i).hide();
+                $(".select-menu-div").eq(i).find("i").removeClass("select-menu-i");
+                $(".select-menu-ul").eq(i).animate({marginTop: "50px",opacity: "0"}, "fast");
+            }
+        }
+    });
+    $(".select-menu-ul").eq(index).on("click", "li", function() { //给下拉选项绑定点击事件
+        //$(".select-menu-input").eq(index).val($(this).html()); //把被点击的选项的值填入输入框中
+        //$(".select-menu-input-v[type=hidden]").eq(index).val($(this).data('value'));
+        getdata($(this).data('value'));
+        $(".select-menu-div").eq(index).click();
+        $(this).addClass("select-this");
+        $(this).siblings(".select-this").removeClass("select-this");
+    });
+    $("body").on("click", function(event) {
+        event.stopPropagation();
+        if($(".select-menu-ul").eq(index).css("display") === "block") {
+            $(".select-menu-ul").eq(index).hide();
+            $(".select-menu-div").eq(index).find("i").removeClass("select-menu-i");
+            $(".select-menu-ul").eq(index).animate({marginTop: "50px",opacity: "0"}, "fast");
+        }
+
+    });
+}
+selectMenu(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+﻿<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>上海橙影互联网科技有限公司</title>
+    <meta name="Keywords" content="视频会议开发,网站制作,系统开发,后台开发">
+    <meta name="Description" content="上海橙影互联网科技有限公司,视频会议开发,网站制作,系统开发,后台开发,">
+    <meta name="apple-itunes-app" content="app-id=1048541582">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" type="image/x-icon" href="images/nav_logo.png">
+    <!-- <link rel="stylesheet" type="text/css" href="dist/css/swiper.min.css"> -->
+    <link rel="stylesheet" href="css/style.css">
+	<!-- <script src="dist/js/swiper.min.js"></script> -->
+	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+    <style type="text/css">
+    	.banner img{display: block;width: 100%;}
+    </style>
+</head>
+<body>
+<div class="container-1weyJ" id="App">
+	<div class="about">
+		<div class="about_content">
+			<h2>资讯动态</h2>
+			<div class="about_content_ about_content_lf">
+				<ul>
+					<li v-for="tt in data">
+						<a :href="tt.url">
+						<div class="about_content_tou">
+							<img :src="tt.cover">
+							<span class="about_btn">查看详情</span>
+						</div>
+						<div class="about_content_zi">
+							<p>{{tt.title}}</p>
+							<p>{{tt.desc}}</p>
+						</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+  </div>
+</div>
+<!-- <script src="js/jquery.min.js"></script> <--></-->
+<script>
+
+	var _user = store.get('userinfo');
+	// console.log(_user)'token':_user.token,
+	var _GlobalsApi = "http://api.greatorange.cn/mfy";
+	var default_data = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id": "14","uid": "0","gid": "0","tags": "","title": "","coverurl": "","url": "","sort": "0","ali_vid": "","status": "1"}],"videotags":[]};
+	var requestData = {"pagesize":500,"order":JSON.stringify({"time":"DESC"})};
+	var _app = new Vue({el : "#App",data:default_data});
+ //    var swiper = new Swiper('.swiper-container', {
+ //        // pagination: '.swiper-pagination',
+ //        // paginationClickable: true,
+ //        // // autoplay:3000,
+ //        // loop:true
+ //    });
+ 	httpx.post(_GlobalsApi+"/api/wwq/list",requestData,function (data){
+ 		var _data = JSON.parse(data);if(_data.success)vmup(_app,_data)
+ 	})
+    $(function(){
+    	$('#app_nav').on('click',function(){
+    		$('#app_nav_box').stop().toggle(500);
+    	});
+    })
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

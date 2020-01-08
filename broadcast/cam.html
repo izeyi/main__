@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>魔方云-超级提案</title>
+<link href="static/css/css.css" rel="stylesheet">
+<script src="static/js/AgoraRTCSDK-2.6.1.js"></script>
+<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+</head>
+<body>
+<div id="wrap">
+	<div id="header">
+		<div class="header_bar">
+			<div class="header_bar_right" id="pc_set">
+				<content class="bar_btn" tooltip="全屏开关" flow="down" onclick="toggleFullScreen(event)">
+					<span class="icon_box"><i class="icon iconfont icon-quanping"></i></span>
+				</content>
+			</div>
+		</div>
+	</div>
+	<div id="main" class="off">
+		<div id="video_box"></div>
+		<div class="to_desktop">
+			<content class="bar_btn Previou" tooltip="显示成员" flow="down" onclick="Members()">
+				<span class="icon_box"><i class="iconfont icon-zhankai"></i></span>
+			</content>
+		</div>
+	</div>
+	<div id="footer">
+		<div class="bottom_bar">
+			<div class="bottom_bar_conter">
+		      <content class="bar_btn" tooltip="音频开关" onclick="voice_switch()" id="loudspeaker">
+		      	<span class="icon_box"><i class="icon iconfont icon-yangshengqi"></i></span>
+		      </content>
+		    </div>
+	    </div>
+	</div>
+	<div id="Bind_phone_box" class="hide">
+	    <article class="c-login">
+	        <form class="ucenter_form">
+	          <span class="ucenter_title"><p>加入会议<span>Create Meeting</span></p></span>
+	          <span class="input_item"><i></i>
+	            <input type="text" name="bin_phone" placeholder="请输入会议口令" id="bind_phone">
+	          </span>
+	          <span class="input_item"><i></i>
+	            <input type="text" name="bind_code" placeholder="请输入密码" id="bind_code">
+	          </span>
+	        </form>
+	        <button type="button" class="login" id="Bind_phone_btn" onclick="JoinConference()">进入会议</button>
+	    </article>
+    </div>	
+	<iframe id="im" src="" frameborder="no" border="0" scrolling="no" allowTransparency="true" height="0"></iframe>
+</div>
+<script src="static/js/lib.js"></script>
+</body>
+</html>

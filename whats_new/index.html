@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ZH">
+<head>
+	<meta charset="UTF-8">
+	<title>FirstTime</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/swiper.min.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div class="apple-banner">
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide slide1">
+					<div class="title txt"><img src="img/ps1.png"></div>
+				</div>
+				<div class="swiper-slide slide2">
+					<div class="title txt"> <img src="img/ps2.png"> </div>
+				</div>
+				<div class="swiper-slide slide3">
+					<div class="title txt"> <img src="img/ps3.png"></div>
+				</div>
+				<div class="swiper-slide slide4">
+					<div class="title txt"> <img src="img/ps4.png"></div>
+				</div>
+				<div class="swiper-slide slide5">
+					<div class="title txt"> <img src="img/ps5.png"></div>
+				</div>
+				<div class="swiper-slide slide6">
+					<div class="title txt" style="float: left;margin-left: 60px "> <img src="img/ps6.png"></div>
+					<h2 class="homepage-headline txt"><img onclick="go()" src="img/btn_go.png"></h2>
+				</div>
+			</div>
+			<div class="swiper-button-prev"><span></span></div>
+			<div class="swiper-button-next"><span></span></div>
+			<ul class="swiper-pagination">
+			</ul>
+		</div>
+	</div>
+	<script src="js/swiper.min.js"></script>
+	<script src="js/apple.js"></script>
+	<script type="text/javascript">
+		function go() {
+			var mylay = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(mylay);
+		}
+	</script>
+</body>
+</html>

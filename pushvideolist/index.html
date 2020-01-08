@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+  	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<script>
+//loading and
+var _LoadingHtml = '<div id="loader-wrapper"><div id="loader"></div><div class="loader-section section-left"></div><div class="loader-section section-right"></div><div class="load_title">技术天橙，缔造完美<br><span></span></div></div>';
+document.write(_LoadingHtml);setInterval(function () {$('body').addClass('loaded');$('#loader-wrapper .load_title').remove();},1500);
+//loading end
+	var UrlDo = "http://api.greatorange.cn/box/videos/list/";
+	var pushApi = "http://api.greatorange.cn/box/push/";
+  	var _user = store.get('userinfo');
+	var _token = _user.token;
+  	var _gid = _user.userinfo.gid;
+  	var _uid = _user.userinfo.uid;
+  	var _name = _user.userinfo.nickname;
+	var searchkey={"pagesize":500,"token":_token,"order":JSON.stringify({"time":"DESC"}),"filter":JSON.stringify({"status[!]":"9"})};
+	var default_data={"success":true,"total":3,"page":1,"totalpage":1,"data":[{"id":"","uid":"","gid":"","tags":"","title":"","coverurl":"","vinfo":"","sort":"0","ali_vid":"","status":"","time":"","click":""}]};
+</script>
+<style>
+	body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select{margin:0;padding:0}
+	html,body{width: 100%;height: 100%;overflow:hidden;}
+	body{-webkit-text-size-adjust:100%;font:14px "Microsoft YaHei","PingFangSC-Regular";font-size: 14px;color: #fff;background:url(images/m01@2.png) center bottom no-repeat scroll,url(images/bg01@2.jpg) center bottom no-repeat scroll;user-select:none;}
+	input{outline:none;}
+	a{color:#2d374b;text-decoration:none}
+	a:hover{color:#cd0200;text-decoration:underline}
+	em{font-style:normal}
+	li{list-style:none}
+	img{border:0;vertical-align:middle}
+	table{border-collapse:collapse;border-spacing:0}
+	p{word-wrap:break-word}
+img{ pointer-events: none;}
+	.TuiSong{width: 926px;height: 800px; margin: 0 auto;background-color: transparent; overflow: hidden;position: relative;}
+	.Logo{position: absolute; top: 34px; left: 430px;z-index: 2;}
+
+	.search{position: relative; width: 85%; height: 52px; cursor: pointer;margin-top: 60px;margin-left: 51px;margin-bottom: 52px}
+	.search input{padding-left: 5%;font-size: 16px; border-radius: 42px; width: 95%;height: 100%;background-color: #7f7f7f;border:0;color: #fff;font-weight: 300}
+	 input::-webkit-input-placeholder { color: #fff;}
+
+	.search div{position: absolute;width: 60px;height: 52px;top: 0px;right: 0px;}
+	.search div img{margin-top: 11px;}
+
+	.video_box{ overflow-y: auto;height: 350px;}
+	.video_box::-webkit-scrollbar {/*滚动条整体样式*/width: 10px;/*高宽分别对应横竖滚动条的尺寸*/height: 1px;}
+	.video_box::-webkit-scrollbar-thumb {/*滚动条里面小方块*/border-radius: 10px;-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);background: #535353;}
+	.video_box::-webkit-scrollbar-track {-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);border-radius: 10px;background: #EDEDED;}/*滚动条里面轨道*/
+	.video_box li{float: left;width: 190px;height: 150px;margin-bottom: 52px;margin-left: 26px;cursor: pointer;}
+	.surface{width: 100%;height: 110px; position: relative;}
+	.surface img{border-radius: 10px;display: block;width: 100%;height: 100%;}
+	.surface p{position: absolute;bottom: 0; width: 100%;height: 30px;text-align: center;line-height: 30px;background: rgba(0,0,0,0.3); border-radius: 0px 0px 10px 10px;overflow: hidden}
+	.btn_box{overflow: hidden;margin-top: 8px;}
+	.btn_box span{display: block; width: 82px;height: 30px;background-color: #7f7f7f;text-align: center;line-height: 30px;border-radius: 14px;transition: all 0.15s ease;opacity: 1;}
+	.btn_box span:hover{opacity: .68}
+	.btn_box span:nth-child(1){float: left;background-color: #1E9FFF}/*1E9FFF*/
+	.btn_box span:nth-child(2){float: right;background-color: #ff5d58}/*rgba(255,0,0,.8);*/
+
+	.video_box li:nth-child(4n+1){margin-left: 0px;}
+
+	.Up{width: 100%;text-align: center;margin-top: 32px;}
+	.Up div{display: inline-block;cursor: pointer;color: #7f7f7f;transition: all 0.15s ease;}
+	.Up div:hover{color: #1E9FFF}
+	.Up p{margin-top: 5px;}
+</style>
+</head>
+
+<body>
+<div class="TuiSong" id="push-form">
+	<img class="Logo" src="images/hlogo.png" alt="">
+	<div style="padding: 0 36px;height: 647px;background-color: rgba(252,252,252,.68);margin-top: 80px;overflow: hidden;">
+		<div class="search">
+			<input type="text" class="search-input" placeholder="请输入关键词">
+			<div><img src="images/search.png" alt=""></div>
+		</div>
+		<ul class="video_box">
+			<li v-for="zt in data">
+				<div class="surface">
+					<img :src="zt.coverurl" :alt="zt.title" onerror="this.src='images/111.jpg'">
+					<p>{{zt.title}}</p>
+				</div>
+				<div class="btn_box">
+					<span @click="parent.open_video(zt.ali_vid,zt.title)">预览</span><!-- window.parent.frames.openvideo(zt.url,zt.ali_vid) -->
+					<span @click="T_con(zt.title,zt.ali_vid)">推送</span>
+				</div>
+			</li>
+		</ul>
+
+		<div class="Up">
+			<div onclick='upLooader_video()'><img src="images/shang.png"><p>上传视频</p></div>
+		</div>
+	</div>
+</div>
+<!--播放器dom-->
+<div id="player" class="hide"></div>
+<!--播放器end-->
+<script>
+function getapidata(_searchkey){
+	if(_searchkey && typeof _searchkey == 'object')searchkey['filter'] = JSON.stringify(_searchkey)
+	if(_searchkey && typeof _searchkey == 'string')searchkey['filter'] = JSON.stringify({'tags[~]':_searchkey,"status[!]":"9","tags[!]":'["闪传"]'});
+	vmup(caseData,{});
+	httpx.get(UrlDo,searchkey,function(data){if(JSON.parse(data).success)vmup(caseData,JSON.parse(data))})
+}
+getapidata();
+var caseData = new Vue({
+	el:'#push-form',
+	data:default_data,
+	methods:{
+      	T_con(_title,_vid) {
+     	httpx.get(pushApi,{'token':_token,'push':JSON.stringify({'type':'video','content':'pushVideo','title':_title,'ali_vid':_vid,'gid':_gid,'uid':_uid})})
+      	}
+    }
+});
+
+function upLooader_video() {
+	parent.layer.open({type:2,title:'上传视频',area: ['820px','440px'],shadeClose: false,content:'../pushvideolist/upvideo/index.html',end:function (argument) {getapidata()}})
+}
+</script>
+<script>
+
+	//输入框绑定
+  $('.search-input').bind('keyup',function(event){
+    _value = $(this).val().trim();
+    if(_value.length){getapidata({"OR":{"tags[~]":_value,"title[~]":_value},"status[!]":"9"})}else{getapidata();msg('请输入您想推送的内容');}
+  });
+</script>
+</body>
+
+</html>

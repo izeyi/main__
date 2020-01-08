@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>高级画板</title>
+<link rel="stylesheet" href="css/index.css">
+<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+</head>
+<body style="background-color: #E5E4E5;;overflow-x: hidden;">
+<div>
+<div style="width:50px;float:left;">
+<ul id="toolsul" class="tools">
+<li data-type="pen" id="toolsPencil" class="active"><i class="icon-tools icon-pen-select" data-default='icon-tools icon-pen-black'></i></li>
+<li data-type="color" id="ChooseColor">
+	<i class="icon-tools icon-color-gray" data-default="icon-tools icon-color-black"></i>
+	<div id="swatches">
+		<span class="color" id="aRed" data-color="#e34f51"></span>
+		<span class="color" id="aBlack" data-color="#000"></span>
+		<span class="color" id="aBlue" data-color="#00f"></span>
+		<span class="color" id="aGreen" data-color="#0f0"></span>
+		<span class="color" id="aPink" data-color="#e4007f"></span>
+		<span class="color" id="aYellow" data-color="#fff100"></span>
+	</div>
+</li>
+<li data-type="arrow"><i class="icon-tools icon-arrow-black" data-default='icon-tools icon-arrow-black'></i></li>
+<li data-type="line"><i class="icon-tools icon-line-black" data-default='icon-tools icon-line-black'></i></li>
+<li data-type="dottedline"><i class="icon-tools icon-dottedline-black" data-default='icon-tools icon-dottedline-black'></i></li>
+<li data-type="circle"><i class="icon-tools icon-circle-black" data-default='icon-tools icon-circle-black'></i></li>
+<li data-type="ellipse"><i class="icon-tools icon-ellipse-black" data-default='icon-tools icon-ellipse-black'></i></li>
+<li data-type="square" class="hide"><i class="icon-tools icon-square-black" data-default='icon-tools icon-square-black'></i></li>
+<li data-type="rectangle"><i class="icon-tools icon-rectangle-black" data-default='icon-tools icon-rectangle-black'></i></li>
+<li data-type="rightangle"><i class="icon-tools icon-rightangle-black" data-default='icon-tools icon-rightangle-black'></i></li>
+<li data-type="equilateral"><i class="icon-tools icon-equilateral-black" data-default='icon-tools icon-equilateral-black'></i></li>
+<li data-type="isosceles" class="hide"><i class="icon-tools icon-isosceles-black" data-default='icon-tools icon-isosceles-black'></i></li>
+<li data-type="text"><i class="icon-tools icon-text-black" data-default='icon-tools icon-text-black'></i></li>
+<li data-type="remove"><i class="icon-tools icon-remove-black" data-default='icon-tools icon-remove-black'></i></li>
+</ul>
+<ul class="tools">
+<li onclick="saveAsImage();"><i class="icon-tools" style="background-image: url(image/icon_archive.svg);"></i></li>
+
+</ul>
+</div>
+
+<div id="canvasDiv" class="canvasDiv" style="width:95.2%;">
+<canvas id="c" width="1920" height="1080">请使用支持HTML5的浏览器</canvas><a id="link" style="display: none;"></a>
+</div>
+</div>
+<script src="js/fabric.min.js"></script>
+<script src="js/drawingboard.js"></script>
+<script src="js/canvasZoom.js"></script>
+<script>
+function saveAsImage() {
+var canvas = document.getElementById('c');
+var link = document.getElementById('link');
+link.setAttribute('download', '会议记录.png');
+link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+link.click();
+}
+function ChooseColor() {
+	// body...
+}
+</script>
+</body>
+</html>

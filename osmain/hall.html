@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>任务</title>
+	<style type="text/css">
+	* {box-sizing: border-box;}
+	body, html {
+	    background: #fafafa;
+	    color: #111;
+	    margin: 0;
+	    padding: 0;
+	    width: 100%;
+		height: 100%;
+	    min-height: 550px;
+	    overflow-y: auto;
+	    overflow-x: hidden;
+	    font-family: "Microsoft YaHei","PingFangSC-Regular";
+	}
+	p {
+	    font-size: 1em;
+	    line-height: 1.5;
+	    margin-bottom: .823em;
+	    margin-top: 0;
+	    white-space: pre-line;
+	}
+	a {
+	    display: block;
+	    text-decoration: none;
+	}
+	#app{
+		position: relative;
+    	width: 100%;
+	    height: 100%;
+		align-items: center;
+		display: flex;
+	}
+	.slides {
+	    height: 100%;
+	    left: 0;
+	    position: absolute;
+	    top: 0;
+	    width: 100%;
+	    z-index: 1;
+	}
+	.outro-block {
+	    margin: auto;
+	    width: 41.25em;
+	}
+	.outro-block h2 {
+	    float: left;
+	    font-size: 2.5em;
+	    font-weight: 700;
+	    margin-bottom: .935em;
+	    margin-top: 1.25em;
+	    width: 100%;
+	}
+	.card-wrapper {
+		float: left;
+	    display: flex;
+	    margin-bottom: 1.888em;
+	    justify-content: center;
+	}
+	.card {
+	    -ms-flex-align: center;
+	    align-items: center;
+	    border-radius: 10px;
+	    display: -ms-flexbox;
+	    display: flex;
+	    -ms-flex-direction: column;
+	    flex-direction: column;
+	    float: left;
+	    height: 18.75em;
+	    -ms-flex-pack: center;
+	    justify-content: center;
+	    padding: 2.38em 1.88em;
+	    width: 100%;
+	}
+	.card {
+	    height: 25em;
+	    width: 20.3em;
+	}
+	/*.card:first-child {
+	    margin-bottom: 1.25em;
+	}*/
+	.card:last-child {
+	    margin-left: .6249em;
+	}
+	.card:last-child {
+	    margin-left: .6249em;
+	}
+	.card.primary {
+	    background-image: url(http://yun.greatorange.cn/task/images/new-bg.png);
+	    background-position: top center;
+	    background-size: cover;
+	}
+	.card .card-footer {
+	    -ms-flex-item-align: end;
+	    align-self: flex-end;
+	    margin-top: auto;
+	    width: 100%;
+	}
+	.card h3 {
+	    font-size: 1.31em;
+	    line-height: 1.56;
+	    margin: 0 0 .2em;
+	    color: #fff;
+	    font-weight: 700;
+	}
+	.card h4 {
+	    font-size: 1.63em;
+	    line-height: 1.2;
+	    margin: 0 0 .66em;
+	    color: #fff;
+    	font-weight: 700;
+	}
+	.card-footer a {
+	    color: #fff;
+	    float: left;
+	    font-size: 1em;
+	}
+	a.outlink:after {
+	    width: .7em;
+	    height: .7em;
+	    top: 0;
+	    left: 4px;
+	}
+	.outlink:after {
+	    content: '';
+	    background-image: url(https://help.apple.com/macos/catalina/mac-basics/global/0009_outlink-arrow-white.svg);
+	    background-repeat: no-repeat;
+	    background-size: 95% 100%;
+	    display: inline-block;
+	    position: relative;
+	}
+	.card.secondary {
+	    /*background: linear-gradient(135deg,#54bbf5,#3174ea);*/
+	    background: linear-gradient(135deg,#f9e342,#e3385c);
+	}
+	.secondary .logo {
+	    width: 112px;
+	}
+	.slide {
+	    width: 100%;
+	    height: 100%;
+	    left: 0;
+	    top: 0;
+	    align-items: center;
+	    background: #fff;
+	    display: -ms-flexbox;
+	    display: flex;
+	    position: relative;
+	    white-space: pre-line;
+	}
+	[role=contentinfo] {
+	    color: #888;
+	    float: left;
+	    font-size: .69em;
+	    font-weight: 400;
+	    margin-bottom: 2em;
+	}
+	</style>
+</head>
+<body>
+<div id="app">
+	<div class="slides">
+		<div class="slide">
+		<div class="outro-block">
+			<h2>任务大厅</h2>
+			<div class="card-wrapper">
+				<div class="card primary">
+					<div class="card-footer">
+						<h3>任务大厅</h3>
+						<h4>机会留给有准备的你。</h4>
+						<a class="outlink white" href="http://yun.greatorange.cn/task/task.html?loc=box">开始浏览</a>
+					</div>
+				</div>
+				<div class="card secondary">
+					<img class="logo" alt="" src="http://yun.greatorange.cn/task/images/outro-app.png">
+					<div class="card-footer">
+						<h3>金主爸爸</h3>
+						<h4>放心和实力企业合作!</h4>
+						<a class="outlink white helpviewer" href="http://yun.greatorange.cn/task/investor.html?loc=box">发布任务</a>
+					</div>
+				</div>
+			</div>
+			<p role="contentinfo">Copyright © 2019 橙影互联. 保留一切权利。</p>
+		</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

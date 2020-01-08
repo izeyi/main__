@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>微文圈</title>
+<link rel="stylesheet" href="main/css/iconfont.css">
+<link rel="stylesheet" href="main/css/browser.css">
+<script src="main/js/browser.js"></script>
+<script>
+  if (typeof module === 'object') {window.module = module; module = undefined;}
+  if (window.module) module = window.module;const {ipcRenderer} = require("electron");
+ //分辨率适配
+  var devInnerHeight = 1080.0; //开发时的InnerHeight
+  var devDevicePixelRatio = 1.5; //开发时的devicepixelratio
+  var devScaleFactor = 1.5; //开发时的ScaleFactor
+  var scaleFactor = require('electron').screen.getPrimaryDisplay().scaleFactor;
+  var zoomFactor = window.innerHeight / devInnerHeight * window.devicePixelRatio / devDevicePixelRatio * devScaleFactor / scaleFactor;
+  require('electron').webFrame.setZoomFactor(zoomFactor);
+</script>
+<body>
+<!-- <div id="controls">
+  <button id="back" title="上一页" disabled="true">&#9664;</button>
+  <button id="forward" title="上一页" disabled="true">&#9654;</button>
+  <button id="home" title="首页">&#8962;</button>
+  <button id="reload" title="刷新">&#10227;</button>
+  <form id="location-form" style="display: none">
+    <div id="center-column">
+      <input id="location" type="text" value="http://www.baidu.com/">
+    </div>
+    <input type="submit" value="Go">
+  </form>
+  <button id="zoom" title="Change Zoom">&#128270;</button>
+  <button id="find" title="Find in Page">&#128294;</button>
+</div> -->
+
+<div id="controls">
+  <button id="back" title="上一页" disabled="true"><i class="icon iconfont icon-toleft"></i></button>
+  <button id="forward" title="上一页" disabled="true"><i class="icon iconfont icon-toright"></i></button>
+  <button id="home" title="首页"><i class="icon iconfont icon-home"></i></button>
+  <button id="reload" title="刷新"><i class="icon iconfont icon-refresh"></i></button>
+  <form id="location-form" style="display: none">
+    <div id="center-column">
+      <input id="location" type="text" value="http://www.baidu.com/">
+    </div>
+    <input type="submit" value="Go">
+  </form>
+  <button id="zoom" title="Change Zoom">&#128270;</button>
+  <button id="find" title="Find in Page">&#128294;</button>
+</div>
+
+<div id="zoom-box">
+  <form id="zoom-form">
+    <input id="zoom-text" type="text">
+    <input type="submit" value="&#128270;">
+    <button id="zoom-in">&#10133;</button>
+    <button id="zoom-out">&#10134;</button>
+  </form>
+</div>
+
+<div id="find-box">
+  <form id="find-form">
+    <input id="find-text" type="text">
+    <div id="find-results"></div>
+    <input type="submit" style="position:absolute; visibility:hidden">
+    <button id="match-case">aA</button>
+    <button id="find-backward">&#60;</button>
+    <button id="find-forward">&#62;</button>
+  </form>
+</div>
+
+<webview src="weiwen/index.html" style="width:640px; height:480px"></webview>
+<!-- <webview src="https://mp.weixin.qq.com/s/F4mkkChQqxIYBzigOW0H2w" style="width:640px; height:480px"></webview> -->
+
+<div id="sad-webview">
+  <div id="sad-webview-icon">&#9762;</div>
+  <h2 id="crashed-label">Aw, Snap!</h2>
+  <h2 id="killed-label">He's Dead, Jim!</h2>
+
+  <p>Something went wrong while displaying this webpage.
+  To continue, reload or go to another page.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../static/css/style.css">
+	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+  	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+	<script src="../static/js/rubilk.js"></script>
+	<!-- Madong -->
+<style>
+	body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
+	#admin_console{width: 100%;height: 100%}
+	.t_icon{margin: 0 2px;cursor: pointer;}
+	.icon-all_edit{color: #03a9f4;}
+	.icon-all_delete{color: #ff2d2dad}
+
+	.gong .paging{display: flex;align-items: center;justify-content: center;float: none;}
+
+	.M_title{color: #3c3c3c;font-weight: bolder;font-size: 26px;border-left: 3px solid #ff7e16;padding-left: 10px;margin: 40px 0 0px 40px;}
+	.M_title span{color: #838383;font-size: 16px;font-weight: lighter;}
+	/*.money,.money_e .money_e_M1{color: #000;font-weight: bolder;}
+	.money{font-size: 16px;}
+	.money_e{margin: 8px 0;}
+	.money_e_M1{font-size: 30px;}
+	.money_e_M2{color: #787878;}
+	.money_btn{display: block;width: 76px;height: 28px; background: #ff7e16;border-radius: 6px; border: 0;font-weight: lighter;color: #fff;}*/
+
+	.v_tabmain thead{border: 0!important;border-bottom: 1px solid #e2e2e2!important;}
+	.update-box1{padding: 0!important;}
+	.content{border: 0!important;border-bottom: 1px solid #e2e2e2!important;}
+	.v_tabmain tr{height: 68px;}
+	.content_z{color: #00cb48;}
+	.content_t{color: #ff7e16;}
+
+	#add_people{margin-left: 40px;}
+	.M_title{border: 0;background: url(../static/images/zuo.png) no-repeat 0;padding-left: 28px;}
+	.M_title1{color: #3c3c3c;padding-left: 10px;margin: 30px 0 0px 40px;}
+	#add_people a {font-size: 18px;font-weight: bolder;color: #fff;display: block;width: 150px;height: 50px;background: #3c3c3c;text-align: center;line-height: 50px;border-radius: 8px;}
+</style>
+	<script type="text/javascript">
+	Vue.filter('isstatus',function (str) {if(str == 0){return '-';}else if(str == 1){return '+';}});
+	Vue.filter('_type',function  (str) {if(str == 1){return 'content_z';}else if(str == 2){return 'content_t';}});
+	Vue.filter('_status',function(str) {if(str == 0){return '提现';}else if(str == 1){return '充值';}});
+	var _user = store.get('userinfo');
+	var _id = getUrlParam('id');
+	var	expenseApiUrl = "http://api.greatorange.cn/box/expense/home/";
+	var requestData = {'token':_user.token,"filter":JSON.stringify({"id":_id})};
+	var defaultData = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id":"6","gid":"2","uid":"2","type":"1","status":"0","money":1000,"info":"","arrall":{"money":"1000","info":""},"time":"1554797983"}],"balance":3000.56,"comname":""}
+	httpx.get(expenseApiUrl,requestData,function(data){var _data = JSON.parse(data);_data.comname=_user.cominfo.comname;if(_data.success)vmup(_app,_data)});
+	</script>
+</head>
+<body>
+	<div id="admin_console">
+		<!-- 主体 -->
+		<div class="main">
+			<div class="main_sideLf">
+				<ul>
+					<li class="cur"><a href="index.html"><img src="../static/images/bao.png" alt=""><span>账户总览</span></a></li>
+					<li><a href=""><img src="../static/images/piao.png" alt=""><span>申请发票</span></a></li>
+					<li><a href="accounts_t.html"><img src="../static/images/ti.png" alt=""><span>申请提现</span></a></li>
+				</ui>
+			</div>
+
+			<div class="main_sideRh">
+				<div class='M_title'>交易明细<span>&nbsp;&nbsp;Details Of Historical Transactions</span></div>
+				<div class='M_title1'>账户流动：<span :class="data[0].type | _type">{{data[0].status | isstatus}}{{data[0].money}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交易时间：<span id=''>{{data[0].time | time}}</span></div>
+				<div class="update-box update-box1">
+					<div>
+						<div>
+							<table class="v_tabmain">
+								<thead>
+									<tr>
+										<th>资金变动</th>
+										<th>交易类型</th>
+										<th>交易账户</th>
+										<th>账户余额</th>
+										<th>交易时间</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class='content'>
+										<td :class="data[0].type | _type">{{data[0].status | isstatus}}{{data[0].money}}</td>
+										<td>{{data[0].status | _status}}</td>
+										<td>{{data[0].arrall.account}}</td>
+										<td>{{balance}}</td>
+										<td>{{data[0].time | time}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div id="add_people" class="mr_top"><a href="index.html" class="update">返回</a></div>
+			</div>
+		</div>
+	</div>
+<script>
+ var _app = new Vue({el:'#admin_console',data:defaultData});
+</script>
+</body>
+</html>

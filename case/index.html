@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<link rel="stylesheet" href="css/style.css">
+<!-- <script src="../js/config.js"></script> -->
+ <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<script type="text/javascript">
+	var uphone = '15202173034';
+	var UrlDo = "http://api.chinavcr.com/restcase/caselist/";
+	var searchkey={"pagesize":500,"filter":JSON.stringify({"tags[~]":"天橙视频"}),"order":JSON.stringify({"tcos_case_order":"ASC"})};
+	function getapidata(searchkey){
+		vmup(caseData,{});
+		httpx.get(UrlDo,searchkey,function(data){if(JSON.parse(data).success)vmup(caseData,JSON.parse(data));});
+	}
+	store.set('mlog','{"mod":"case","info":"打开了天橙案例"}');
+	//loading and
+	// var _LoadingHtml = '<div id="loader-wrapper"><div id="loader"></div><div class="loader-section section-left"></div><div class="loader-section section-right"></div><div class="load_title">技术天橙，缔造完美<br><span></span></div></div>';
+	// document.write(_LoadingHtml);setInterval(function () {$('body').addClass('loaded');$('#loader-wrapper .load_title').remove();},1500);
+	//loading end
+</script>
+</head>
+<body>
+<div class="Box" id="caseData">
+	<div class="box_lf">
+		<img src="images/logo.png" alt="">
+		<ul>
+			<li @click="searchkey.filter = JSON.stringify({'tags[~]':'天橙视频'});getapidata(searchkey)" class="cur">天橙视频</li>
+			<li @click="searchkey.filter = JSON.stringify({'tags[~]':'精','AND':{'tags[~]':'3100'}});getapidata(searchkey)">精选案例</li>
+			<li @click="searchkey.filter = JSON.stringify({'tags[~]':'3100','tcos_case_cid':'20'});getapidata(searchkey)">宣传片</li>
+			<li @click="searchkey.filter = JSON.stringify({'tags[~]':'3100','tcos_case_cid':'19'});getapidata(searchkey)">广告片</li>
+			<li @click="searchkey.filter = JSON.stringify({'tags[~]':'3100','tcos_case_cid':'21'});getapidata(searchkey)">微电影</li>
+			<li @click="searchkey.filter = JSON.stringify({'tags[~]':'3100','tcos_case_cid':'18'});getapidata(searchkey)">MG动画</li>
+			<li @click="searchkey.filter = JSON.stringify({'tags[~]':'3100','tcos_case_cid':'17'});getapidata(searchkey)">三维动画</li>
+			<li @click="searchkey.filter = JSON.stringify({'tags[!~]':'3100','tags[~]':uphone});getapidata(searchkey)">本地视频</li>
+			<li @click="searchkey.filter = JSON.stringify({'tags[~]':''});getapidata(searchkey)">全部案例</li>
+		</ul>
+	</div>
+
+	<div class="box_rh">
+		<div class="sousou">
+			<h1>盛视天橙作品案例</h1>
+			<p>ShengShiTianCheng WorksCase</p>
+			<input id="search_input" type="text" placeholder="videos" onchange="searck()" onfocus="this.placeholder='';" onblur="this.placeholder='videos'">
+		</div>
+		<ul class="case">
+			<li v-for="tt in data">
+				<figure  @click="openvideo(tt.url,tt.title)">
+					<img :src="tt.pic" alt="">
+				</figure>
+				<p>{{tt.title}}</p>
+				<div class="case_box">
+					<span>{{tt.click | _click}}</span>
+					<span>{{tt.playtime}}</span>
+					<!-- <span  @click="copyText(tt.tcos_case_id)">复制链接</span> -->
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+<!--播放器dom-->
+<div id="player" class="hide">
+<video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" width="864" data-setup="{}">
+</video>
+</div>
+<!--播放器end-->
+<script>
+$(function(){
+	$('.box_lf li').click(function(){ $(this).addClass('cur').siblings().removeClass('cur') });
+});
+var caseData = new Vue({el: '#caseData',data:{"success":true,"total":0,"page":1,"totalpage":1,"data":[]}});//创建VUE更新区域
+getapidata(searchkey);//默认请求
+// 复制的方法
+function copyText(text){ // text: 要复制的内容， callback: 回调
+   var tag = document.createElement('input');
+   tag.setAttribute('id', 'cp_zt_input');
+   tag.value = 'http://tcos.chinavcr.com/an/index.html?vid='+text;
+   document.getElementsByTagName('body')[0].appendChild(tag);
+   document.getElementById('cp_zt_input').select();
+   document.execCommand('copy');
+   document.getElementById('cp_zt_input').remove();
+   msg('复制成功,进入浏览器打开！')
+};
+function searck(){
+	var _value = search_input.value;
+	searchkey.filter = JSON.stringify({"OR":{"tags[~]":_value,"title[~]":_value}});
+	getapidata(searchkey);
+　	}
+function openvideo(url,title){//
+var myPlayer = videojs('my-video');
+videojs("my-video").ready(function(){
+var myPlayer = this;
+});
+myPlayer.width(864);
+myPlayer.src({type: "video/mp4", src:url});
+layer.open({
+type: 1,
+title: title,
+maxmin: false,
+closeBtn: 1,
+resize:false,
+area: '864px',
+skin: 'layui-layer-nobg', //没有背景色
+shadeClose: false,
+shade: false,
+content: $('#player'),
+cancel: function(){
+myPlayer.pause();
+},
+full: function(){
+myPlayer.size(640,480);
+myPlayer.width(document.body.clientWidth);
+},
+restore: function(){
+myPlayer.size(640,480);
+myPlayer.width(864);
+}
+});
+myPlayer.play();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>魔方云</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/swiper.min.css">
+<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+<script type="text/javascript">
+    if (window.module)module = window.module;const {ipcRenderer} = require("electron");
+    //分辨率适配
+    var devInnerHeight = 1080.0; //开发时的InnerHeight
+    var devDevicePixelRatio = 1.5; //开发时的devicepixelratio
+    var devScaleFactor = 1.5; //开发时的ScaleFactor
+    var scaleFactor = require('electron').screen.getPrimaryDisplay().scaleFactor;
+    var zoomFactor = window.innerHeight / devInnerHeight * window.devicePixelRatio / devDevicePixelRatio * devScaleFactor / scaleFactor;
+
+    require('electron').webFrame.setZoomFactor(zoomFactor);
+
+    //平台判断
+    const {remote} = require('electron');
+
+</script>
+<style type="text/css">
+    #loading {color: #333;background-color: rgba(255,255,255,.8); border-radius: 4px; bottom: 42vh; box-shadow: 0 0 5vmin rgba(0, 0, 0, 0.25); font-family: sans-serif; left: 20vw; padding: 5vh 5vw; position: absolute; right: 20vw; top: 30vh; z-index: 9;transform: scale(0); transition: all .15s ease; } #loading h3{font-size: 24px;font-weight: 600;}
+    .bar{background-color:#ccc;height: 4.5vh;margin:4vh 0 2vh 0;padding:1vh;position:relative;width:100%;box-sizing:border-box;}
+    #bar{background-color: #808080;bottom: 0;left: 0;position: absolute;top: 0;transform-origin: left;width: 0%;transition: all .15s ease; }
+    .progress:before {animation: progressTextChange 30s linear;content: "And, just hang here... forever";float: left;}
+    #v{font-size: 16px;color: #999;position: fixed;right: 60px;bottom: 40px;}
+    #_progress{float: right;}
+    @keyframes progressTextChange {
+       0% {content: "Estimating time remaining...";}
+       10% {content: "28 minutes remaining";}
+       20% {content: "55 seconds remaining";}
+       30% {content: "40 minutes remaining";}
+       40% {content: "5 seconds remaining";}
+       50% {content: "A couple of weeks?";}
+       60% {content: "40 days and 40 nights";}
+       70% {content: "Sooooo close...";}
+       80% {content: "Ok, you've probably got time for a coffee";}
+       90% {content: "Haha, no coffee for you, sucker";}
+       100% {content: "And, just hang here... forever";}
+    }
+</style>
+</head>
+<body>
+<div class="box">
+    <!-- 背景视频 -->
+    <div class="background_box">
+            <video  src="images/background_01.mp4"autoplay muted loop class="background_back"></video>
+    </div>
+    <!-- 登录模块 -->
+    <div class='content'>
+    	<div class="content_lf">
+    		<p>只需要一个账号</p>
+    		<p>即可畅享魔方所有的产品和服务</p>
+    		<img src="images/logo.png" alt="">
+    	</div>
+    	<div class="content_rh">
+    		<div class="taggle_box" onclick="changeImage()">
+    			<img id="toggle_login" src="images/toggle_login.jpg" alt="">
+    		</div>
+    		<!-- 短信登录 -->
+    		<form class='cur'>
+    			<div><p class="xXi">短信登录<span>SMS login</span></p></div>
+    			<div>
+    				<label for="phone">
+    					<input type="text" name="phone" placeholder="请输入手机号" id="phone">
+	    			</label>
+	    			<label for="keyword">
+	    				<input type="text" name="code" placeholder="请输入验证码" id="keyword">
+	    				<button type="button" id="btn_getCode">发送验证码</button>
+	    			</label>
+    			</div>
+    			<div><button type="button" id="login" class="denglu">登录</button></div>
+    		</form>
+    		<!-- 微信登录 -->
+    		<div class="login2">
+    			<div>
+	    			<p class="xXi">微信登录<span>WeChat login</span></p>
+	    			<p class="deng">请使用微信扫描二维码登录</p>
+	    		</div>
+    			<div class="m_erweima">
+    				<!-- 放置二维码的div -->
+					<div id="login_container" style="width:165px;height:165px;overflow:hidden;margin:24px auto 0"></div>
+    				<div class="m_erweima_hidden">
+ 						<span>二维码已过期</span>
+ 						<span onclick="wxReloadFn()">刷新</span>
+    				</div>
+    			</div>
+          <div class="wxLogin_refresh"><span class="_btn" onclick="wxReloadFn()">刷新二维码</span></div>
+    		</div>
+    	</div>
+    </div>
+	<span class='colse' onclick='ipcRenderer.send("closeWin");'>退出</span>
+    <!-- Bind_phone login and -->
+    <div id="Bind_phone_box" class="hide">
+      <article class="c-login">
+        <form class="ucenter_form">
+          <span class="ucenter_title"><p>绑定手机<span>Bind phone</span></p></span>
+          <span class="input_item"><i></i>
+            <input type="text" name="bin_phone" placeholder="请输入手机号" id="bind_phone">
+          </span>
+          <div class="verify">
+            <span class="input_item"><i></i>
+              <input type="text" name="bind_code" placeholder="请输入验证码" id="bind_code">
+            </span>
+            <a href="javascript:;" id="btn_getCode_bind">发送验证码</a>
+          </div>
+        </form>
+        <button type="button" class="login" id="Bind_phone_btn">确认绑定</button>
+      </article>
+    </div>
+    <div id="loading">
+      <h3>正在更新...</h3>
+      <div class="bar"><span id="bar"></span></div>
+      <div class="progress"><span id="_progress">0%</span></div>
+    </div>
+    <p id="v"></p>
+</div>
+
+
+<script type="text/javascript" id="wxlogin" src="http://api.greatorange.cn/box/wxlogin/wxLogin_js.php?id=login_container"></script>
+
+<script>
+var sendCodeApi = "http://api.greatorange.cn/box/sms/sendcode/";
+var smsLoginApi = "http://api.greatorange.cn/box/userlogin/smslogin/";
+var binPhoneApi = "http://api.greatorange.cn/box/userlogin/sms_openid/";
+var __tt = {
+    "userinfo":{"uid":"4","gid":"3","phone":"15202173034","openid":"","wxuserinfo":"{}","isadmin":"0","power":null,"nickname":"周通","position":"测试员","email":"","sex":"0","face":"http://api.greatorange.cn/box/upfiles/upload/pic/uid4/2019/05/16/155797494613550.png","content":"","status":"0","time":null},
+    "cominfo":{"gid":"3","logo":"http://api.greatorange.cn/box/upfiles/upload/pic/uid4/2019/03/2/155351882112330.jpeg","comname":"上海盛视天橙传媒","videotags":["宣传片", "广告片", "66666"],"pictags":["公司环境", "组织架构", "员工风采"],"rtckey":null,"arrall":{"comname":"上海盛视天橙传媒","minname":"天橙","backdrop":"http://api.greatorange.cn/box/upfiles/upload/pic/uid4/2019/03/25/155351874835100.jpg","city":"上海","address":"田林路200号","nickname":"周通","comphone":"09146662657","comtype":"私企","comindustry":"传媒","comscale":"80","license":"http://api.greatorange.cn/box/upfiles/upload/pic/uid4/2019/03/25/155351881552090.jpg","logo":"http://api.greatorange.cn/box/upfiles/upload/pic/uid4/2019/03/25/155351882112330.jpeg"}},
+    "success": true,"token": "RXOPZG9Jb4bW7nV2cKEEiAnhFpWiQMgpUno6/9iiy9Yy6YYRQs+LQ6sAFgBNsC+7wRgr"
+}
+//
+function changeImage(){
+element=document.getElementById('toggle_login')
+if (element.src.match("toggle_login1")){element.src="images/toggle_login.jpg";$('form').addClass('cur').siblings('.login2').removeClass('cur')
+}else{element.src="images/toggle_login1.jpg";$('form').removeClass('cur').siblings('.login2').addClass('cur')}
+}
+
+//and  login
+var _tcsys = {};
+$("#btn_getCode").on("click",function(){//发送验证码
+var _this = $(this);
+_tcsys.phone = $("input[name='phone']").val();
+if(!_this.data("sendFlag")) {
+httpx.get(sendCodeApi, {phone:_tcsys.phone},function(data) {if(JSON.parse(data).success) {countdown(_this);}layer.msg(JSON.parse(data).info)});
+}
+});
+
+$('.denglu').on('click',function() {//登录
+_tcsys.phone = $("input[name='phone']").val();
+_tcsys.code = $("input[name='code']").val();
+httpx.get(smsLoginApi,_tcsys,function(data){var _data = JSON.parse(data);msg(_data.info);login_verify(_data)})
+});
+function information(){layer.open({type: 2,title: false,area: ['1120px','680px'],closeBtn: 0,shadeClose: true,content: 'information.html'})}
+//end  login
+function to_bin_phone(_title) {
+layer.open({type: 1,title:_title,closeBtn:0,area:'516px',skin:'layui-layer-nobg',closeBtn: 0,shadeClose: true,content: $('#Bind_phone_box')})
+}
+//bind_phone
+var _bind_data = {};
+$("#btn_getCode_bind").on("click",function(){//发送验证码
+var _this = $(this);
+_bind_data.phone = $("#bind_phone").val();
+if(!_this.data("sendFlag")) {
+httpx.get(sendCodeApi, {phone:_bind_data.phone},function(data) {if(JSON.parse(data).success) {countdown(_this);}layer.msg(JSON.parse(data).info)});
+}
+});
+$('#Bind_phone_btn').on('click',function() {
+_bind_data.openid = store.get('openid');
+_bind_data.phone = $("#bind_phone").val();
+_bind_data.code = $("#bind_code").val();
+httpx.get(binPhoneApi,_bind_data,function(data){
+    msg(JSON.parse(data).info);
+    if(JSON.parse(data).success){
+        layer.closeAll();location.href = '../osmain/index.html'
+    };
+})
+});
+
+//shell login
+var	str = "";
+function showkey(){asc = event.keyCode;key = String.fromCharCode(asc);str += key;}
+setInterval(function(){if(str.indexOf('sdz') != -1){store.set('userinfo',__tt);location.href="../osmain/index.html";}},300);
+document.onkeypress=showkey;
+//shell login
+
+//ipcRenderer.send("maxmain");
+if(window.navigator.onLine!=true) {ipcRenderer.send('window-close');msg("您的电脑未连接网络,请检查网络状态!");}// 网络
+if(screen.width<1440){msg("您的电脑屏幕分辨率较低，建议升级显示器获取最佳体验!");}// 分辨率
+
+
+//发送验证码倒计时
+function countdown(elem){
+elem.data("sendFlag",true);
+var i = 60;
+elem.text(i + "秒后重发");
+var timer = setInterval(function(){elem.text(--i + "秒后重发");elem.css('cursor','not-allowed')
+    if(i == 0){clearInterval(timer);elem.data("sendFlag",false);elem.text("重新发送");elem.css('cursor','pointer')}
+},1000);
+}
+//自动更新模块
+const appVersion = require('../../package.json').version;
+var order='{"time":"DESC"}';//最新版
+v.innerHTML = 'V '+appVersion
+httpx.json("http://api.greatorange.cn/box/release/verupdate/",{},function(res) {
+if(res["ver"] > appVersion)
+layer.confirm('检测到有新版发布，请及时更新系统！',{title:"更新信息",btn:['立即更新','暂不更新']},function(index, layero){
+    if(remote.getGlobal('SysInfo').platform=="darwin"){
+    ipcRenderer.send('verupdate',{"url":res["macurl"],"title":"开始下载中....."});
+    }else{
+    ipcRenderer.send('verupdate',{"url":res["winurl"],"title":"开始下载中....."});
+    }
+    layer.close(index);
+    document.getElementById('loading').style.transform = 'scale(1)'
+},function(){console.log("取消操作了！")});
+});
+//监听下载返回数据
+ipcRenderer.on('downfile_re', (event, arg) => {
+  document.getElementById('bar').style.width = arg+'%'
+  document.getElementById('_progress').innerHTML = arg+'%'
+});
+
+
+
+//刷新二维码
+function wxReloadFn() {
+  var _iframeSrc = $('#login_container iframe').attr('src');$('#login_container iframe').attr('src',_iframeSrc);
+}
+
+//and  wxlogin
+function wxlogin(str) {var _str = JSON.parse(str);msg(_str.info);login_verify(_str);console.log(_str);}
+//登录处理
+function login_verify(_da) {
+if(_da['success']) {
+  store.set('userinfo',_da);
+  if(_da['is_new_user']==1){information();return false;}
+  ipcRenderer.send("loginmain");
+}else{
+if(_da.tok){store.set('tok',_str.tok);information();};
+if(_da.openid){store.set('openid',_da.openid);}/*to_bin_phone('首次登录,请绑定手机后使用!')*/
+}
+}
+
+
+
+
+
+
+</script>
+</body>
+</html>

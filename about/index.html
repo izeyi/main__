@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+</head>
+<style type="text/css">
+html,body{margin: 0;padding: 0;height: 100%;color: #fff; background: #000;font:14px/1.8 "Microsoft YaHei","PingFangSC-Regular";user-select:none;}
+#app{height: 100%;text-align: center;}
+#contab_1{color: #fff; overflow: hidden;background: #000;}
+#contab_1 span{float: left;height: 100%;position: relative; width: 33.33%;}
+#contab_1 span:nth-child(1){background: url(images/img1.jpg) no-repeat;background-size: 100% 100%;}
+#contab_1 span:nth-child(2){background: url(images/img2.jpg) no-repeat;background-size: 100% 100%;}
+#contab_1 span:nth-child(3){background: url(images/img3.jpg) no-repeat;background-size: 100% 100%;}
+#contab_1 div{width: 100%;height: 180px;font-size: 20px;transition: 1s;position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);cursor: pointer;}
+#contab_1 div:hover{font-size: 24px;}
+#contab_1 div img{width: 16%;}
+
+#contab_2{background: url(images/img1.jpg) no-repeat;background-size: 100% 100%;}
+#contab_3{background: url(images/img2.jpg) no-repeat;background-size: 100% 100%;}
+#contab_4{background: url(images/img3.jpg) no-repeat;background-size: 100% 100%;}
+
+.con{display:none;height: 100%;position: relative;animation: xxoo 1.5s;}
+@keyframes xxoo{0%{opacity:0;}100%{opacity:1;}}
+@-webkit-keyframes xxoo{0%{opacity:0;}100%{opacity:1;}}
+
+.Return{position: absolute;top:4%;right: 6%;}
+.con_content{position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);overflow: hidden;}
+.content1{min-width: 960px;width: 64%; height: 680px;overflow: hidden;overflow-y: auto;}
+.content1::-webkit-scrollbar {width: 8px;height: 1px;}/*滚动条整体样式*/
+.content1::-webkit-scrollbar-thumb {border-radius: 10px-webkit-box-shadow: inset 0 0 2px rgba(255,255,255,0.8)background: #000}/*滚动条里面小方块*/
+.content1::-webkit-scrollbar-track {-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);border-radius: 10px;background: none;}/*滚动条里面轨道*/
+.content1 div{display: inline-block;width: 30%;margin: 12px 1%;cursor: pointer;transition: 1s;font-size: 0}
+.content1 div:hover{box-shadow: 0px 0px 8px #ffffff;}
+.content1 div img{display: block;width: 100%;height: 164px;}
+.content1 div p{height: 30px;line-height: 30px;margin: 0;background: rgba(0, 0, 0, 0.3);font-size: 14px}
+
+.content2{width: 82%;min-width: 830px;height: 640px;overflow: hidden;}
+.content2_lf,.content2_rh{float: left;height: 100%;cursor: pointer;}
+.content2_lf{min-width: 64px;width: 8%;}
+.content2_lf ul{padding: 0;margin: 0;height: 100%;overflow: auto;overflow-y: visible;}
+.content2_lf ul::-webkit-scrollbar {width: 7px;height: 1px;}/*滚动条整体样式*/
+.content2_lf ul::-webkit-scrollbar-thumb {border-radius: 10px;-webkit-box-shadow: inset 0 0 2px rgba(255,255,255,0.8);background: #000;}/*滚动条里面小方块*/
+.content2_lf ul::-webkit-scrollbar-track {-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);border-radius: 10px;background: none;}/*滚动条里面轨道*/
+.content2_lf li{border-radius: 8px;margin-bottom: 10px; background-color: #f57d1f;height: 70px; line-height: 70px;text-align: center;}
+.content2_rh{min-width: 715px; width: 92%;height: 100%;overflow: auto;}/*overflow-y: scroll;*/
+.content1::-webkit-scrollbar,.content2_rh::-webkit-scrollbar {width: 7px;height: 1px;}/*滚动条整体样式*/
+.content1::-webkit-scrollbar-thumb,.content2_rh::-webkit-scrollbar-thumb {border-radius: 10px;-webkit-box-shadow: inset 0 0 2px rgba(255,255,255,0.8);background: #000;}/*滚动条里面小方块*/
+.content1::-webkit-scrollbar-track,.content2_rh::-webkit-scrollbar-track {-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);border-radius: 10px;background: none;}/*滚动条里面轨道*/
+
+/*.content2_rh img{display: block;width: 24%;float: left;margin-right: 1%;margin-bottom: 30px;}*/
+/*.content2_rh img:nth-child(4n){margin-right: 0px;}*/
+
+.content3{width: 1000px;height: 600px;overflow: auto;overflow-y: scroll;}
+.content3::-webkit-scrollbar {width: 8px;height: 1px;}/*滚动条整体样式*/
+.content3::-webkit-scrollbar-thumb {border-radius: 10px;-webkit-box-shadow: inset 0 0 2px rgba(255,255,255,0.8);background: #000;}/*滚动条里面小方块*/
+.content3::-webkit-scrollbar-track {-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);border-radius: 10px;background: none;}
+.content3 div{overflow: hidden; height: 222px; background: url(images/ul_bg.png) no-repeat 0px 170px;background-size: contain;margin-bottom: 96px;}
+.content3 div a{color: #fff;margin-left: 34px; text-decoration: none;display: inline-block;width: 292px;float: left;margin-left: 34px;}
+.content3 div img{width: 80px;}
+
+.to_ucenter{display: flex;height: 56px;position: absolute;left: 0;width: 56px;bottom: 0;margin: 0 72px 36px;}
+.to_ucenter .grid{cursor: pointer;height: 40px;left: 8px;pointer-events: auto;position: absolute;background: rgba(255,255,255,.12);top: 8px;opacity: .45;border-radius: 50%;transition: all .3s cubic-bezier(.4,0,.2,1);width: 40px;}
+.to_ucenter .grid svg{left: 10px;position: absolute;top: 10px;}
+.to_ucenter .grid:hover{opacity: 1}
+
+
+
+.content2_rh li{}
+.content2_rh a{display: flex;width: 120px;height: 80px;float: left;margin-right: 1%;margin-bottom: 30px;overflow: hidden;}
+.content2_rh img{display: block;width: auto;height: auto;object-fit: cover}
+/*.content2_rh li:nth-child(4n){margin-right: 0px;}*/
+
+
+
+/* START TOOLTIP STYLES */
+[tooltip] {position: relative;}/* opinion 1 */
+
+/* Applies to all tooltips */
+[tooltip]::before,
+[tooltip]::after {text-transform: none;font-size: .9em;line-height: 1;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;        user-select: none;pointer-events: none;position: absolute;display: none;opacity: 0;}
+[tooltip]::before {content: '';border: 5px solid transparent;z-index: 1001;}
+[tooltip]::after {content: attr(tooltip); /* magic! *//* most of the rest of this is opinion */font-family: Helvetica, sans-serif;text-align: center;min-width: 3em;max-width: 21em;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding: 1ch 1.5ch;border-radius: .3ch;box-shadow: 0 1em 2em -.5em rgba(0, 0, 0, 0.35);background: #333;color: #fff;z-index: 1000; /* absurdity 2 */}
+
+/* Make the tooltips respond to hover */
+[tooltip]:hover::before,
+[tooltip]:hover::after {display: block;}
+
+/* don't show empty tooltips */
+[tooltip='']::before,
+[tooltip='']::after {display: none !important;}
+
+/* FLOW: UP */
+[tooltip]:not([flow])::before,
+[tooltip][flow^="up"]::before {bottom: 100%;border-bottom-width: 0;border-top-color: #333;}
+[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::after {bottom: calc(100% + 5px);}
+[tooltip]:not([flow])::before,[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::before,[tooltip][flow^="up"]::after {left: 50%;-webkit-transform: translate(-50%, -.5em);transform: translate(-50%, -.5em);}
+
+/* FLOW: DOWN */
+[tooltip][flow^="down"]::before {top: 100%;border-top-width: 0;border-bottom-color: #333;}
+[tooltip][flow^="down"]::after {top: calc(100% + 5px);}
+[tooltip][flow^="down"]::before,
+[tooltip][flow^="down"]::after {left: 50%;-webkit-transform: translate(-50%, .5em);transform: translate(-50%, .5em);}
+
+/* FLOW: LEFT */
+[tooltip][flow^="left"]::before {top: 50%;border-right-width: 0;border-left-color: #333;left: calc(0em - 5px);-webkit-transform: translate(-.5em, -50%);transform: translate(-.5em, -50%);}
+[tooltip][flow^="left"]::after {top: 50%;right: calc(100% + 5px);-webkit-transform: translate(-.5em, -50%);transform: translate(-.5em, -50%);}
+
+/* FLOW: RIGHT */
+[tooltip][flow^="right"]::before {top: 50%;border-left-width: 0;border-right-color: #333;right: calc(0em - 5px);-webkit-transform: translate(.5em, -50%);transform: translate(.5em, -50%);}
+[tooltip][flow^="right"]::after {top: 50%;left: calc(100% + 5px);-webkit-transform: translate(.5em, -50%);transform: translate(.5em, -50%);}
+
+/* KEYFRAMES */
+@-webkit-keyframes tooltips-vert {to {opacity: .9;-webkit-transform: translate(-50%, 0);transform: translate(-50%, 0);}}
+@keyframes tooltips-vert {to {opacity: .9;-webkit-transform: translate(-50%, 0);transform: translate(-50%, 0);}}
+@-webkit-keyframes tooltips-horz {to {opacity: .9;-webkit-transform: translate(0, -50%);transform: translate(0, -50%);}}
+@keyframes tooltips-horz {to {opacity: .9;-webkit-transform: translate(0, -50%);transform: translate(0, -50%);}}
+
+/* FX All The Things */ 
+[tooltip]:not([flow]):hover::before,[tooltip]:not([flow]):hover::after,
+[tooltip][flow^="up"]:hover::before,[tooltip][flow^="up"]:hover::after,
+[tooltip][flow^="down"]:hover::before,[tooltip][flow^="down"]:hover::after
+{-webkit-animation: tooltips-vert 300ms ease-out forwards;animation: tooltips-vert 300ms ease-out forwards;}
+
+[tooltip][flow^="left"]:hover::before,[tooltip][flow^="left"]:hover::after,
+[tooltip][flow^="right"]:hover::before,[tooltip][flow^="right"]:hover::after
+{-webkit-animation: tooltips-horz 300ms ease-out forwards;animation: tooltips-horz 300ms ease-out forwards;}
+</style>
+<script type="text/javascript">
+var viewer,_Vdata;
+var _user = store.get('userinfo');
+var _pictags = _user.cominfo.pictags;
+var _token = _user.token;
+var videoApiUrl = "http://api.greatorange.cn/box/videos/list/";
+var picsApiUrl = "http://api.greatorange.cn/box/pics/list/";
+var _filesApi = "http://api.greatorange.cn/box/files/list/";
+var _minname = _user.cominfo.arrall ? _user.cominfo.arrall.minname : '我们的';
+var searchkey={"pagesize":500,"token":_token,"filter":JSON.stringify({})};
+var requestData = {"pagesize":500,"token":_token,"filter":JSON.stringify({"tags[~]":"我们的"})};/*"order":JSON.stringify({"time":"DESC"}),*/
+var default_data={"success": true,"data":[{"id":"","uid":"","gid":"","tags":"","picurl":"http://api.greatorange.cn/box/upfiles/upload/pic/uid12/2019/06/19/156092748639170.jpg","status":"","sort":"","time":""}]};
+//视频列表
+httpx.post(videoApiUrl,requestData,function(Vd){var _Vd=JSON.parse(Vd);if(_Vd['success']){_Vdata = _Vd['data'];}})
+//文档列表
+httpx.post(_filesApi,requestData,function(data){var _Fd=JSON.parse(data);if(_Fd['success']){picdata.files= _Vdata;vmup(files.data,_Fd)}})
+//图片列表
+function getapidata(_searchkey){
+if(_searchkey){searchkey['filter'] = JSON.stringify({"status[!]":"9",'tags[~]':_searchkey})}
+httpx.get(picsApiUrl,searchkey,function(d){var _d=JSON.parse(d);if(_d['success']){picdata.Vdata = _Vdata;vmup(picdata.data,_d)}})
+console.log(picdata)
+}
+</script>
+<body>
+<section id="app">
+<div class="con" id="contab_1">
+	<span onclick='setTab(2, 4, "con");'>
+		<div><img src="images/ico1.png"><p>- {{minname}}视频 -</p></div>
+	</span>
+	<span onclick='setTab(3, 4, "con");'>
+		<div><img src="images/ico2.png"><p>- {{minname}}图片 -</p></div>
+	</span>
+	<span onclick='setTab(4, 4, "con");'>
+		<div><img src="images/ico3.png"><p>- {{minname}}文档 -</p></div>
+	</span>
+</div>
+<!-- 视频列表真 -->
+<div class="con" id="contab_2">
+	<div class="Return" onclick='setTab(1, 4, "con");'>返回</div>
+	<div class="con_content content1">
+		<div v-for="tt in Vdata" @click="parent.open_video(tt.ali_vid,tt.title)">
+			<img :src="tt.coverurl">
+			<p>{{tt.title}}</p>
+		</div>
+	</div>
+</div>
+<!-- 图片列表 -->
+<div class="con" id="contab_3">
+	<div class="Return" onclick='setTab(1, 4, "con");'>返回</div>
+	<div class="con_content content2">
+		<div class="content2_lf">
+			<ul>
+				<li v-for="(zz,index) in pictags" @click="getapidata(zz)">{{zz}}</li>
+			</ul>
+		</div>
+		<div id="pictab_1" class="content2_rh">
+			<ul style="overflow: hidden;list-style-type:none;margin: 0;" class="spotlight-group">
+				<!-- <li v-for="(ng,index) in data.data">
+					<img :data-index="index" :src="ng.picurl+'_s'" :data-big="ng.picurl" :alt="ng.tags +' '+ timenow(ng.time)">
+				</li> -->
+				<li v-for="(ng,index) in data.data">
+					<a class="spotlight" :href="ng.picurl" :data-description="ng.tags +' '+ timenow(ng.time)"><img :src="ng.picurl+'_s'"></a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- 文档列表 -->
+<div class="con" id="contab_4">
+	<div class="Return" onclick='setTab(1, 4, "con");'>返回</div>
+	<div class="con_content content3">
+		<div>
+			<!-- <a href="javascript:parent.pdfview('盛视天橙_环境篇','http://api.greatorange.cn/pdfData/5.4盛视天橙_环境篇.pdf')"> -->
+			<a href='javascript:;' onclick='parent.openPdfView("盛视天橙_环境篇","5.4盛视天橙_环境篇.pdf")'>
+				<img src="images/pdf_2.png">
+				<p>盛视天橙_环境篇.PDF</p>
+			</a>
+			<!-- <a href="javascript:parent.pdfview('盛视天橙_环境篇','http://api.greatorange.cn/pdfData/5.4盛视天橙_环境篇.pdf')"> -->
+			<a href='javascript:;' onclick='parent.openPdfView("盛视天橙_设备篇","5.2盛视天橙_设备篇.pdf")'>
+				<img src="images/pdf_2.png">
+				<p>盛视天橙_设备篇.PDF</p>
+			</a>
+			<!-- <a href="javascript:parent.pdfview('盛视天橙_环境篇','http://api.greatorange.cn/pdfData/5.4盛视天橙_环境篇.pdf')"> -->
+			<a href='javascript:;' onclick='parent.openPdfView("盛视天橙_团队篇","5.3盛视天橙_团队篇.pdf")'>
+				<img src="images/pdf_2.png">
+				<p>盛视天橙_团队篇.PDF</p>
+			</a>
+		</div>
+		<!-- <div  v-for="index of (Math.ceil(data.length / 4))">
+			<a v-for="yy in data.slice((index - 1) * 4, (index - 1) * 4 + 4)" href='javascript:;' @click='parent.openPdfView("盛视天橙_环境篇","5.4盛视天橙_环境篇.pdf")'>
+				<img src="images/pdf_2.png">
+				<p>{{yy.title}}</p>
+			</a>
+		</div> -->
+	</div>
+	<div class="to_ucenter">
+		<div class="grid" tooltip="添加文件" onclick="parent.to_ucenter('../ucenter/updata/FileUp.html')">
+			<svg t="1558323625164" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3627" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20"><defs><style type="text/css"></style></defs><path d="M535.3 586c-0.1-0.1-0.2-0.1-0.3-0.2-4.3-4.4-10.3-7.2-16.9-7.2s-12.6 2.8-16.9 7.2c-0.1 0.1-0.2 0.1-0.3 0.2l-93.5 93.5c-9.2 9.2-9.2 24.2 0 33.4s24.2 9.2 33.4 0l53.7-53.7v273.5c0 13 10.6 23.6 23.6 23.6s23.6-10.6 23.6-23.6V659.3l53.7 53.7c9.2 9.2 24.2 9.2 33.4 0s9.2-24.2 0-33.4L535.3 586z" p-id="3628" fill="#e6e6e6"></path><path d="M758.3 277.1C725.5 157 615.6 68.7 485.1 68.7c-146.4 0-266.8 111-281.7 253.5C83.6 352.3-3.8 464.1 4 594.9c7.4 123.1 101.3 225.9 223.1 245 35.4 5.5 69.5 3.6 101.5-3.9 5.8-1.4 11.5-2.9 17.1-4.6 26.5-8.1 20.6-47.3-7.2-47.3-22.1 7.6-45.9 11.8-70.6 11.8-1.6 0-3.1-0.1-4.7-0.1C145.4 793.2 50.7 697 50.7 578.7c0-97.2 63.8-179.4 151.8-207.2 14.9-4.7 30.6-7.8 46.7-9.2-0.1-3.4-0.3-6.8-0.3-10.3 0-12.7 1-25.1 3-37.3C269.8 202 367.3 115.9 485 115.9c104.6 0 193.2 68 224.2 162.2 4.9 14.9 8.4 30.4 10.2 46.5 6.8-0.6 13.6-0.9 20.5-0.9 9.1 0 18.2 0.6 27 1.6 117.6 13.4 209 113.3 209 234.5 0 128.8-103.2 233.4-231.4 236-1.6 0-3.1 0.1-4.7 0.1-25.8 0-50.5-4.2-73.7-11.8-27.8 0-33.6 39.4-6.9 47.3 5.9 1.7 11.8 3.3 17.8 4.6 20.2 4.6 41.2 7.1 62.8 7.1 156.5 0 283.3-126.8 283.3-283.3 0.3-150.4-116.8-273.3-264.8-282.7z" p-id="3629" fill="#e6e6e6"></path></svg>
+		</div>
+	</div>
+</div>
+</section>
+
+<script>
+setTab(1, 4, "con");
+
+// @tong and
+var picdata = new Vue({el:'#app',data:{
+	'data':default_data,
+	'Vdata':[],
+	'minname':_minname,
+	'pictags':_pictags,
+	// 'files':default_data
+},created:function (){
+},updated:function (){}});
+getapidata();
+
+function timenow(timeStamp) {
+var d_minutes,d_hours,d_days;
+var timeNow = parseInt(new Date().getTime()/1000);
+var d;
+d = timeNow - timeStamp;
+d_days = parseInt(d/86400);
+d_hours = parseInt(d/3600);
+d_minutes = parseInt(d/60);
+if(d_days>0 && d_days<4){
+return d_days+"天前";
+}else if(d_days<=0 && d_hours>0){
+return d_hours+"小时前";
+}else if(d_hours<=0 && d_minutes>0){
+return d_minutes+"分钟前";
+}else{
+var s = new Date(timeStamp*1000);
+// s.getFullYear()+"年";
+return (s.getMonth()+1)+"月"+s.getDate()+"日";
+}
+}
+</script>
+
+</body>
+</html>

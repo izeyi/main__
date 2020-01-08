@@ -1,0 +1,104 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+html{
+	height: 100%
+}
+body{
+	background-color: #282f33;
+	height: 100%;
+  margin: 0;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+.body{
+	max-width: 1620px;
+	height: 100%;
+	min-height: 500px;
+  min-width: 730px;
+  position: relative;
+  margin: 0 auto
+}
+.mainBox{
+	width: 80%;
+	max-width: 1280px;
+	/*position: relative;*/
+}
+.mainBox > video {
+  display: block;
+  vertical-align: top;
+  width: 100%;
+  height: auto;
+  /*height: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;*/
+}
+.otherVideo{
+	/*position: absolute;*/
+	right: 0;
+	top: 0;
+	width: 338px;
+	float: right;
+}
+.toolbar{
+	/*width: 100%;*/
+	/*width: 338px;*/
+	height: auto;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+.toolbar_box{
+	margin-bottom: 0;
+	text-align: center;
+	position: relative;
+}
+.toolbar_box .icon-box{
+	display: inline-block;
+	cursor: pointer;
+  min-width: inherit;
+  width: 56px;
+  height: 56px;
+  margin: 16px 8px 16px 8px;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  background-color: rgba(0,0,0,0.38);
+  border-radius: 50%;
+  text-align: center;
+  line-height: 68px;
+  transition: all .15s cubic-bezier(0,0,0.2,1);
+}
+.toolbar_box .open_voice,.toolbar_box .open_video{
+	transition: all .3s cubic-bezier(0,0,0.2,1);
+	background-color: #fff;
+}
+.toolbar_box img{
+	display: inline-block;
+	width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+.toolbar_box .broken{
+	background-color:#db4437;
+}
+
+/*右侧其他成员*/
+.submainBox video{
+	width: 100%;
+}
+.submainBox video.key{
+	position: absolute;
+	width: 78%;
+	left: 0;
+	top: 0;
+}
+.mainBox > video.key{
+	position: absolute;
+	width: 338px;
+	right: 0;
+	top: 0;
+}
+.hide{
+	opacity: 0
+}

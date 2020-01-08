@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>loader_demo</title>
+	<link rel="stylesheet" type="text/css" href="css/loader.css">
+	<script type="text/javascript" src="../js/lib/jquery.min.js"></script>
+</head>
+<body>
+
+	<script type="text/javascript">
+	 //  // 等待所有加载
+	 //  $(function(){
+		// 	$('body').addClass('loaded');
+		// 	$('#loader-wrapper .load_title').remove();
+		// });
+		var _LoadingHtml = '<div id="loader-wrapper"><div id="loader"></div><div class="loader-section section-left"></div><div class="loader-section section-right"></div><div class="load_title">技术天橙，缔造完美<br><span>V1.1.52</span></div></div>';
+		//呈现loading效果
+		document.write(_LoadingHtml);
+
+		setInterval(function () {
+			$('body').addClass('loaded');
+			$('#loader-wrapper .load_title').remove();
+		},2300)
+	</script>
+</body>
+</html>

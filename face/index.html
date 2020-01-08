@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>摄像头切换</title>
+  <style type="text/css">
+    html,body {margin: 0;padding: 0;background-color:#333;}
+    img{ pointer-events: none;}
+    video {width:100%;height: 240px;display: block;margin: 0 auto}
+    #switch{position: absolute;right: 0;bottom: 0;cursor: pointer;transition: all .3s;z-index: 999;-webkit-app-region: no-drag;}
+    main:hover #switch{display: block}
+  </style>
+</head>
+<body>
+  <main style="width: 320px;position: relative;cursor: move;-webkit-app-region: drag;">
+    <select id="select" style="display: none;"></select>
+    <video id="videoface" autoplay playsinline muted></video>
+    <div id="switch">
+      <svg t="1559555949689" class="icon" style="margin-right: 5px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2348" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32"><defs><style type="text/css"></style></defs><path d="M507.733333 576v59.733333c115.2 0 260.266667 0 379.733334-200.533333 4.266667-4.266667 12.8-4.266667 8.533333 4.266667-59.733333 379.733333-320 409.6-388.266667 413.866666v64c0 17.066667-21.333333 29.866667-38.4 17.066667l-196.266666-153.6c-21.333333-17.066667-21.333333-46.933333 0-64l196.266666-153.6c12.8-17.066667 38.4-4.266667 38.4 12.8zM554.666667 89.6l196.266666 153.6c21.333333 17.066667 21.333333 46.933333 0 64L554.666667 465.066667c-12.8 12.8-38.4 0-38.4-17.066667V384C401.066667 384 256 384 136.533333 584.533333c0 8.533333-8.533333 4.266667-8.533333 0 59.733333-384 320-413.866667 388.266667-413.866666V106.666667c0-17.066667 25.6-29.866667 38.4-17.066667z" fill="#999999" p-id="2349"></path></svg>
+    </div>
+  </main>
+  <script type="text/javascript">
+const video = document.getElementById('videoface');
+const button = document.getElementById('switch');
+const select = document.getElementById('select');
+let currentStream,z = 0;
+
+function stopMediaTracks(stream) {stream.getTracks().forEach(track => {track.stop();})}
+
+function gotDevices(mediaDevices) {
+    select.innerHTML = '';
+    let count = 1;
+    mediaDevices.forEach(mediaDevice => {
+        if (mediaDevice.kind === 'videoinput') {
+            const option = document.createElement('option');
+            option.value = mediaDevice.deviceId;
+            const label = mediaDevice.label || `Camera ${count++}`;
+            const textNode = document.createTextNode(label);
+            option.appendChild(textNode);
+            select.appendChild(option);
+        }
+    });
+    button.click();
+}
+button.addEventListener('click', event =>{
+    if (typeof currentStream !== 'undefined') { stopMediaTracks(currentStream) }
+    const videoConstraints = {};
+    if (select.value === '') {
+        videoConstraints.facingMode = 'environment';
+    } else {
+        videoConstraints.deviceId = {exact: select.options[z].value};
+        if(z < select.options.length - 1) {z++;}else {z = 0}
+    }
+
+    const constraints = {video: videoConstraints,audio: false};
+    navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then(stream => {
+            currentStream = stream;
+            video.srcObject = stream;
+            return navigator.mediaDevices.enumerateDevices();
+        })
+        .catch(error => {console.error(error)});
+});
+
+navigator.mediaDevices.enumerateDevices().then(gotDevices);
+  </script>
+</body>
+
+</html>

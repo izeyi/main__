@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../static/css/style.css">
+	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+  	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+	<script type="text/javascript" src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+	<!-- Madong -->
+<style>
+	body{width: 100%;height: 100%;min-width: auto;font-size: 16px;color: #3c3c3c;font-weight: bolder;overflow: hidden;}
+/*	.b_er{width: 655px;padding: 30px 0 35px 0;background: #fff;}
+	.b_er_ma{width: 190px;height: 190px;margin: 0 auto;}
+	.b_er div:last-child{text-align:center;margin-top: 16px;font-weight: lighter;}*/
+	.m_erweima{width: 100%;height: 100%;position: relative;height: 165px;}
+	.m_erweima .m_erweima_hidden{position: absolute;display: none; top: 1px;left: 63px;width: 160px;height: 160px;background: rgba(000,000,000,0.5);}
+	.m_erweima .m_erweima_hidden span{display: block;text-align: center;color: #fff;font-size: 14px;}
+	.m_erweima .m_erweima_hidden span:first-child{margin: 52px 0 6px 0;}
+	.m_erweima .m_erweima_hidden span:last-child{background: #dc2424;width: 50px;height: 24px;line-height: 24px;border-radius: 4px;margin: 0 auto;}
+</style>
+</head>
+<body>
+	<div class='m_erweima'>
+		<div id="login_container" style="width:165px;height:165px;overflow:hidden;margin:0 auto;padding-top: 56px"></div>
+		<div class="m_erweima_hidden">
+				<span>二维码已过期</span>
+				<span>刷新</span>
+		</div>
+		<!-- <div><img class='b_er_ma' src="../static/images/er.jpg" alt=""></div>
+		<div>请使用微信扫一扫进行绑定</div>
+	</div> -->
+	<script type="text/javascript" src="http://api.greatorange.cn/box/wxlogin/wxLogin_js.php?id=login_container"></script>
+	<script type="text/javascript">
+		var _index = parent.layer.getFrameIndex(window.name);
+		var _user = store.get('userinfo');
+		var _bwxApi = 'http://api.greatorange.cn/box/userlogin/bwx';
+		var _bwxData = {'token':_user.token,'openid':''};
+		function wxlogin(str) {
+			var _str = JSON.parse(str);console.log(_str);
+			if(_str.success){parent.msg('此微信已绑定!');parent.layer.close(_index);}
+			if(!_str.success && _str.openid){
+				_bwxData.openid = _str.openid;
+				httpx.post(_bwxApi,_bwxData,function (data){parent.msg(JSON.parse(data).info);if(JSON.parse(data).success)parent.layer.close(_index);})
+			}
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+html{height: 100%;min-width: 1080px;overflow: hidden;}
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div{margin:0;padding:0;border:0;} 
+body{
+	background:#fff;color:#333;font-size:12px;overflow: hidden;
+	font-family: PingFangSC-Light, 'helvetica neue', 'hiragino sans gb', tahoma, 'microsoft yahei ui', 'microsoft yahei', simsun, sans-serif;
+    user-select:none;
+} 
+ul,ol{list-style-type:none;} 
+input{outline:none;}
+select,input,img,select{vertical-align:middle;} 
+a{text-decoration:none;color: inherit;} 
+a:hover,a:active,a:focus{text-decoration:none;}
+body{width: 100%;height: 100%;overflow: hidden;margin: 0 auto;color: #fff;}
+figure{margin: 0;cursor: pointer}
+
+img{ pointer-events: none;}
+
+.Box{overflow: hidden;height: 100%;display: flex;}
+/*左边分类*/
+.box_lf{flex:2; max-width: 200px;height: 100%;background-color: #2a2a2a;float: left;font-size: 16px;}
+.box_lf img{display: block;margin: 0 auto;width: 40%;padding-top: 40px;padding-bottom: 20px}
+.box_lf>ul{border-top: 4px solid #2e2e2e;}
+.box_lf li{ cursor: pointer;text-align: center; width: 100%;padding: 10px;box-sizing: border-box;color: #a9a9a9}
+.box_lf li:hover{color: #fff}
+.box_lf li.list_item_title{font-weight: 600}
+.box_lf li.list_item_title:not(:first-child){border-top: 2px solid #2e2e2e;margin-top: 20px;}
+.box_lf li.cur{border-left: 4px solid #e48530;color: #e48530;transition: 0.5s;background: #2e2e2e}
+
+
+/*右边内容*/
+.box_rh{flex: 8; height: 100%;background:url(../images/bg.jpg) no-repeat;background-size:cover; float: left;}
+.sousou{margin: 0 auto;width: 600px;text-align: center;padding-top: 34px;}
+.sousou h1,.sousou p{font-weight: lighter;}
+.sousou h1{font-size: 36px;}
+.sousou p{font-size: 19px;}
+.sousou input{
+	font-size: 18px;color: #fff;text-align: center;margin: 26px 0px;
+	border: 1px solid #888;background: rgba(255,255,255,0.3);width: 100%;
+	height: 44px;border-radius: 28px;
+}
+.sousou input::-webkit-input-placeholder {color: #aab2bd;font-size: 14px;}
+
+.case{padding-top: 10px;color: #909090;overflow-y: auto;height: 60%;margin-right: 10px}
+/*.case::-webkit-scrollbar-track {-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);border-radius: 10px;background: #EDEDED;}*/
+.case::-webkit-scrollbar {/*滚动条整体样式*/
+        width: 10px;     /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+    }
+.case::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+        border-radius: 10px;
+         -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: #999;
+    }
+.case::-webkit-scrollbar-track {/*滚动条里面轨道*/
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        background: #EDEDED;
+    }
+.case li{float: left;width: 212px;padding: 4px 5px;border-radius: 6px;margin: 0 0 48px 38px;transition: 0.5s;}
+.case li:hover{background-color: #fff;}
+.case img{display: block;border-radius: 10px;width: 100%;height: 128px;}
+.case p{line-height: 40px;font-size: 14px;text-overflow: ellipsis;width: 90%;white-space: nowrap;overflow: hidden;}
+.case_box{overflow: hidden;}
+.case_box span{border-radius: 5px;float: left;width: 64px;height: 24px;text-align: center;line-height: 24px;}
+.case_box span:nth-child(1){background: url(../images/eye.png) no-repeat 0px;}
+.case_box span:nth-child(2){background: url(../images/time.png) no-repeat 0px;}
+.case_box span:nth-child(3){background-color: #06ccfe;cursor: pointer;color: #ffff;}
+.case_box span:nth-child(1),.case_box span:nth-child(2){padding-left: 20px;width:40px;}
+.case_box span:nth-child(2),.case_box span:nth-child(3){margin-left: 14px;}
+
+.to_ucenter{display: flex;height: 56px;position: absolute;left: 0;width: 56px;bottom: 0;margin: 0 72px 36px;}
+.to_ucenter .grid{cursor: pointer;height: 40px;left: 8px;pointer-events: auto;position: absolute;background: rgba(255,255,255,.12);top: 8px;opacity: .45;border-radius: 50%;transition: all .3s cubic-bezier(.4,0,.2,1);width: 40px;}
+.to_ucenter .grid svg{left: 10px;position: absolute;top: 10px;}
+.to_ucenter .grid:hover{opacity: 1}
+
+
+
+
+/* START TOOLTIP STYLES */
+[tooltip] {position: relative;}/* opinion 1 */
+
+/* Applies to all tooltips */
+[tooltip]::before,
+[tooltip]::after {text-transform: none;font-size: .9em;line-height: 1;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;        user-select: none;pointer-events: none;position: absolute;display: none;opacity: 0;}
+[tooltip]::before {content: '';border: 5px solid transparent;z-index: 1001;}
+[tooltip]::after {content: attr(tooltip); /* magic! *//* most of the rest of this is opinion */font-family: Helvetica, sans-serif;text-align: center;min-width: 3em;max-width: 21em;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding: 1ch 1.5ch;border-radius: .3ch;box-shadow: 0 1em 2em -.5em rgba(0, 0, 0, 0.35);background: #333;color: #fff;z-index: 1000; /* absurdity 2 */}
+
+/* Make the tooltips respond to hover */
+[tooltip]:hover::before,
+[tooltip]:hover::after {display: block;}
+
+/* don't show empty tooltips */
+[tooltip='']::before,
+[tooltip='']::after {display: none !important;}
+
+/* FLOW: UP */
+[tooltip]:not([flow])::before,
+[tooltip][flow^="up"]::before {bottom: 100%;border-bottom-width: 0;border-top-color: #333;}
+[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::after {bottom: calc(100% + 5px);}
+[tooltip]:not([flow])::before,[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::before,[tooltip][flow^="up"]::after {left: 50%;-webkit-transform: translate(-50%, -.5em);transform: translate(-50%, -.5em);}
+
+/* FLOW: DOWN */
+[tooltip][flow^="down"]::before {top: 100%;border-top-width: 0;border-bottom-color: #333;}
+[tooltip][flow^="down"]::after {top: calc(100% + 5px);}
+[tooltip][flow^="down"]::before,
+[tooltip][flow^="down"]::after {left: 50%;-webkit-transform: translate(-50%, .5em);transform: translate(-50%, .5em);}
+
+/* FLOW: LEFT */
+[tooltip][flow^="left"]::before {top: 50%;border-right-width: 0;border-left-color: #333;left: calc(0em - 5px);-webkit-transform: translate(-.5em, -50%);transform: translate(-.5em, -50%);}
+[tooltip][flow^="left"]::after {top: 50%;right: calc(100% + 5px);-webkit-transform: translate(-.5em, -50%);transform: translate(-.5em, -50%);}
+
+/* FLOW: RIGHT */
+[tooltip][flow^="right"]::before {top: 50%;border-left-width: 0;border-right-color: #333;right: calc(0em - 5px);-webkit-transform: translate(.5em, -50%);transform: translate(.5em, -50%);}
+[tooltip][flow^="right"]::after {top: 50%;left: calc(100% + 5px);-webkit-transform: translate(.5em, -50%);transform: translate(.5em, -50%);}
+
+/* KEYFRAMES */
+@-webkit-keyframes tooltips-vert {to {opacity: .9;-webkit-transform: translate(-50%, 0);transform: translate(-50%, 0);}}
+@keyframes tooltips-vert {to {opacity: .9;-webkit-transform: translate(-50%, 0);transform: translate(-50%, 0);}}
+@-webkit-keyframes tooltips-horz {to {opacity: .9;-webkit-transform: translate(0, -50%);transform: translate(0, -50%);}}
+@keyframes tooltips-horz {to {opacity: .9;-webkit-transform: translate(0, -50%);transform: translate(0, -50%);}}
+
+/* FX All The Things */ 
+[tooltip]:not([flow]):hover::before,[tooltip]:not([flow]):hover::after,
+[tooltip][flow^="up"]:hover::before,[tooltip][flow^="up"]:hover::after,
+[tooltip][flow^="down"]:hover::before,[tooltip][flow^="down"]:hover::after 
+{-webkit-animation: tooltips-vert 300ms ease-out forwards;animation: tooltips-vert 300ms ease-out forwards;}
+
+[tooltip][flow^="left"]:hover::before,[tooltip][flow^="left"]:hover::after,
+[tooltip][flow^="right"]:hover::before,[tooltip][flow^="right"]:hover::after
+{-webkit-animation: tooltips-horz 300ms ease-out forwards;animation: tooltips-horz 300ms ease-out forwards;}

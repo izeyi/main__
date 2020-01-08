@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>视频分类</title>
+	<link rel="stylesheet" href="../static/css/style.css">
+	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+  	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+	<!-- Madong -->
+	<style>
+		body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
+		#admin_console{width: 100%;height: 100%}
+		.t_icon{margin: 0 2px;cursor: pointer;}
+		.icon-all_edit{color: #03a9f4;}
+		.icon-all_delete{color: #ff2d2dad}
+		.gong .paging{display: flex;align-items: center;justify-content: center;float: none;}
+	</style>
+	<script type="text/javascript">
+	var _user = store.get('userinfo');
+	var UrlDo = "http://api.greatorange.cn/box/ucenter/info/";
+	var addvideotagsApi = "http://api.greatorange.cn/box/ucenter/addvideotags/";
+	var detvideotagsApi = "http://api.greatorange.cn/box/ucenter/delectvideotags/";
+	var setvideotagsApi = "http://api.greatorange.cn/box/ucenter/editvideotags/";
+	var del_data = {'token':_user.token,'tag':''};
+	var set_data = {'token':_user.token,'tag':'','newtag':''};
+	var requestData = {'token':_user.token};
+	var default_data={"success": true,"cominfo": {"comname":"","videotags":["宣传片","广告片"],"pictags":["公司环境"],"rtckey": null}}
+	function getdata(){httpx.post(UrlDo,requestData,function (data){var _data=JSON.parse(data);if(_data.success){_data['token'] = _user.token;store.set('userinfo',_data);vmup(_app,_data)}})}
+	getdata();
+	</script>
+</head>
+<body>
+	<div id="admin_console">
+		<!-- 主体 -->
+		<div class="main" id="App">
+			<div class="main_sideLf">
+				<div class="sidebar-menu">
+                    <ul>
+						<li class="sidebar-dropdown">
+							<a  href="javascript:;" >
+								<i class="fa fa-tv"><img src="../static/images/photo1.png" alt=""></i><span>图片管理</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="photo_list.html">相册分类</a> </li>
+									<li><a href="picture_list.html">图片列表</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown active">
+							<a href="javascript:;">
+								<i class="fa fa-photo"><img src="../static/images/photo1.png" alt=""></i><span>视频管理</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="video_tags.html">视频分类</a></li>
+									<li><a href="index.html">视频列表</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown">
+							<a href="javascript:;">
+								<i class="fa fa-photo"><img src="../static/images/photo1.png" alt=""></i>
+								<span>微文圈</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="Weiwen/index.html">微文列表</a></li>
+									<li><a href="Weiwen/add.html">添加微文</a></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<a href="FastUp.html">
+								<i class="fa fa-tv"><img src="../static/images/photo1.png" alt=""></i><span>闪传视频</span>
+							</a>
+						</li>
+						<li>
+							<a href="auto-upVideo.html">
+								<i class="fa fa-photo"><img src="../static/images/photo1.png" alt=""></i><span>我们的视频</span>
+							</a>
+						</li>
+						<li>
+							<a href="FileUp.html">
+								<i class="fa fa-photo"><img src="../static/images/photo1.png" alt=""></i><span>文件上传</span>
+							</a>
+						</li>
+						<li>
+							<a href="database.html">
+								<i class="fa fa-bar-chart-o"><img src="../static/images/photo1.png" alt=""></i><span>资料库</span>
+							</a>
+						</li>
+					</ul>
+                </div><!-- sidebar-menu  -->
+			</div>
+
+			<div class="main_sideRh">
+				<div class="update-box">
+					<div>
+						<div class="up_btn_head">
+							<div class='add_title'>视频分类列表<span>&nbsp;&nbsp;Company Video</span><span style="margin-left: 20px;font-size: 16px">(视频案例栏目)</span></div>
+							<div class="up_btn_sou">
+								<div class="up_btn_sou_lf">
+									<span class="up_btn_sou_lf_up" onclick="add_video_tages()">新建分类</span>
+									<!-- <span class="up_btn_sou_lf_delete">删除</span> -->
+								</div>
+								<!--< div class="up_btn_sou_rh">
+									<input placeholder="视频关键字" type="text"><div id='sousou'><img src="../static/images/sou.png" alt=""></div>
+								</div> -->
+							</div>
+						</div>
+						<div>
+							<table class="v_tabmain">
+								<thead>
+									<tr>
+										<th><span>分类名称</span></th>
+										<!-- <th>状态</th>
+										<th>视频来源</th>
+										<th>创建时间</th> -->
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class='content' v-for="tt in cominfo.videotags" v-if="tt.status != '' || tt.status != 9">
+										<td>
+											<span>{{tt}}</span>
+										</td>
+										<td>
+											<span class="t_icon iconfont icon-all_edit" :onclick="'_set('+JSON.stringify(tt)+')'"></span>
+											<span class="t_icon iconfont icon-all_delete" :onclick="'_det('+JSON.stringify(tt)+')'"></span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<!-- <div class="gong">
+						<div class="paging">
+							<p>
+								<a href=""><</a>
+								<a href="">1</a>
+								<a href="">2</a>
+								<a href="">3</a>
+								<a href="">></a>
+								<a href="">共3页</a>
+							</p>
+						</div>
+					</div> -->
+				</div>
+
+			</div>
+		</div>
+	</div>
+<script src="../static/js/rubilk.js"></script>
+<script>
+	var _app = new Vue({el : "#App",data:default_data});
+
+function _det(_tag) {//删除
+	del_data.tag = _tag;
+	layer.open({title:'删除视频分类',content: '真的要删掉我吗？',btn: ['是的', '算了'],yes: function(index, layero){
+		httpx.post(detvideotagsApi,del_data,function (ent) {msg(JSON.parse(ent).info);getdata()})
+	}});
+}
+function _set(_tag) {//修改
+	set_data.tag = _tag;
+	layer.prompt({title:'修改视频分类',value: _tag,formType: 0},function(pass, index){set_data.newtag = pass;
+	if(pass != ''){httpx.post(setvideotagsApi,set_data,function (ent){msg(JSON.parse(ent).info);getdata();});}
+	layer.close(index);
+})
+}
+//新建相册分类
+function add_video_tages() {//新建
+layer.prompt({title:'新建视频分类',value: '请填写视频分类名称',formType: 0},function(pass, index){
+	if(pass != ''){httpx.post(addvideotagsApi,{'token':_user.token,'videotags':pass},function (ent){msg(JSON.parse(ent).info);getdata();});}
+	layer.close(index);
+})
+}
+</script>
+</body>
+</html>

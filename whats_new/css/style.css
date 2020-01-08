@@ -1,0 +1,120 @@
+@charset"utf-8";
+* {
+    margin:0;
+    padding:0
+}
+body {
+    font-family:microsoft yahei, Helvetica Neue, Helvetica, Arial, sans-serif;
+    color:#333;
+    font-size:13px;
+    background-color: rgba(44,49,55,1);
+    user-select:none;
+}
+/*img{ pointer-events: none;}*/
+.apple-banner {
+    width:100%;
+    max-width: 1280px;
+    /*height: 800px;*/
+    margin: 0 auto;
+    /*height:720px;*/
+    overflow:hidden
+}
+.apple-banner .swiper-container {
+    /*margin-top:-40px;*/
+    width:100%;
+    height:756px
+}
+.swiper-button-prev, .swiper-button-next {
+    width:15%;
+    height:100%;
+    top:0;
+    background:0 0
+}
+.swiper-button-prev {
+    left:0
+}
+.swiper-button-next {
+    right:0
+}
+.swiper-button-prev span, .swiper-button-next span {
+    display:block;
+    width:64px;
+    height:64px;
+    position:absolute;
+    left:20px;
+    top:50%;
+    margin-top:-32px;
+    border-radius:100%;
+    background:rgba(180, 180, 180, .25) url(../img/arrows.png) no-repeat center 17px;
+    opacity:1;
+    -webkit-transition:opacity .5s ease;
+    transition:opacity .5s ease
+}
+.swiper-button-next span {
+    background:rgba(180, 180, 180, .25) url(../img/arrows.png) no-repeat center -71px;
+    left:auto;
+    right:20px;
+    opacity: 1;
+}
+.swiper-button-prev:hover span, .swiper-button-next:hover span {
+    opacity:.6
+}
+.apple-banner .swiper-pagination {
+    top:auto;
+    bottom:0px;
+    background:0 0
+}
+.apple-banner .swiper-pagination-bullet {
+    display:inline-block;
+    width:50px;
+    height:30px;
+    margin:0 3px;
+    cursor:pointer;
+    background:0 0;
+    border-radius:0;
+    opacity:1
+}
+.apple-banner .swiper-pagination-bullet span {
+    width:50px;
+    height:2px;
+    display:block;
+    background:rgba(128, 128, 128, .2)
+}
+.apple-banner .swiper-pagination-bullet-active span {
+    background:gray
+}
+.apple-banner .autoplay .swiper-pagination-bullet-active span {
+    background:rgba(128, 128, 128, .2)
+}
+.apple-banner .swiper-pagination-bullet i {
+    background:gray;
+    height:2px;
+    transform:scaleX(0);
+    transform-origin:0;
+    display:block
+}
+.apple-banner .autoplay .firsrCurrent i {
+    transition:transform 2.9s linear;
+    transform:scaleX(1)
+}
+.apple-banner .autoplay .current i {
+    transition:transform 4s linear;
+    transform:scaleX(1)
+}
+.apple-banner .autoplay .replace span {
+    background:gray
+}
+.swiper-slide .title img{width: 85%}
+/*.slide1 .title {width: 26%;margin-top:230px;margin-left:60px;font-size:30px;font-weight:400;color:#fff;}*/
+.slide1 {background: url(../img/a1.jpg) no-repeat;background-size:cover}
+.slide2 {background: url(../img/a2.jpg) no-repeat;background-size:cover}
+.slide3 {background: url(../img/a3.jpg) no-repeat;background-size:cover}
+.slide4 {background: url(../img/a4.jpg) no-repeat;background-size:cover}
+.slide5 {background: url(../img/a5.jpg) no-repeat;background-size:cover}
+.slide6 {background: url(../img/a6.jpg) no-repeat;background-size:cover}
+.slide6 h2 {bottom:40px;text-align:center;font-size:30px;font-weight:400;position:absolute;width:100%;cursor:pointer;}
+.slide2 .title,.slide4 .title,.slide6 .title {float: right;width: 20%;margin-right: 60px;padding-top:230px;text-align:center}
+.slide1 .title,.slide3 .title,.slide5 .title{text-align:center;width: 20%;margin-left:60px;margin-top:230px;font-size:40px;font-weight:400}
+
+
+

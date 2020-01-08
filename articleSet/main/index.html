@@ -1,0 +1,222 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>空间站</title>
+<link href="css/iconfont.css" rel="stylesheet">
+<link href="css/index.css" rel="stylesheet">
+<script>
+  if (typeof module === 'object') {
+  	window.module = module;
+  	module = undefined;
+  }
+  if (window.module) module = window.module;
+  const {ipcRenderer} = require("electron");
+</script>
+<link rel="stylesheet" href="css/iconfont.css">
+<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<style type="text/css">
+	.tab-grid{width: 20%; height: 169px;}
+	/*.tab-grid img{width: 156px; height: 125px;}*/
+	.hide{display: none}
+.back{width:100%;height:100%;position: absolute;z-index: -1;background: #e9ecef;background: url(img/background.png)no-repeat;background-size: cover;background-position: 100% 100%}
+	/*login ucentent*/
+
+.content .c-login {margin: 0 auto;background-color: #f4f5f3;padding-right: 100px;padding-left: 100px;padding-bottom: 70px;}
+.content .ucenter_title{display: inline-block;font-size: 28px;margin-top: 50px;margin-bottom: 20px;color: #212121;font-weight: 600}
+.content .ucenter_title span{font-size: 16px;margin-left: 18px;font-weight: 200;}
+.content .input_item{display: inline-block;line-height: 36px;border-radius: 18px;font-size: 16px;width: 300px;margin-top: 20px;}
+.content .input_item i{display: block;width: 40px;height: 36px;float: left;border-radius: 18px 0 0 18px;background-color: #fff;}
+.content .input_item input{width: 260px;border: 0;outline: 0;float: right;border-radius: 0 18px 18px 0;height: 36px;line-height: 16px;overflow: hidden;outline: 0;padding: 0;}
+.content .verify{margin-top: 20px;height: 36px;line-height: 36px;width: 300px;}
+.content .verify .input_item{float: left;width: 200px;margin-top: 0}
+.content .verify .input_item i{border-radius: 18px 0 0 18px;background-color: #fff;}
+.content .verify a{float: left;margin: 0;margin-left: 4px;width: 96px;position: relative;display: inline-block;height: 36px;border: 0;border-radius: 18px;line-height: 36px;font-size: 16px;text-align: center;color: #fff;cursor: pointer;background-color: #da001d;text-decoration: none;}
+.content .verify input{width: 160px;}
+.login{width: 300px;margin-top: 36px;font-size: 16px;border-radius: 18px;line-height: 36px;width: 300px;color: #fff;margin-top: 36px;outline: 0;border: 0;background-color: #2196f3;cursor: pointer;}
+.det_list{position: absolute;right: 0;top: 0;width: 24px;height: 24px;text-align: center;background: #fff;border-radius: 50%;z-index: 99;cursor: pointer;}
+
+.tab-grid:hover .det_list{background: #f44336fc;opacity:1;}
+.tab-grid p{width: 89%;height: 18px;line-height: 18px;color: #666666;font-size: 16px;text-align: center;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin: 7.2% auto 0;}
+.tab-grid{width: 213px; height: 198px;}
+.tab-grid>a{width: 192px;height: 146px;display: block;line-height: 146px;position: relative;}
+
+.tab-content{border-radius: 8px;display: block;width: 96%;height: 100%;-webkit-user-drag: none;transition: all .2s ease-out;margin: 0 auto;display: flex;}
+.tab-content h4{width: 100%;color: #fff;font-size: 24px;font-weight: 360;}
+.tab-grid:hover .tab-content{-webkit-filter: brightness(1.1);box-shadow: 0px 10px 18px 0px rgba(0,0,0,0.2)}
+
+
+.item_remind{line-height: 4;padding-left: 14px;}
+.radio_inner {border: 1px solid #999;border-radius: 100%;width: 18px;top: 3px;height: 18px;background-color: #fff;position: relative;cursor: pointer;display: inline-block;box-sizing: border-box;}
+.item_remind input{-webkit-appearance: none;width: 0;height: 0;visibility: hidden;border: none;float: left;margin: 0;}
+input[type="checkbox"]:checked+.radio_inner {border-color: #ec302c;background: #ec302c;}
+.radio_inner:after {width: 8px;height: 8px;border-radius: 100%;background-color: #fff;content: "";position: absolute;left: 50%;top: 50%;
+transform: translate(-50%,-50%) scale(0);transition: transform .15s cubic-bezier(.71,-.46,.88,.6);}
+input[type="checkbox"]:checked+.radio_inner:after {transform: translate(-50%,-50%) scale(1);}
+.radio_label {color: #333;margin-left: 5px;}
+input[type="checkbox"]:checked+.radio_inner+.radio_label {color: #ec302c;}
+.tab_ihpone{position: absolute;left: 4px;bottom: 0;height: 30px;line-height: 30px;width: 30px;color: rgba(43,51,63,.7);}
+</style>
+<script type="text/javascript">
+var _colordata = ['#fa2117','#ffcd0d','#0ce232','#089ff9','#cf41f4','#dc4b3e','#ffce44'];
+var _user = store.get('userinfo').token;
+var api_addurl = "http://api.greatorange.cn/box/links/add/";
+var api_getlis = "http://api.greatorange.cn/box/links/list/";
+var api_detli = "http://api.greatorange.cn/box/links/update/";
+var default_data = {"success":true,"total": 0,"page": 1,"totalpage": 0,"data":[{"id":"","title": "","url":"","status":""}],"colordata":['#f44336','#e91e63','#9c27b0','#673ab7','#3f51b5','#2196f3','#03a9f4','#00bcd4','#15a05d','#4a8af4','#E6A23C','#F56C6C','#909399']};
+var _tcsys = {'token':_user,'pagesize':'64'};
+var _addata = {'token':_user};
+var _detli = {'token':_user,'status':'9','id':[]}
+function AddSite(){layer.open({type: 1,title:'添加网站',area:'516px',skin:'layui-layer-nobg',shadeClose:true,content: $('#add_box'),end:function (){getData()}})}
+</script>
+</head>
+<body>
+	<div class="back"></div>
+<!-- <div class="search-form-bg move-by-top" style="opacity: 1; top: 207px;">
+	<form id="search-form" action="https://www.so.com/s?ie=utf-8&amp;src=se7_newtab_new" type="GET">
+		<div class="search-logo"><a href="https://www.so.com/?src=se7_newtab_new&amp;ls=0" class="search-logo-link" target="_blank"></a></div>
+		<div class="search-ui">
+			<p class="tips">搜&nbsp;&nbsp;索</p>
+			<div class="search">
+				<div class="ipt-border">
+					<div class="ipt">
+						<div id="search-switch" class="search-engine"><a id="current-engine" class="so"></a>
+							<div class="search-arr"><span></span></div>
+							<div class="splitter"></div>
+						</div><input id="search-kw" class="search-text ac_input" name="q" type="text" placeholder="" autocomplete="off">
+					</div>
+				</div>
+				<div class="btn"><input value="立即搜索" class="search-btn" type="submit"></div>
+				<div class="ac_results" style="display: none; position: absolute; width: 638px;">
+					<ul></ul>
+					<div class="powered">由3亿人都在使用的<i>360搜索</i>提供</div>
+					<div class="search-sug-ft"><a class="search-sug-clear">清空历史记录</a></div>
+				</div>
+			</div>
+			<ul class="search-menu" style="display:none">
+				<li><a _href="#" class="so"></a>360搜索</li>
+				<li><a _href="#" class="google"></a>谷歌</li>
+				<li><a _href="#" class="baidu"></a>百度</li>
+			</ul>
+			<div class="sug-hotword-wrap">
+				<ul class="sug-hotword-container" data-pid="sugHotWords"></ul>
+			</div>
+		</div><input type="hidden" name="ie" value="utf-8"><input type="hidden" name="src" value="se7_newtab_new">
+	</form>
+</div> -->
+<div id="userApp" class="tab move-by-top">
+	<li v-for="(tt,index) in data"class="tab-grid">
+		<a v-if="tt.status == 1" :href="tt.url" >
+			<div class="tab-content" v-bind:style="{backgroundColor:colordata[index]}">
+				<h4>{{tt.title}}</h4>
+			</div>
+		</a>
+		<!-- <a v-else-if="tt.status == 2" href="javascript:;" @click="parent.openweb(tt.title,tt.url)"> -->
+		<a v-else-if="tt.status == 2" href="javascript:;" @click="openweb(tt.title,tt.url)">
+			<div class="tab-content" v-bind:style="{backgroundColor:colordata[index]}">
+				<h4>{{tt.title}}</h4>
+			</div>
+			<span class="tab_ihpone"><i class="iconfont icon-shouji"></i></span>
+		</a>
+		<span class="det_list" @click="_del(tt.id)"><svg t="1559629375466" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="827" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><defs><style type="text/css"></style></defs><path d="M784.3 526.1H283c-15.2 0-27.5-12.3-27.5-27.5s12.3-27.5 27.5-27.5h501.3c15.2 0 27.5 12.3 27.5 27.5-0.1 15.2-12.4 27.5-27.5 27.5z" fill="#fff" p-id="828"></path></svg></span>
+	</li>
+	<li class="tab-grid add" onclick="AddSite()">
+		<img src="img/38fde480.png"> <p></p>
+	</li>
+</div>
+<div id="drag-div"></div>
+<div id="context-menu">
+	<p class="new-tab-current">在新标签页中打开链接</p>
+	<p class="new-tab-open">在新窗口中打开链接</p>
+	<p class="new-tab-Invisible">在隐身窗口中打开链接</p>
+	<p class="edit">编辑地址或名称</p>
+	<p class="del">删除</p>
+</div>
+<div class="hide content" id="add_box">
+  <article class="c-login">
+    <form class="ucenter_form">
+      <span class="ucenter_title"><p>添加网站<span>Add site</span></p></span>
+      <span class="input_item"><i></i>
+        <input type="text" name="title" placeholder="请输入网站名称" maxlength="7" id="title">
+      </span>
+      <span class="input_item"><i></i>
+        <input type="text" name="url" placeholder="请输入网站地址" id="url">
+      </span>
+    </form>
+    <p class="item_remind">
+      	<label for="com_status" class="zt_radio">
+			<input type="checkbox" name="status" id="com_status" value="2">
+			<span class="radio_inner"></span>
+			<span class="radio_label"> 如需移动设备展示，请勾选！</span>
+		</label>
+    </p>
+    <button type="button" class="login" id="to_ucenter_btn">添加</button>
+  </article>
+</div>
+<script type="text/javascript">
+var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+var Expression=/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+var objExp=new RegExp(Expression);
+var _app = new Vue({el:"#userApp",data:default_data});
+getData();
+
+function getData() {
+_tcsys['filter'] = JSON.stringify({"status[!]":"9"});
+httpx.get(api_getlis,_tcsys,function(data){var _data = JSON.parse(data);if(_data.success)vmup(_app,_data); console.log(_app)})
+}
+
+$('#to_ucenter_btn').on('click',function(){
+if($("#title").val()){_addata.title = $("#title").val()}else{msg('名称不能为空！');return};
+if($("#url").val()){_addata.url = $("#url").val()}else{msg('地址不能为空！');return};
+if($("input[type='checkbox']").is(':checked')){_addata.status = 2}else {_addata.status =1};
+var reg_url = $("#url").val();
+
+console.log(_addata)
+if(Expression.test(reg_url) !=true){msg('地址不合法，请输入正确的url！');$("#url").focus();return}
+
+// if(reg_url.substr(0,7).toLowerCase() == "http://" || reg_url.substr(0,8).toLowerCase() == "https://"){
+// 	_addata.url = reg_url;
+// }else{
+// 	_addata.url = "http://" + reg_url;
+// }
+console.log(_addata)
+httpx.get(api_addurl,_addata,function(data){
+	if(JSON.parse(data).success){
+		getData();
+		layer.close(1);
+	}
+	_addata.status = '';
+	msg(JSON.parse(data).info)})
+})
+
+function _del(_id) {_detli.id = _id;httpx.get(api_detli,_detli,function(data){if (JSON.parse(data).success){getData()}msg(JSON.parse(data).info)})}
+
+$('.tips').on('click',function (e) {e.stopPropagation();$('.search-ui').addClass('active')})
+$('body').on('click',function () {$('.search-ui').removeClass('active')})
+
+function openweb(_title,_url){
+// ipcRenderer.send("websitemaxmain");
+layer.open({type:2,title:_title,shadeClose:false,shade:false,area: ['500px','910px'],content:'http://ai.namenb.com/toolbox/phoneviewer/?url='+_url})
+}
+
+function checkURL(URL){
+var str=URL;
+//判断URL地址的正则表达式为:http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?
+//下面的代码中应用了转义字符"\"输出一个字符"/"
+
+}
+// function openweb(title,_url){
+// var main = plus.webview.currentWebview().parent();
+// mui,fire(main,"openView"，{title:_url}
+// )}
+
+
+
+// ipcRenderer.on('ping', (e) => { //接收响应
+// 　　console.log(e)
+// })
+// ipcRenderer.sendToHost('pong')//向webview所在页面的进程传达消息
+</script>
+
+</body>
+</html>

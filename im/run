@@ -1,0 +1,2 @@
+#!/bin/sh
+electron  `dirname $0`
