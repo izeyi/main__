@@ -25,6 +25,7 @@
 
     Vue.filter('is_face', function (str) {if(!str){return 'static/images/head.png'}else{return str}});
     var _user = store.get('userinfo');
+    console.log(_user)
     var _Arr = ["static/images/des01.jpg","static/images/des02.jpg","static/images/des03.jpg","static/images/des04.jpg"];
     var loginAdminApi = 'http://api.greatorange.cn/box/userlogin/smsloginadmin/';//登录后台
     var sendcodeApi = "http://api.greatorange.cn/box/sms/sendcode/";//获取验证码

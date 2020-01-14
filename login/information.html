@@ -4,38 +4,36 @@
 <meta charset="UTF-8">
 <title>魔方云</title>
 <link rel="stylesheet" href="css/base.css">
-    <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
-    <script src="../js/lib/cityselect.js" type="text/javascript"></script>
+<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<script src="../js/lib/cityselect.js" type="text/javascript"></script>
 <style type="text/css">
-/* 城市选择器样式 */
-.citySelector{font:12px/1.5 tahoma,arial,\5b8b\4f53;background:#fff;text-align:left;}
-.cityslide{width:250px;list-style:none;margin:0;padding:0;border:1px solid #B3CDC0;box-shadow:2px 2px 3px rgba(0,0,0,0.3);overflow:auto;max-height:300px;}
-.cityslide li{list-style:none;overflow:hidden;height:30px;padding:0px 10px;line-height:30px;}
-.cityslide li.on{background:#ec302c;color:#fff;cursor:pointer;}
-.cityslide li:hover{background:#ec302c;color:#fff;cursor:pointer;}
-.cityslide li b{font-weight:normal;}
-.cityslide li.empty{background:#fff2e8;color:#666;}
-.cityslide li.empty em{color:red;font-style:normal;}
-.cityname{float:left;}
-.cityspell{float:right;}
-.cityBox{width:380px;border:1px solid #B3CDC0;overflow:hidden;box-shadow:2px 2px 3px rgba(0,0,0,0.3);}
-.cityBox ul{margin:0;padding:0;overflow:hidden;}
-.cityBox ul li:first-child{margin-left:5px;}
-.cityBox ul li{float:left;list-style:none;padding:5px;border-bottom:1px solid #DDD;cursor:pointer;display:inline;color:#ec302c;}
-.cityBox ul li.on{border-bottom-color:#ec302c;position:relative;}
-.hide{display:none;}
-p.tip{color:#999;line-height:20px;padding:5px;margin:0;text-indent:3px;}
-.hotCity{border-top:1px solid #DDD;margin-top:-1px;clear:left;overflow:hidden;padding-bottom:10px;padding-top:10px;_margin-bottom:8px;}
-.cityTab{overflow:hidden;}
-.cityTab dl{margin:0;padding:0 0 0 10px;overflow:hidden;}
-.cityTab dl dt{float:left;padding-left:3px;color:#ec302c;margin-top:1px;text-indent:5px;font-family:"Lucida console","consolas","courier new";line-height:25px;font-size:14px;width:20px;}
-.cityTab dl dd{margin-left:2px;float:left;width:335px;}
-.cityTab dl dd a{padding-left:5px;min-width:66px;line-height:25px;display:inline-block;color:#333;text-decoration:none;}
-.cityTab dl dd a:hover{color:#ec302c;}
-.cityinput{ font-size: 12px; padding-left: 2px; border: 1px solid #D8D8D8; }
+    /* 城市选择器样式 */
+    .citySelector{font:12px/1.5 tahoma,arial,\5b8b\4f53;background:#fff;text-align:left;}
+    .cityslide{width:250px;list-style:none;margin:0;padding:0;border:1px solid #B3CDC0;box-shadow:2px 2px 3px rgba(0,0,0,0.3);overflow:auto;max-height:300px;}
+    .cityslide li{list-style:none;overflow:hidden;height:30px;padding:0px 10px;line-height:30px;}
+    .cityslide li.on{background:#ec302c;color:#fff;cursor:pointer;}
+    .cityslide li:hover{background:#ec302c;color:#fff;cursor:pointer;}
+    .cityslide li b{font-weight:normal;}
+    .cityslide li.empty{background:#fff2e8;color:#666;}
+    .cityslide li.empty em{color:red;font-style:normal;}
+    .cityname{float:left;}
+    .cityspell{float:right;}
+    .cityBox{width:380px;border:1px solid #B3CDC0;overflow:hidden;box-shadow:2px 2px 3px rgba(0,0,0,0.3);}
+    .cityBox ul{margin:0;padding:0;overflow:hidden;}
+    .cityBox ul li:first-child{margin-left:5px;}
+    .cityBox ul li{float:left;list-style:none;padding:5px;border-bottom:1px solid #DDD;cursor:pointer;display:inline;color:#ec302c;}
+    .cityBox ul li.on{border-bottom-color:#ec302c;position:relative;}
+    .hide{display:none;}
+    p.tip{color:#999;line-height:20px;padding:5px;margin:0;text-indent:3px;}
+    .hotCity{border-top:1px solid #DDD;margin-top:-1px;clear:left;overflow:hidden;padding-bottom:10px;padding-top:10px;_margin-bottom:8px;}
+    .cityTab{overflow:hidden;}
+    .cityTab dl{margin:0;padding:0 0 0 10px;overflow:hidden;}
+    .cityTab dl dt{float:left;padding-left:3px;color:#ec302c;margin-top:1px;text-indent:5px;font-family:"Lucida console","consolas","courier new";line-height:25px;font-size:14px;width:20px;}
+    .cityTab dl dd{margin-left:2px;float:left;width:335px;}
+    .cityTab dl dd a{padding-left:5px;min-width:66px;line-height:25px;display:inline-block;color:#333;text-decoration:none;}
+    .cityTab dl dd a:hover{color:#ec302c;}
+    .cityinput{ font-size: 12px; padding-left: 2px; border: 1px solid #D8D8D8; }
 </style>
-
-
 </head>
 <body>
     <div class="box information">
@@ -285,28 +283,23 @@ $(function () {
     })
     //进入魔方
     $('.colse2').on('click',function () {
+        var index_ = parent.layer.getFrameIndex(window.name);
         var _fromdata = serialize(document.forms["T_add_form"]);
         console.log(_fromdata)
         // alert(_fromdata)
         _fromdata["token"] = picdata.token;
         var checkVal = checkvalue(_fromdata,{
-            'comname': '公司名称',
-            'minname':'公司简称',
-            'city': '所在城市',
-            'address': '详细地址',
-            'nickname': '联系人',
-            'comphone': '公司电话',
-            'license': '营业执照',
-            'comindustry': '所属行业',
-            'comscale': '企业规模',
-            'comtype': '公司类型'
+            'comname': '公司名称','minname':'公司简称','city': '所在城市','address': '详细地址','nickname': '联系人',
+            'comphone': '公司电话','license': '营业执照','comindustry': '所属行业','comscale': '企业规模','comtype': '公司类型'
         });
         if(checkVal['success']){//http://api.greatorange.cn/box/userlogin/newcom/
             httpx.post(_GlobalsApi+"/api/create_company",_fromdata,function (data) {
-                console.log(JSON.parse(data))
-                if(JSON.parse(data).success){
-                    store.set('userinfo',JSON.parse(data));
-                    pcRenderer.send("loginmain");
+                var _Data = JSON.parse(data)
+                _Data['token'] = store.get('userinfo')['token']
+                console.log(_Data)
+                if(_Data['success']){
+                    store.set('com_info',_Data);
+                    parent.layer.close(index_);//关闭当前页
                 }
                 msg(JSON.parse(data).info);
             })

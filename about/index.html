@@ -2,7 +2,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<script src="../js/config/index.js" type="text/javascript"></script>
+<script src="http://static.namenb.com/web/js/?tcbox"></script>
 </head>
 <style type="text/css">
 html,body{margin: 0;padding: 0;height: 100%;color: #fff; background: #000;font:14px/1.8 "Microsoft YaHei","PingFangSC-Regular";user-select:none;}
@@ -138,7 +139,7 @@ var picsApiUrl = "http://api.greatorange.cn/box/pics/list/";
 var _filesApi = "http://api.greatorange.cn/box/files/list/";
 var _minname = _user.cominfo.arrall ? _user.cominfo.arrall.minname : '我们的';
 var searchkey={"pagesize":500,"token":_token,"filter":JSON.stringify({})};
-var requestData = {"pagesize":500,"token":_token,"filter":JSON.stringify({"tags[~]":"我们的"})};/*"order":JSON.stringify({"time":"DESC"}),*/
+var requestData = {"pagesize":500,"token":_token,"filter":JSON.stringify({"tags[~]":"我们"})};/*"order":JSON.stringify({"time":"DESC"}),*/
 var default_data={"success": true,"data":[{"id":"","uid":"","gid":"","tags":"","picurl":"http://api.greatorange.cn/box/upfiles/upload/pic/uid12/2019/06/19/156092748639170.jpg","status":"","sort":"","time":""}]};
 //视频列表
 httpx.post(videoApiUrl,requestData,function(Vd){var _Vd=JSON.parse(Vd);if(_Vd['success']){_Vdata = _Vd['data'];}})
