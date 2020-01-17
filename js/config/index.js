@@ -2,8 +2,9 @@
  * 配置apiUrl
  * @type {String}
  */
-// window.globalApi = "192.168.1.154"  //测试Api
-window.globalApi = "http://api.greatorange.cn/box/"  //生产Api
+window.globalApi_ = "http://192.168.1.154"  //测试Api
+// window.globalApi = "http://192.168.1.154"  //测试Api
+window.globalApi = "http://api.greatorange.cn/box"  //生产Api
 /**
  * setStorage 过期控制代码
  * @param {[type]} key   要存储的数据

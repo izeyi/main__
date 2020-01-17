@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>Document展示</title>
+    <link rel="stylesheet" type="text/css" href="css/component.css" />
+    <link rel="stylesheet" type="text/css" href="css/content.css" />
+    <script src="../js/config/index.js"></script>
+    <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+	<style type="text/css">
+	*{margin: 0;padding: 0}
+    img{ pointer-events: none;}
+	body{background:#eee;font-family: PingFangSC-Regular,Microsoft YaHei,sans-serif;font-weight: 400;font-size: 16px;line-height: 24px;user-select:none;}
+	ul{list-style:none;}
+	/*header*/
+	.herader_container{padding-bottom: 16px;display: flex;align-items: baseline;}
+	.herader_container h1{color: #5f6368;font-weight: 400;font-size: 28px;line-height: 36px;padding-top: 32px;margin-right: 12px;}
+	.herader_container p{color: #bdbdbd}
+	/*.stage{position:relative;margin:100px;}*/
+	.stage{position:relative;width: 1168px;margin:0 auto;background: #FFF;border-radius: 12px;top: 46px;overflow: hidden;padding: 0 60px;box-sizing: border-box;}
+	.desk{background:#eae1dc;width:668px;height:20px;position: relative;z-index:1;-webkit-transform-style:preserve-3d;transform-style: preserve-3d;}/*border-bottom:2px solid #f5ebe9;*/
+	.desk:after{content: "";background: #F2EDEA;width: 766px;position: absolute;height: 65px;left: -12px;	-webkit-transform: perspective(300px) rotateX(50deg) translateX(-42px) translateY(-90px);transform: perspective(300px) rotateX(50deg) translateX(-42px) translateY(-90px);}
+	.desk-shadow{position: relative;background: none;height: 65px;box-shadow: 0 56px 63px rgba(0,0,0,0.3);top: -12px;
+		-webkit-transform: perspective(300px) rotateX(33deg) translateX(3px) translateY(-90px);transform: perspective(300px) rotateX(33deg) translateX(3px) translateY(-90px);}
+
+    .books-list{position: relative;display: flex;justify-content: space-between;flex-wrap: wrap;margin-bottom: 28px}
+
+
+    /*20190115*/
+    .books-item{}
+    .column {width: 49%;display: inline-block;padding: 16px;background-color: #ffffff;border-radius: 4px; margin: 12px 0;box-sizing: border-box;box-shadow: 0px 0px 4px 0px rgba(169, 176, 180, 0.20);transition: all .3s ease;cursor: pointer;}
+    .column:hover{box-shadow: 0px 4px 30px 0px rgba(169, 176, 180, 0.30);}
+    .column .icon {float: left; }
+    .column .icon img {width: 80px; height: 80px; border-radius: 16px; }
+    .column .info {float: left; margin-left: 14px; }
+    .column .info .name {font-size: 16px; color: #323334; text-align: left; line-height: 22px; }
+    .column .info .brief {text-align: left; line-height: 20px; width: 362px; margin-top: 15px; color: #757C82; }
+
+    .to_ucenter{display: flex;height: 56px;position: fixed;left: 0;width: 56px;bottom: 0;margin: 0 72px 36px;}
+    .to_ucenter .grid{cursor: pointer;height: 40px;left: 8px;pointer-events: auto;position: absolute;background: #00000080;top: 8px;opacity: .45;border-radius: 50%;transition: all .3s cubic-bezier(.4,0,.2,1);width: 40px;}
+    .to_ucenter .grid svg{left: 10px;position: absolute;top: 10px;}
+    .to_ucenter .grid:hover{opacity: 1}
+
+/* START TOOLTIP STYLES */
+[tooltip] {position: relative;}/* opinion 1 */
+
+/* Applies to all tooltips */
+[tooltip]::before,
+[tooltip]::after {text-transform: none;font-size: .9em;line-height: 1;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;        user-select: none;pointer-events: none;position: absolute;display: none;opacity: 0;}
+[tooltip]::before {content: '';border: 5px solid transparent;z-index: 1001;}
+[tooltip]::after {content: attr(tooltip); /* magic! *//* most of the rest of this is opinion */font-family: Helvetica, sans-serif;text-align: center;min-width: 3em;max-width: 21em;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding: 1ch 1.5ch;border-radius: .3ch;box-shadow: 0 1em 2em -.5em rgba(0, 0, 0, 0.35);background: #333;color: #fff;z-index: 1000; /* absurdity 2 */}
+
+/* Make the tooltips respond to hover */
+[tooltip]:hover::before,
+[tooltip]:hover::after {display: block;}
+
+/* don't show empty tooltips */
+[tooltip='']::before,
+[tooltip='']::after {display: none !important;}
+
+/* FLOW: UP */
+[tooltip]:not([flow])::before,
+[tooltip][flow^="up"]::before {bottom: 100%;border-bottom-width: 0;border-top-color: #333;}
+[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::after {bottom: calc(100% + 5px);}
+[tooltip]:not([flow])::before,[tooltip]:not([flow])::after,
+[tooltip][flow^="up"]::before,[tooltip][flow^="up"]::after {left: 50%;-webkit-transform: translate(-50%, -.5em);transform: translate(-50%, -.5em);}
+
+/* FLOW: DOWN */
+[tooltip][flow^="down"]::before {top: 100%;border-top-width: 0;border-bottom-color: #333;}
+[tooltip][flow^="down"]::after {top: calc(100% + 5px);}
+[tooltip][flow^="down"]::before,
+[tooltip][flow^="down"]::after {left: 50%;-webkit-transform: translate(-50%, .5em);transform: translate(-50%, .5em);}
+
+/* FLOW: LEFT */
+[tooltip][flow^="left"]::before {top: 50%;border-right-width: 0;border-left-color: #333;left: calc(0em - 5px);-webkit-transform: translate(-.5em, -50%);transform: translate(-.5em, -50%);}
+[tooltip][flow^="left"]::after {top: 50%;right: calc(100% + 5px);-webkit-transform: translate(-.5em, -50%);transform: translate(-.5em, -50%);}
+
+/* FLOW: RIGHT */
+[tooltip][flow^="right"]::before {top: 50%;border-left-width: 0;border-right-color: #333;right: calc(0em - 5px);-webkit-transform: translate(.5em, -50%);transform: translate(.5em, -50%);}
+[tooltip][flow^="right"]::after {top: 50%;left: calc(100% + 5px);-webkit-transform: translate(.5em, -50%);transform: translate(.5em, -50%);}
+
+/* KEYFRAMES */
+@-webkit-keyframes tooltips-vert {to {opacity: .9;-webkit-transform: translate(-50%, 0);transform: translate(-50%, 0);}}
+@keyframes tooltips-vert {to {opacity: .9;-webkit-transform: translate(-50%, 0);transform: translate(-50%, 0);}}
+@-webkit-keyframes tooltips-horz {to {opacity: .9;-webkit-transform: translate(0, -50%);transform: translate(0, -50%);}}
+@keyframes tooltips-horz {to {opacity: .9;-webkit-transform: translate(0, -50%);transform: translate(0, -50%);}}
+
+/* FX All The Things */ 
+[tooltip]:not([flow]):hover::before,[tooltip]:not([flow]):hover::after,
+[tooltip][flow^="up"]:hover::before,[tooltip][flow^="up"]:hover::after,
+[tooltip][flow^="down"]:hover::before,[tooltip][flow^="down"]:hover::after 
+{-webkit-animation: tooltips-vert 300ms ease-out forwards;animation: tooltips-vert 300ms ease-out forwards;}
+
+[tooltip][flow^="left"]:hover::before,[tooltip][flow^="left"]:hover::after,
+[tooltip][flow^="right"]:hover::before,[tooltip][flow^="right"]:hover::after
+{-webkit-animation: tooltips-horz 300ms ease-out forwards;animation: tooltips-horz 300ms ease-out forwards;}
+</style>
+<script type="text/javascript">
+	var _user = store.get('userinfo');
+    var _listApi = globalApi_+"/api/product_list";
+    var requestData = {'gid':_user['cominfo'].gid};
+	var default_data = {"data":[{"id":5,"icon_name":"","icon_url":"","skip_url":"","icon_desc":""}]};
+	function getdata() {
+        httpx.get(_listApi,requestData,function (data){
+            var _data = JSON.parse(data);
+            if(_data['success'])vmup(_app,_data)
+        })
+    }
+	getdata();
+</script>
+</head>
+<body>
+	<div class="stage" id="App">
+		<header class="header">
+			<div class="herader_container">
+				<h1>产品库</h1>
+				<p>App Center</p>
+			</div>
+		</header>
+		<!-- 第二排 -->
+        <ul class="books-list" >
+            <li class="column" v-for="tt in data"  @click='parent.pdfview(tt.icon_name,tt.skip_url)'>
+                <div class="icon">
+                    <img :src="tt.icon_url">
+                </div>
+                <div class="info">
+                    <div class="name">{{tt.icon_name}}</div>
+                    <div class="brief">{{tt.icon_desc}}</div>
+                </div>
+            </li>
+          <!--   <li class="column">
+                <div class="icon">
+                    <img src="https://static.dingtalk.com/media/lALPDeC2t2ntrp_NAV7NAV4_350_350.png">
+                </div>
+                <div class="info">
+                    <div class="name">销帮帮CRM</div>
+                    <div class="brief">销帮帮CRM，专业、易用、安全，口袋里的销售管理专家！</div>
+                </div>
+            </li>
+            <li class="column">
+                <div class="icon">
+                    <img src="https://static.dingtalk.com/media/lALPDeC2t2ntrp_NAV7NAV4_350_350.png">
+                </div>
+                <div class="info">
+                    <div class="name">销帮帮CRM</div>
+                    <div class="brief">销帮帮CRM，专业、易用、安全，口袋里的销售管理专家！</div>
+                </div>
+            </li> -->
+        </ul>
+
+	</div>
+    <div class="to_ucenter">
+        <div class="grid" tooltip="添加产品" onclick="parent.to_ucenter('../ucenter/updata/product/add.html')">
+            <svg t="1558323625164" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3627" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20"><defs><style type="text/css"></style></defs><path d="M535.3 586c-0.1-0.1-0.2-0.1-0.3-0.2-4.3-4.4-10.3-7.2-16.9-7.2s-12.6 2.8-16.9 7.2c-0.1 0.1-0.2 0.1-0.3 0.2l-93.5 93.5c-9.2 9.2-9.2 24.2 0 33.4s24.2 9.2 33.4 0l53.7-53.7v273.5c0 13 10.6 23.6 23.6 23.6s23.6-10.6 23.6-23.6V659.3l53.7 53.7c9.2 9.2 24.2 9.2 33.4 0s9.2-24.2 0-33.4L535.3 586z" p-id="3628" fill="#e6e6e6"></path><path d="M758.3 277.1C725.5 157 615.6 68.7 485.1 68.7c-146.4 0-266.8 111-281.7 253.5C83.6 352.3-3.8 464.1 4 594.9c7.4 123.1 101.3 225.9 223.1 245 35.4 5.5 69.5 3.6 101.5-3.9 5.8-1.4 11.5-2.9 17.1-4.6 26.5-8.1 20.6-47.3-7.2-47.3-22.1 7.6-45.9 11.8-70.6 11.8-1.6 0-3.1-0.1-4.7-0.1C145.4 793.2 50.7 697 50.7 578.7c0-97.2 63.8-179.4 151.8-207.2 14.9-4.7 30.6-7.8 46.7-9.2-0.1-3.4-0.3-6.8-0.3-10.3 0-12.7 1-25.1 3-37.3C269.8 202 367.3 115.9 485 115.9c104.6 0 193.2 68 224.2 162.2 4.9 14.9 8.4 30.4 10.2 46.5 6.8-0.6 13.6-0.9 20.5-0.9 9.1 0 18.2 0.6 27 1.6 117.6 13.4 209 113.3 209 234.5 0 128.8-103.2 233.4-231.4 236-1.6 0-3.1 0.1-4.7 0.1-25.8 0-50.5-4.2-73.7-11.8-27.8 0-33.6 39.4-6.9 47.3 5.9 1.7 11.8 3.3 17.8 4.6 20.2 4.6 41.2 7.1 62.8 7.1 156.5 0 283.3-126.8 283.3-283.3 0.3-150.4-116.8-273.3-264.8-282.7z" p-id="3629" fill="#e6e6e6"></path></svg>
+        </div>
+    </div>
+	<script type="text/javascript">
+        var _app = new Vue({el : "#App",data:default_data});
+        //发送验证码倒计时
+        function countdown(elem){
+            elem.data("sendFlag",true);
+            var i = 60;
+            elem.text(i + "秒后重发");
+            var timer = setInterval(function(){
+                elem.text(--i + "秒后重发");
+                elem.css('cursor','not-allowed')
+                if(i == 0){
+                    clearInterval(timer);
+                    elem.data("sendFlag",false);
+                    elem.text("重新发送");
+                    elem.css('cursor','pointer')
+                }
+            },1000);
+        }
+        //发送验证码
+        var winOrder = {};
+        var macOrder = {};
+        $(".zt_btn_getCode").on("click", function() {
+            var _this = $(this);
+            winOrder.phone = $("input[name='win_phone']").val();
+            console.log(winOrder.phone)
+            if(!_this.data("sendFlag")) {
+                httpx.get("http://api.chinavcr.com/restcase/sms/", {
+                    phone: winOrder.phone
+                }, function(data) {
+                    if(JSON.parse(data).success) {
+                        countdown(_this);
+                        $('.zt_form_code').show(200);
+                    }
+                    layer.msg(JSON.parse(data).info)
+                });
+            }
+        });
+        $(".win-dow").on("click", function() {
+            var _self = $(this);
+            winOrder.phone = $("input[name='win_phone']").val();
+            winOrder._code = $("input[name='win_code']").val();
+            console.log(winOrder)
+            if(winOrder.phone == '') {
+                layer.msg('请填写手机号');
+            }else if(winOrder._code == ''){
+                layer.msg('请填写验证码');
+            }else{
+                httpx.get('http://api.chinavcr.com/restcase/smscheck/',{
+                    phone:winOrder.phone,
+                    code:winOrder._code
+                },function(data){
+                    if(JSON.parse(data).success) {
+                      location=location;
+                      parent.openwindowP('城市合伙人手册','http://box.chinavcr.com/tcbox/fclould/城市合伙人手册20181024.pdf')
+                    }
+                    layer.msg(JSON.parse(data).info)
+                })
+            }
+        });
+    </script>
+</body>
+</html>

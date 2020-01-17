@@ -7,6 +7,7 @@
   <link href="static/css/iconfont.css" type="text/css" rel="stylesheet" />
   <link href="static/css/loader.css" type="text/css" rel="stylesheet" />
   <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+  <script src="../js/config/index.js" type="text/javascript"></script>
   <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
   <script>
     if (window.module) module = window.module;const {ipcRenderer} = require("electron");
@@ -74,9 +75,9 @@
          <li style="left:30px;top:430px" onclick='openStaticWin("闪传","../pushvideolist/index.html","1");'>
           <img src="static/images/icon3.png" /><span title="闪传">闪传</span><em></em>
         </li>
-        <!-- <li style="left: 30px; top: 560px;" onclick='msg("即将开放...");'>
-          <img src="static/images/icon4.png" /><span title="即刻e站">即刻e站</span><em></em>
-        </li> -->
+        <li style="left: 30px; top: 560px;" onclick='openwindow("产品库","../product/index.html","3");'>
+          <img src="static/images/icon4.png" /><span title="产品库">产品库</span><em></em>
+        </li>
         <!-- <li style="left:30px;top:560px" onclick='pdfview("AI智慧营销",`file://${__dirname}/../pdffiles/「橙影互联」AI智慧营销.pdf`)'>
           <img src="static/images/icon14.png" /><span title="AI智慧营销">AI智慧营销</span><em></em>
         </li> -->

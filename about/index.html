@@ -130,7 +130,7 @@ html,body{margin: 0;padding: 0;height: 100%;color: #fff; background: #000;font:1
 {-webkit-animation: tooltips-horz 300ms ease-out forwards;animation: tooltips-horz 300ms ease-out forwards;}
 </style>
 <script type="text/javascript">
-var viewer,_Vdata;
+var viewer,_Vdata,_Fdata;
 var _user = store.get('userinfo');
 var _pictags = _user.cominfo.pictags;
 var _token = _user.token;
@@ -144,11 +144,18 @@ var default_data={"success": true,"data":[{"id":"","uid":"","gid":"","tags":"","
 //视频列表
 httpx.post(videoApiUrl,requestData,function(Vd){var _Vd=JSON.parse(Vd);if(_Vd['success']){_Vdata = _Vd['data'];}})
 //文档列表
-httpx.post(_filesApi,requestData,function(data){var _Fd=JSON.parse(data);if(_Fd['success']){picdata.files= _Vdata;vmup(files.data,_Fd)}})
+httpx.post(_filesApi,requestData,function(data){var _Fd=JSON.parse(data);if(_Fd['success']){_Fdata = _Fd['data']}})
 //图片列表
 function getapidata(_searchkey){
 if(_searchkey){searchkey['filter'] = JSON.stringify({"status[!]":"9",'tags[~]':_searchkey})}
-httpx.get(picsApiUrl,searchkey,function(d){var _d=JSON.parse(d);if(_d['success']){picdata.Vdata = _Vdata;vmup(picdata.data,_d)}})
+httpx.get(picsApiUrl,searchkey,function(d){
+	var _d=JSON.parse(d);
+	if(_d['success']){
+		picdata['files'] = _Fdata;
+		picdata['Vdata'] = _Vdata;
+		vmup(picdata['data'],_d)
+	}
+})
 console.log(picdata)
 }
 </script>
@@ -200,29 +207,27 @@ console.log(picdata)
 <div class="con" id="contab_4">
 	<div class="Return" onclick='setTab(1, 4, "con");'>返回</div>
 	<div class="con_content content3">
-		<div>
+		<!-- <div> -->
 			<!-- <a href="javascript:parent.pdfview('盛视天橙_环境篇','http://api.greatorange.cn/pdfData/5.4盛视天橙_环境篇.pdf')"> -->
-			<a href='javascript:;' onclick='parent.openPdfView("盛视天橙_环境篇","5.4盛视天橙_环境篇.pdf")'>
+			<!-- <a href='javascript:;' onclick='parent.openPdfView("盛视天橙_环境篇","5.4盛视天橙_环境篇.pdf")'>
 				<img src="images/pdf_2.png">
 				<p>盛视天橙_环境篇.PDF</p>
 			</a>
-			<!-- <a href="javascript:parent.pdfview('盛视天橙_环境篇','http://api.greatorange.cn/pdfData/5.4盛视天橙_环境篇.pdf')"> -->
 			<a href='javascript:;' onclick='parent.openPdfView("盛视天橙_设备篇","5.2盛视天橙_设备篇.pdf")'>
 				<img src="images/pdf_2.png">
 				<p>盛视天橙_设备篇.PDF</p>
 			</a>
-			<!-- <a href="javascript:parent.pdfview('盛视天橙_环境篇','http://api.greatorange.cn/pdfData/5.4盛视天橙_环境篇.pdf')"> -->
 			<a href='javascript:;' onclick='parent.openPdfView("盛视天橙_团队篇","5.3盛视天橙_团队篇.pdf")'>
 				<img src="images/pdf_2.png">
 				<p>盛视天橙_团队篇.PDF</p>
-			</a>
-		</div>
-		<!-- <div  v-for="index of (Math.ceil(data.length / 4))">
-			<a v-for="yy in data.slice((index - 1) * 4, (index - 1) * 4 + 4)" href='javascript:;' @click='parent.openPdfView("盛视天橙_环境篇","5.4盛视天橙_环境篇.pdf")'>
+			</a> -->
+		<!-- </div> -->
+		<div  v-for="index of (Math.ceil(files.length / 4))">
+			<a v-for="yy in files.slice((index - 1) * 4, (index - 1) * 4 + 4)" href='javascript:;' @click='parent.pdfview(yy.title,yy.url)'>
 				<img src="images/pdf_2.png">
 				<p>{{yy.title}}</p>
 			</a>
-		</div> -->
+		</div>
 	</div>
 	<div class="to_ucenter">
 		<div class="grid" tooltip="添加文件" onclick="parent.to_ucenter('../ucenter/updata/FileUp.html')">
@@ -236,14 +241,18 @@ console.log(picdata)
 setTab(1, 4, "con");
 
 // @tong and
-var picdata = new Vue({el:'#app',data:{
-	'data':default_data,
-	'Vdata':[],
-	'minname':_minname,
-	'pictags':_pictags,
-	// 'files':default_data
-},created:function (){
-},updated:function (){}});
+var picdata = new Vue({
+	el:'#app',
+	data:{
+		'Vdata':[],//视频
+		'data':default_data,//图片
+		'files':[],//文档
+		'minname':_minname,
+		'pictags':_pictags
+	},
+	created:function (){},
+	updated:function (){}
+});
 getapidata();
 
 function timenow(timeStamp) {
