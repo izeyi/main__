@@ -5,9 +5,10 @@
 <title>Document</title>
 <link href="../osmain/static/css/loader.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" href="css/style.css">
+<script type="text/javascript" src="../js/config/index.js"></script>
 <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
 <script type="text/javascript">
-	var UrlDo = "http://api.greatorange.cn/box/videos/list/";
+	var UrlDo = globalApi_+"/box/videos/list/";
   	var _user = store.get('userinfo');
 	var _token = store.get('userinfo').token;
   	var _gid = store.get('userinfo').cominfo.gid;

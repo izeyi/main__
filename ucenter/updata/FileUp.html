@@ -5,6 +5,7 @@
 	<title>上传文件</title>
 	<link rel="stylesheet" href="../static/css/style.css">
 	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+	<script type="text/javascript" src="../../js/config/index.js"></script>
   	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
 	<!-- Madong -->
 	<style>
@@ -17,12 +18,12 @@
 		.gong .paging{display: flex;align-items: center;justify-content: center;float: none;}
 	</style>
 	<script type="text/javascript">
-	var _GlobalsApi = "http://api.greatorange.cn/mfy";
+	var _GlobalsApi = globalApi_+"/mfy";
 	var _user = store.get('userinfo');
 	Vue.filter('is_status', function (str) {if(str == 0){return '上传中';}else if(str == 1){return '已完成';}});
 
 	// var _filesApi = _GlobalsApi+"/api/files/list";
-	var _filesApi = "http://api.greatorange.cn/box/files/list/";
+	var _filesApi = globalApi_+"/box/files/list/";
 	var _fileDelApi = _GlobalsApi+"/api/files/update";
 	var del_data = {'token':_user.token,'id':[]};
 	var requestData = {'token':_user.token,"order":JSON.stringify({"time":"DESC"}),"filter":JSON.stringify({"tags[~]":"我们"})};
@@ -74,6 +75,19 @@
 								<ul>
 									<li><a href="Weiwen/index.html">微文列表</a></li>
 									<li><a href="Weiwen/add.html">添加微文</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown">
+							<a href="javascript:;">
+								<i class="fa fa-photo"><img src="../static/images/photo1.png" alt=""></i>
+								<span>产品库</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="product/product.html">我的产品</a></li>
+									<li><a href="product/index.html">产品列表</a></li>
+									<li><a href="product/add.html">添加产品</a></li>
 								</ul>
 							</div>
 						</li>

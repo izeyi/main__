@@ -11,6 +11,7 @@
     <!-- <link rel="stylesheet" type="text/css" href="dist/css/swiper.min.css"> -->
     <link rel="stylesheet" href="css/style.css">
 	<!-- <script src="dist/js/swiper.min.js"></script> -->
+	<script type="text/javascript" src="../../js/config/index.js"></script>
 	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
     <style type="text/css">
     	.banner img{display: block;width: 100%;}
@@ -41,28 +42,18 @@
 	</div>
   </div>
 </div>
-<!-- <script src="js/jquery.min.js"></script> <--></-->
 <script>
 
 	var _user = store.get('userinfo');
-	// console.log(_user)'token':_user.token,
-	var _GlobalsApi = "http://api.greatorange.cn/mfy";
 	var default_data = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id": "14","uid": "0","gid": "0","tags": "","title": "","coverurl": "","url": "","sort": "0","ali_vid": "","status": "1"}],"videotags":[]};
-	var requestData = {"pagesize":500,"order":JSON.stringify({"time":"DESC"})};
+	var requestData = {"pagesize":500,"order":JSON.stringify({"time":"DESC"}),"token":_user['token']};
 	var _app = new Vue({el : "#App",data:default_data});
- //    var swiper = new Swiper('.swiper-container', {
- //        // pagination: '.swiper-pagination',
- //        // paginationClickable: true,
- //        // // autoplay:3000,
- //        // loop:true
- //    });
- 	httpx.post(_GlobalsApi+"/api/wwq/list",requestData,function (data){
- 		var _data = JSON.parse(data);if(_data.success)vmup(_app,_data)
+ 	httpx.post(globalApi_+"/mfy/api/wwq/list",requestData,function (data){
+ 		var _data = JSON.parse(data);
+ 		if(_data.success)vmup(_app,_data)
  	})
     $(function(){
-    	$('#app_nav').on('click',function(){
-    		$('#app_nav_box').stop().toggle(500);
-    	});
+    	$('#app_nav').on('click',function(){$('#app_nav_box').stop().toggle(500)});
     })
 
 </script>

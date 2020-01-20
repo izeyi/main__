@@ -7,6 +7,7 @@
   <script src="../static/js/lib/aliyun-upload-sdk/aliyun-upload-sdk-1.5.0.min.js"></script>
   <script src="../static/js/lib/aliyun-upload-sdk/lib/es6-promise.min.js"></script>
   <script src="../static/js/lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-5.3.1.min.js"></script>
+  <script type="text/javascript" src="../../js/config/index.js"></script>
   <script type="text/javascript">var _user = store.get('userinfo');</script>
   <!-- Madong -->
 <style>
@@ -183,7 +184,7 @@ $(document).ready(function () {
         // 如果 uploadInfo.videoId 不存在,调用 获取视频上传地址和凭证接口(https://help.aliyun.com/document_detail/55407.html)
         console.log(uploadInfo)
         if (!uploadInfo.videoId) {
-          var createUrl ='http://api.greatorange.cn/box/videososs/CreateUploadVideo/?title='+uploadInfo.file.name+'&token='+encodeURIComponent(_token)+'&tags='+encodeURI('["我们的"]')
+          var createUrl =globalApi_+'/box/videososs/CreateUploadVideo/?title='+uploadInfo.file.name+'&token='+encodeURIComponent(_token)+'&tags='+encodeURI('["我们的"]')
           $.get(createUrl, function (data) {
             var uploadAuth = data.UploadAuth
             var uploadAddress = data.UploadAddress
@@ -195,7 +196,7 @@ $(document).ready(function () {
         } else {
           // 如果videoId有值，根据videoId刷新上传凭证
           // https://help.aliyun.com/document_detail/55408.html?spm=a2c4g.11186623.6.630.BoYYcY
-          var refreshUrl = 'http://api.greatorange.cn/box/videososs/RefreshUploadVideo/?videoid='+uploadInfo.videoId+'&token='+encodeURIComponent(_token)
+          var refreshUrl = globalApi_+'/box/videososs/RefreshUploadVideo/?videoid='+uploadInfo.videoId+'&token='+encodeURIComponent(_token)
           $.get(refreshUrl, function (data) {
             var uploadAuth = data.UploadAuth
             var uploadAddress = data.UploadAddress
@@ -234,7 +235,7 @@ $(document).ready(function () {
         // 需要根据 uploadInfo.videoId 调用刷新视频上传凭证接口(https://help.aliyun.com/document_detail/55408.html)重新获取 UploadAuth
         // 然后调用 resumeUploadWithAuth 方法, 这里是测试接口, 所以我直接获取了 UploadAuth
         $('#status').text('上传超时')
-        let refreshUrl = 'http://api.greatorange.cn/box/videososs/RefreshUploadVideo/?videoid='+ uploadInfo.videoId +'&token='+ encodeURIComponent(_token)
+        let refreshUrl = globalApi_+'/box/videososs/RefreshUploadVideo/?videoid='+ uploadInfo.videoId +'&token='+ encodeURIComponent(_token)
         $.get(refreshUrl, function (data) {
           var uploadAuth = data.UploadAuth
           uploader.resumeUploadWithAuth(uploadAuth)

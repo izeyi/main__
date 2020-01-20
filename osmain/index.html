@@ -26,19 +26,13 @@
 
     Vue.filter('is_face', function (str) {if(!str){return 'static/images/head.png'}else{return str}});
     var _user = store.get('userinfo');
+    var default_data={"success": true,"userinfo": {"phone":"","openid":"","wxuserinfo":"{}","isadmin":"0","power":null,"nickname":"","position":"","face":"","content":"","status":"0"},"cominfo": {"gid":"","logo":"","comname":"","videotags":"","pictags":"","rtckey": null}};
+    // updata();
     console.log(_user)
     var _Arr = ["static/images/des01.jpg","static/images/des02.jpg","static/images/des03.jpg","static/images/des04.jpg"];
-    var loginAdminApi = 'http://api.greatorange.cn/box/userlogin/smsloginadmin/';//登录后台
-    var sendcodeApi = "http://api.greatorange.cn/box/sms/sendcode/";//获取验证码
-    var _ucenter = "http://api.greatorange.cn/box/ucenter/info/";
-    var _gid = _user.userinfo.gid;
-    var _uid = _user.userinfo.uid;
-    var default_data={"success": true,"userinfo": {"phone":"","openid":"","wxuserinfo":"{}","isadmin":"0","power":null,"nickname":"","position":"","face":"","content":"","status":"0"},"cominfo": {"gid":"","logo":"","comname":"","videotags":"","pictags":"","rtckey": null}};
-    // chat
-    var userinfo = _user.userinfo;
-    WEB_SOCKET_DEBUG = true;
-    var ws,room_id, client_list={};
-    room_id=userinfo["gid"];
+    var loginAdminApi = globalApi_+'/box/userlogin/smsloginadmin/';//登录后台
+    var sendcodeApi = globalApi_+"/box/sms/sendcode/";//获取验证码
+    var _ucenter = globalApi_+"/box/ucenter/info/";
 </script>
 
 </head>
@@ -76,13 +70,13 @@
           <img src="static/images/icon3.png" /><span title="闪传">闪传</span><em></em>
         </li>
         <li style="left: 30px; top: 560px;" onclick='openwindow("产品库","../product/index.html","3");'>
-          <img src="static/images/icon4.png" /><span title="产品库">产品库</span><em></em>
+          <img src="static/images/icon00.png" /><span title="产品库">产品库</span><em></em>
         </li>
         <!-- <li style="left:30px;top:560px" onclick='pdfview("AI智慧营销",`file://${__dirname}/../pdffiles/「橙影互联」AI智慧营销.pdf`)'>
           <img src="static/images/icon14.png" /><span title="AI智慧营销">AI智慧营销</span><em></em>
         </li> -->
         <!-- <li style="left:30px;top:690px" onclick='pdfview("AI智能名片",`file://${__dirname}/../pdffiles/「橙影互联」加推AI智能名片.pdf`)'>
-          <img src="static/images/icon15.png" /><span title="AI智能名片">AI智能名片</span><em></em>
+          <img src="static/images/icon00.png" /><span title="AI智能名片">AI智能名片</span><em></em>
         </li> -->
         <!-- 2 col -->
         <li style="left: 136px; top: 40px;" onclick='openwindow("资料库","../document/index.html","5");'>
@@ -251,6 +245,13 @@ var ucenter_key,
 updata();
 dynamicDesktop();
 
+    var _gid = _user.userinfo.gid;
+    var _uid = _user.userinfo.uid;
+    // chat
+    var userinfo = _user.userinfo;
+    WEB_SOCKET_DEBUG = true;
+    var ws,room_id, client_list={};
+    room_id=userinfo["gid"];
 
 //修改背景图片
 function dynamicDesktop(){var _des = Math.floor(Math.random() * _Arr.length + 1)-1;$('#desktop').css('background-image','url('+_Arr[_des]+')')}
@@ -334,7 +335,7 @@ socket.on('update_online_count', function(online_stat){console.log(online_stat);
 function open_video(_vid,title){
   var playbackurl = {};
   var _token = store.get('userinfo').token;
-  httpx.post('http://api.greatorange.cn/box/videososs/play/',{"token":_token,"videoid":_vid},function (data){
+  httpx.post(globalApi_+'/box/videososs/play/',{"token":_token,"videoid":_vid},function (data){
     var _data = JSON.parse(data);
     var _PlayInfo = _data.PlayInfoList.PlayInfo;
     for(var p in _PlayInfo)playbackurl[_PlayInfo[p].Definition] = _PlayInfo[p].PlayURL;

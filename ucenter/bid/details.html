@@ -32,7 +32,7 @@
 	<script type="text/javascript">
 		var _id = getUrlParam('id');
 		var _user = store.get('userinfo');
-		var	expenseApiUrl = "http://api.greatorange.cn/box/bids/list/";
+		var	expenseApiUrl = globalApi_+"/box/bids/list/";
 		var requestData = {'token':_user.token,"filter":JSON.stringify({"id":_id})};
 		var defaultData = {"success": true,"total": 1, "data": [{"id": "","uid": "","status": "","arrall": {"title": "暂无","workers": "暂无","city": "暂无","money": "暂无","StopTime1": "暂无","StopTime2": "暂无","req": "暂无","startTime": "暂无","pledge": "暂无","pledgeAcc": "暂无","openingBank": "暂无","accountNum": "暂无","paymentType": "暂无","requirements": "暂无","note": "暂无","projectFile": "暂无"},"time": "暂无"}]}
 		httpx.get(expenseApiUrl,requestData,function(data){var _data = JSON.parse(data);if(_data.success)vmup(listData,_data)});
@@ -136,7 +136,7 @@
 	</div>
 	
 <script>
-// var default_data={"success": true,"total": 1, "data": ["id": "5","name": "测试项目","workers": "项目经理","status": "1","arrall": {"cover": "http://api.greatorange.cn/box/upfiles/upload/pic/uid4/2019/03/25/155351534233950.jpg","name": "测试项目","nickname": "客户B","phone": "13845458888","workers": "项目经理","originality": "这是策划","status": "1"},"time": "1553585347"]}
+// var default_data={"success": true,"total": 1, "data": ["id": "5","name": "测试项目","workers": "项目经理","status": "1","arrall": {"cover": globalApi_+"/box/upfiles/upload/pic/uid4/2019/03/25/155351534233950.jpg","name": "测试项目","nickname": "客户B","phone": "13845458888","workers": "项目经理","originality": "这是策划","status": "1"},"time": "1553585347"]}
 var listData = new Vue({el: '#T_add_form',data:defaultData});
 
 	Vue.filter('is_admin', function (str) {if(str == 0){return '员工';}else if(str == 1){return '管理员';}});
@@ -162,7 +162,7 @@ var listData = new Vue({el: '#T_add_form',data:defaultData});
         console.log(formData)
         formData.append(_name,document.getElementById(_name).files[0]);
         $.ajax({
-            url: 'http://api.greatorange.cn/box/upfiles/pic/',
+            url: globalApi_+'/box/upfiles/pic/',
             type: 'POST',
             data: formData,
             dataType: "json",
@@ -189,7 +189,7 @@ var listData = new Vue({el: '#T_add_form',data:defaultData});
         _fromdata["token"] = _user.token;
         var checkVal = checkvalue(_fromdata,{'cover': '封面','name': '项目名称','nickname': '联系人','phone': '联系人电话','workers': '项目经理','money':'项目金额'});
         if(checkVal['success']){
-            httpx.post("http://api.greatorange.cn/box/project/add/",_fromdata,function (data) {
+            httpx.post(globalApi_+"/box/project/add/",_fromdata,function (data) {
             	var _data = JSON.parse(data);
                 msg(_data.info);
                 if(_data.success){

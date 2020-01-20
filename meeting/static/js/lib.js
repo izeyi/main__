@@ -1,10 +1,11 @@
 /**/
 
-var sc = 0, _pass,audiodata = [],videodata = [],video_ = 1,audio_ = 1,layerOpen,pushApi = "http://api.greatorange.cn/box/push/";
+var sc = 0, _pass,audiodata = [],videodata = [],video_ = 1,audio_ = 1,layerOpen,
+pushApi = globalApi_+"/box/push/";
 /**/
 var audioSelect = document.querySelector('select#audioSource');
 var videoSelect = document.querySelector('select#videoSource');
-var pushApi = "http://api.greatorange.cn/box/push/";
+var pushApi = globalApi_+"/box/push/";
 var _user = store.get('userinfo');
 var _gid = _user.userinfo.gid;
 var _uid = _user.userinfo.uid;
@@ -14,7 +15,7 @@ var AppId = "";
 var ChannelId = getUrlParam('roomId')+_gid;//_gid
 // console.log(ChannelId)
 window.onload = function () {
-httpx.get("http://api.greatorange.cn/box/rtc/oauth/",{'token':_user.token},function(data){
+httpx.get(globalApi_+"/box/rtc/oauth/",{'token':_user.token},function(data){
 var _data = JSON.parse(data);
 if(_data.success)AppId=_data["AppId"];
 join();

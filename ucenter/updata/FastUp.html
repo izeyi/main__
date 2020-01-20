@@ -5,6 +5,7 @@
 	<title>闪传视频</title>
 	<link rel="stylesheet" href="../static/css/style.css">
 	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+	<script type="text/javascript" src="../../js/config/index.js"></script>
   	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
 	<!-- Madong -->
 	<style>
@@ -20,8 +21,8 @@
 	Vue.filter('is_status', function (str) {if(str == 0){return '上传中';}else if(str == 1){return '已完成';}});
 
 	var _user = store.get('userinfo');
-	var _videosApi = "http://api.greatorange.cn/box/videos/list/";
-	var _videosDelApi = "http://api.greatorange.cn/box/videos/update/";
+	var _videosApi = globalApi_+"/box/videos/list/";
+	var _videosDelApi = globalApi_+"/box/videos/update/";
 	var del_data = {'token':_user.token,'status':'9','id':[]};
 	var requestData = {'token':_user.token,"order":JSON.stringify({"time":"DESC"}),"filter":JSON.stringify({"status[!]":"9","tags[~]":"闪传"})};
 	var default_data = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id": "14","uid": "0","gid": "0","tags": "","title": "","coverurl": "","url": "","sort": "0","ali_vid": "","status": "1"}]};
@@ -67,6 +68,19 @@
 								<ul>
 									<li><a href="Weiwen/index.html">微文列表</a></li>
 									<li><a href="Weiwen/add.html">添加微文</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown">
+							<a href="javascript:;">
+								<i class="fa fa-photo"><img src="../static/images/photo1.png" alt=""></i>
+								<span>产品库</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="product/product.html">我的产品</a></li>
+									<li><a href="product/index.html">产品列表</a></li>
+									<li><a href="product/add.html">添加产品</a></li>
 								</ul>
 							</div>
 						</li>

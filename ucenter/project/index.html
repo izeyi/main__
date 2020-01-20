@@ -5,6 +5,7 @@
 <title>Document</title>
 <link rel="stylesheet" href="../static/css/style.css">
 <link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+  <script type="text/javascript" src="../../js/config/index.js"></script>
 <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
 <script src="../static/js/rubilk.js"></script>
 <!-- Madong -->
@@ -38,9 +39,9 @@ Vue.filter('_type', function (str) {switch (str){case '1': return '影视类';br
 	var _user = store.get('userinfo');
 	var _token = _user.token;
 	var searchkey={"pagesize":500,"token":_token,"order":JSON.stringify({"time":"DESC"}),"filter":JSON.stringify({"status[!]":"9"})};
-	var _uppicApi = "http://api.greatorange.cn/box/ucenter/uppic/";
+	var _uppicApi = globalApi_+"/box/ucenter/uppic/";
 	function getdata() {
-		httpx.get('http://api.greatorange.cn/box/project/list/',searchkey,function(data){
+		httpx.get(globalApi_+'/box/project/list/',searchkey,function(data){
 			var _data = JSON.parse(data);
 			if(_data.success)vmup(listData,_data);
 		});
@@ -148,7 +149,7 @@ Vue.filter('_type', function (str) {switch (str){case '1': return '影视类';br
 		</div>
 	</div>
 	<script>
-		var default_data={"success": true,"total": 1, "data": [{"id": "5","name": "测试项目","workers": "项目经理","status": "1","arrall": {"cover": "http://api.greatorange.cn/box/upfiles/upload/pic/uid4/2019/03/25/155351534233950.jpg","name": "测试项目","nickname": "客户B","phone": "13845458888","workers": "项目经理","originality": "这是策划","status": "1"},"time": "1553585347"}]}
+		var default_data={"success": true,"total": 1, "data": [{"id": "5","name": "测试项目","workers": "项目经理","status": "1","arrall": {"cover": globalApi_+"/box/upfiles/upload/pic/uid4/2019/03/25/155351534233950.jpg","name": "测试项目","nickname": "客户B","phone": "13845458888","workers": "项目经理","originality": "这是策划","status": "1"},"time": "1553585347"}]}
 		var del_data = {'token':_token,'status':'9','id':[]};
 		var listData = new Vue({el: '#admin_console',data:default_data});
 
@@ -160,7 +161,7 @@ Vue.filter('_type', function (str) {switch (str){case '1': return '影视类';br
 				,btn: ['是的', '算了']
 				,yes: function(index, layero){
 					console.log(index+'----'+layero);
-					httpx.post('http://api.greatorange.cn/box/project/update/',del_data,function (ent) {msg(JSON.parse(ent).info);getdata()})
+					httpx.post(globalApi_+'/box/project/update/',del_data,function (ent) {msg(JSON.parse(ent).info);getdata()})
 				}
 			});
 		}

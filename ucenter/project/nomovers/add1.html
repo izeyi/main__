@@ -5,6 +5,7 @@
 <title>Document</title>
 <link rel="stylesheet" href="../../static/css/style.css">
 <link rel="stylesheet" href="../../static/iconfont/iconfont.css" type="text/css">
+  <script type="text/javascript" src="../../../js/config/index.js"></script>
 	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
 <!-- Madong -->
 <style>
@@ -99,7 +100,7 @@ if(checkVal['success']){
 //     _fromdata["token"] = _user.token;
 //     var checkVal = checkvalue(_fromdata,{'cover': '封面','name': '项目名称','nickname': '联系人','phone': '联系人电话','workers': '项目经理','money':'项目金额'});
 //     if(checkVal['success']){
-//         httpx.post("http://api.greatorange.cn/box/project/add/",_fromdata,function (data) {
+//         httpx.post(globalApi_+"/box/project/add/",_fromdata,function (data) {
 //         	var _data = JSON.parse(data);
 //             msg(_data.info);
 //             if(_data.success){

@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 	<meta charset="UTF-8">
-	<title>Document展示</title>
+	<title>产品库</title>
     <link rel="stylesheet" type="text/css" href="css/component.css" />
     <link rel="stylesheet" type="text/css" href="css/content.css" />
     <script src="../js/config/index.js"></script>
@@ -98,7 +98,7 @@
 </style>
 <script type="text/javascript">
 	var _user = store.get('userinfo');
-    var _listApi = globalApi_+"/api/product_list";
+    var _listApi = globalApi_+"/mfy/api/product_list";
     var requestData = {'gid':_user['cominfo'].gid};
 	var default_data = {"data":[{"id":5,"icon_name":"","icon_url":"","skip_url":"","icon_desc":""}]};
 	function getdata() {

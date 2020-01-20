@@ -3,6 +3,7 @@
 <head>
 	<title>图片上传</title>
 	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+  <script type="text/javascript" src="../../js/config/index.js"></script>
 	<link href="css/uploader.css" rel="stylesheet" type="text/css" />
 	<style type="text/css">
 	  body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select{margin:0;padding:0}
@@ -181,8 +182,8 @@ function selectMenu(index) {
 selectMenu(0);
 
 var map_settings = {image: {allows: ".jpg,.png,.gif,.bmp",accept: "image/*"}};
-var UPLOAD_URL = "http://api.greatorange.cn/box/upfiles/pic/";
-var updata_url = "http://api.greatorange.cn/box/pics/add/";
+var UPLOAD_URL = globalApi_+"/box/upfiles/pic/";
+var updata_url = globalApi_+"/box/pics/add/";
 var formdata = {'token':_token,'tags':new Array(),'picurl':'','status':0};
 var uploader = new Q.Uploader({
     url: UPLOAD_URL ,

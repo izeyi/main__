@@ -134,25 +134,36 @@ var viewer,_Vdata,_Fdata;
 var _user = store.get('userinfo');
 var _pictags = _user.cominfo.pictags;
 var _token = _user.token;
-var videoApiUrl = "http://api.greatorange.cn/box/videos/list/";
-var picsApiUrl = "http://api.greatorange.cn/box/pics/list/";
-var _filesApi = "http://api.greatorange.cn/box/files/list/";
-var _minname = _user.cominfo.arrall ? _user.cominfo.arrall.minname : '我们的';
-var searchkey={"pagesize":500,"token":_token,"filter":JSON.stringify({})};
+var videoApiUrl = globalApi_+"/box/videos/list/";
+var picsApiUrl  = globalApi_+"/box/pics/list/";
+var _filesApi   = globalApi_+"/box/files/list/";
+
+// var videoApiUrl = "http://api.greatorange.cn/box/videos/list/";
+// var picsApiUrl = "http://api.greatorange.cn/box/pics/list/";
+// var _filesApi = "http://api.greatorange.cn/box/files/list/";
+
+var _minname    = _user.cominfo.arrall ? _user.cominfo.arrall.minname : '我们的';
+var searchkey   = {"pagesize":500,"token":_token,"filter":JSON.stringify({})};
 var requestData = {"pagesize":500,"token":_token,"filter":JSON.stringify({"tags[~]":"我们"})};/*"order":JSON.stringify({"time":"DESC"}),*/
 var default_data={"success": true,"data":[{"id":"","uid":"","gid":"","tags":"","picurl":"http://api.greatorange.cn/box/upfiles/upload/pic/uid12/2019/06/19/156092748639170.jpg","status":"","sort":"","time":""}]};
 //视频列表
-httpx.post(videoApiUrl,requestData,function(Vd){var _Vd=JSON.parse(Vd);if(_Vd['success']){_Vdata = _Vd['data'];}})
+httpx.post(videoApiUrl,requestData,function(Vd){
+	var _Vd=JSON.parse(Vd);
+	if(_Vd['success'])picdata['Vdata'] = _Vd['data']
+})
 //文档列表
-httpx.post(_filesApi,requestData,function(data){var _Fd=JSON.parse(data);if(_Fd['success']){_Fdata = _Fd['data']}})
+httpx.post(_filesApi,requestData,function(data){
+	var _Fd=JSON.parse(data);
+	if(_Fd['success'])picdata['files'] = _Fd['data']
+})
 //图片列表
 function getapidata(_searchkey){
 if(_searchkey){searchkey['filter'] = JSON.stringify({"status[!]":"9",'tags[~]':_searchkey})}
 httpx.get(picsApiUrl,searchkey,function(d){
 	var _d=JSON.parse(d);
 	if(_d['success']){
-		picdata['files'] = _Fdata;
-		picdata['Vdata'] = _Vdata;
+		// picdata['files'] = _Fdata;
+		// picdata['Vdata'] = _Vdata;
 		vmup(picdata['data'],_d)
 	}
 })

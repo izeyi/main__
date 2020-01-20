@@ -20,7 +20,7 @@
 	</style>
 	<script type="text/javascript">
 	var _user = store.get('userinfo');
-	var user_add = globalApi_+"/api/user_product";
+	var user_add = globalApi_+"/mfy/api/user_product";
 	</script>
 </head>
 <body>
@@ -56,8 +56,8 @@
 							</a>
 							<div class="sidebar-submenu">
 								<ul>
-									<li><a href="index.html">微文列表</a></li>
-									<li><a href="add.html">添加微文</a></li>
+									<li><a href="../Weiwen/index.html">微文列表</a></li>
+									<li><a href="../Weiwen/add.html">添加微文</a></li>
 								</ul>
 							</div>
 						</li>
@@ -166,7 +166,7 @@ $(function () {
     console.log(formData)
     formData.append(_name,document.getElementById(_name).files[0]);
     $.ajax({
-        url: 'http://api.greatorange.cn/box/yunFile/file',
+        url: globalApi_+'/mfy/box/yunFile/file',
         type: 'POST',
         data: formData,
         dataType: "json",

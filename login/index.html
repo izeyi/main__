@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="css/swiper.min.css">
 <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<script type="text/javascript" src="../js/config/index.js"></script>
 <script type="text/javascript" src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
 <script type="text/javascript">
   if (window.module)module = window.module;
@@ -124,13 +125,15 @@
 <script type="text/javascript" id="wxlogin" src="http://api.greatorange.cn/box/wxlogin/wxLogin_js.php?id=login_container"></script>
 
 <script>
-var sendCodeApi = "http://api.greatorange.cn/box/sms/sendcode/";
-var smsLoginApi = "http://api.greatorange.cn/box/userlogin/smslogin/";
-var binPhoneApi = "http://api.greatorange.cn/box/userlogin/sms_openid/";
+var sendCodeApi = globalApi_+"/box/sms/sendcode/";
+var smsLoginApi = globalApi_+"/box/userlogin/smslogin/";
+var binPhoneApi = globalApi_+"/box/userlogin/sms_openid/";
+var getUserApi  = globalApi_+"/mfy/api/get_userinfo";
 var __tt = {
     "userinfo":{"uid":"4","gid":"3","phone":"15202173034","openid":"","wxuserinfo":"{}","isadmin":"0","power":null,"nickname":"周通","position":"测试员","email":"","sex":"0","face":"http://api.greatorange.cn/box/upfiles/upload/pic/uid4/2019/05/16/155797494613550.png","content":"","status":"0","time":null},
     "cominfo":{"gid":"3","logo":"http://api.greatorange.cn/box/upfiles/upload/pic/uid4/2019/03/2/155351882112330.jpeg","comname":"上海盛视天橙传媒","videotags":["宣传片", "广告片", "66666"],"pictags":["公司环境", "组织架构", "员工风采"],"rtckey":null,"arrall":{"comname":"上海盛视天橙传媒","minname":"天橙","backdrop":"http://api.greatorange.cn/box/upfiles/upload/pic/uid4/2019/03/25/155351874835100.jpg","city":"上海","address":"田林路200号","nickname":"周通","comphone":"09146662657","comtype":"私企","comindustry":"传媒","comscale":"80","license":"http://api.greatorange.cn/box/upfiles/upload/pic/uid4/2019/03/25/155351881552090.jpg","logo":"http://api.greatorange.cn/box/upfiles/upload/pic/uid4/2019/03/25/155351882112330.jpeg"}},
-    "success": true,"token": "RXOPZG9Jb4bW7nV2cKEEiAnhFpWiQMgpUno6/9iiy9Yy6YYRQs+LQ6sAFgBNsC+7wRgr"
+    "success": true,
+    "token": "RXOPZG9Jb4bW7nV2cKEEiAnhFpWiQMgpUno6/9iiy9Yy6YYRQs+LQ6sAFgBNsC+7wRgr"
 }
 //
 function changeImage(){
@@ -163,7 +166,16 @@ httpx.get(smsLoginApi,_tcsys,function(data){
 function information(){//新用户完善信息
   var information_layer = layer.open({
     type: 2,title: false,area: ['1120px','680px'],closeBtn: 0,shadeClose: true,content: 'information.html',
-    end:function (){var con_info = store.get('com_info');if(con_info['token'])login_verify(con_info)}
+    end:function (){
+      var con_info = store.get('com_info');
+      if(con_info['data']){
+          httpx.post(getUserApi,{"token":con_info['data'].token},function(data){
+            var _data = JSON.parse(data);
+            _data['token'] = con_info['data'].token
+            msg(_data['info']);
+            login_verify(_data)
+          })
+      }}
   })
 }
 //end  login
@@ -222,17 +234,17 @@ var timer = setInterval(function(){
 const appVersion = require('../../package.json').version;
 var order='{"time":"DESC"}';//最新版
 v.innerHTML = 'V '+appVersion
-httpx.json("http://api.greatorange.cn/box/release/verupdate/",{},function(res) {
-if(res["ver"] > appVersion)
-layer.confirm('检测到有新版发布，请及时更新系统！',{title:"更新信息",btn:['立即更新','暂不更新']},function(index, layero){
-    if(remote.getGlobal('SysInfo').platform=="darwin"){
-      ipcRenderer.send('verupdate',{"url":res["macurl"],"title":"开始下载中....."});
-    }else{
-      ipcRenderer.send('verupdate',{"url":res["winurl"],"title":"开始下载中....."});
-    }
-    layer.close(index);
-    document.getElementById('loading').style.transform = 'scale(1)'
-},function(){console.log("取消操作了！")});
+httpx.json(globalApi_+"/box/release/verupdate/",{},function(res) {
+// if(res["ver"] > appVersion)
+// layer.confirm('检测到有新版发布，请及时更新系统！',{title:"更新信息",btn:['立即更新','暂不更新']},function(index, layero){
+//     if(remote.getGlobal('SysInfo').platform=="darwin"){
+//       ipcRenderer.send('verupdate',{"url":res["macurl"],"title":"开始下载中....."});
+//     }else{
+//       ipcRenderer.send('verupdate',{"url":res["winurl"],"title":"开始下载中....."});
+//     }
+//     layer.close(index);
+//     document.getElementById('loading').style.transform = 'scale(1)'
+// },function(){console.log("取消操作了！")});
 });
 //监听下载返回数据
 ipcRenderer.on('downfile_re', (event, arg) => {
@@ -251,13 +263,14 @@ function wxReloadFn() {
 function wxlogin(str) {var _str = JSON.parse(str);msg(_str.info);login_verify(_str);console.log(_str);}
 //登录处理
 function login_verify(_da) {
+  console.log(_da)
 if(_da['success']) {
-  if(_da['token'])store.set('userinfo',_da);
+  store.set('userinfo',_da);
   if(_da['is_new_user']==1){information();return false;}//新用户--to完善公司信息
   ipcRenderer.send("loginmain");
 }else{
-if(_da['tok']){store.set('tok',_str.tok);information();};
-if(_da['openid']){store.set('openid',_da.openid);}/*to_bin_phone('首次登录,请绑定手机后使用!')*/
+  if(_da['tok']){store.set('tok',_str.tok);information();};
+  if(_da['openid']){store.set('openid',_da.openid);}/*to_bin_phone('首次登录,请绑定手机后使用!')*/
 }
 }
 

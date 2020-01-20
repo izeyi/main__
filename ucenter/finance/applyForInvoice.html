@@ -41,7 +41,7 @@
 </style>
 		<script type="text/javascript">
 			var _user = store.get('userinfo');
-			var expenseApiUrl = "http://api.greatorange.cn/box/expense/home/";
+			var expenseApiUrl = globalApi_+"/box/expense/home/";
 			var requestData = {
 				'token': _user.token,
 				"order": JSON.stringify({

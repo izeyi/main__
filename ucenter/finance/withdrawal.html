@@ -42,7 +42,7 @@
 	<script type="text/javascript">
 	var _user = store.get('userinfo');
 	var availableMoney=0;//可用金额
-	var	expenseApiUrl = "http://api.greatorange.cn/box/expense/home/";
+	var	expenseApiUrl = globalApi_+"/box/expense/home/";
 	var getCondi 	= {"pagesize":500,'token':_user.token,"filter":JSON.stringify({"status":"1","type":'1'})};//充值金额
 	var requestData = {'token':_user.token,"order":JSON.stringify({"time":"DESC"})};
 	httpx.post(expenseApiUrl,getCondi,function(data){var _t = JSON.parse(data);availableMoney=_thisItemTotal(_t.data);console.log(_thisItemTotal(_t.data))})//充值金额

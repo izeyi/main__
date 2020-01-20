@@ -5,6 +5,7 @@
 	<title>Document</title>
 	<link rel="stylesheet" href="../static/css/style.css">
 	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+  <script type="text/javascript" src="../../js/config/index.js"></script>
   	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
 	<script src="../static/js/rubilk.js"></script>
 	<!-- Madong -->
@@ -20,7 +21,7 @@
 	<script type="text/javascript">
 		var _user = store.get('userinfo');
 		function getdata() {
-			httpx.get('http://api.greatorange.cn/box/project/list/',{"token":_user.token},function(data){
+			httpx.get(globalApi_+'/box/project/list/',{"token":_user.token},function(data){
 				var _data = JSON.parse(data);
 				if(_data.success)vmup(listData,_data);
 			});
@@ -103,7 +104,7 @@
 		</div>	
 	</div>
 <script>
-var default_data={"success": true,"total": 1, "data": [{"id": "5","name": "测试项目","workers": "项目经理","status": "1","arrall": {"cover": "http://api.greatorange.cn/box/upfiles/upload/pic/uid4/2019/03/25/155351534233950.jpg","name": "测试项目","nickname": "客户B","phone": "13845458888","workers": "项目经理","originality": "这是策划","status": "1"},"time": "1553585347"}]}
+var default_data={"success": true,"total": 1, "data": [{"id": "5","name": "测试项目","workers": "项目经理","status": "1","arrall": {"cover": globalApi_+"/box/upfiles/upload/pic/uid4/2019/03/25/155351534233950.jpg","name": "测试项目","nickname": "客户B","phone": "13845458888","workers": "项目经理","originality": "这是策划","status": "1"},"time": "1553585347"}]}
 var del_data = {'token':_user.token,'status':'9','id':[]};
 var listData = new Vue({el: '#admin_console',data:default_data});
 
@@ -124,7 +125,7 @@ function _del(_id) {
 		,btn: ['是的', '算了']
 		,yes: function(index, layero){
         	console.log(index+'----'+layero);
-            httpx.post('http://api.greatorange.cn/box/project/update/',del_data,function (ent) {msg(JSON.parse(ent).info);getdata()})
+            httpx.post(globalApi_+'/box/project/update/',del_data,function (ent) {msg(JSON.parse(ent).info);getdata()})
       	}
     });
 }

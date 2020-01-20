@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>产品库-添加</title>
+	<link rel="stylesheet" href="../../static/css/style.css">
+	<link rel="stylesheet" href="../../static/iconfont/iconfont.css" type="text/css">
+	<script type="text/javascript" src="../../../js/config/index.js"></script>
+  	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+	<!-- Madong -->
+	<style>
+		body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
+		#admin_console{width: 100%;height: 100%}
+		.t_icon{margin: 0 2px;cursor: pointer;}
+		.icon-all_edit{color: #03a9f4;}
+		.icon-all_delete{color: #ff2d2dad}
+
+		.input_item>label{display: inline-block;width: 100px;font-weight: 500;color: #2b2b2b;text-align: right;padding-right: 12px;}
+		.input_item>input{display:inline-block;width: 650px;border: 1px solid #e5e5e5;box-sizing: border-box;height: 56px;padding-left: 15px;font-size: 16px;}
+	</style>
+	<script type="text/javascript">
+	var _user = store.get('userinfo');
+	var user_add = globalApi_+"/api/user_product";
+	</script>
+</head>
+<body>
+	<div id="admin_console">
+		<!-- 头部 -->
+		<!-- 主体 -->
+		<div class="main">
+			<div class="main_sideLf">
+				<div class="sidebar-menu">
+					<ul>
+						<li class="sidebar-dropdown">
+							<a  href="javascript:;" ><i class="fa fa-tv"><img src="../../static/images/photo1.png" alt=""></i><span>图片管理</span></a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="../photo_list.html">相册分类</a> </li>
+									<li><a href="../picture_list.html">图片列表</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown">
+							<a href="javascript:;"><i class="fa fa-photo"><img src="../../static/images/photo1.png" alt=""></i><span>视频管理</span></a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="../video_tags.html">视频分类</a></li>
+									<li><a href="../index.html">视频列表</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown">
+							<a href="javascript:;">
+								<i class="fa fa-photo"><img src="../../static/images/photo1.png" alt=""></i>
+								<span>微文圈</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="index.html">微文列表</a></li>
+									<li><a href="add.html">添加微文</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown active">
+							<a href="javascript:;">
+								<i class="fa fa-photo"><img src="../../static/images/photo1.png" alt=""></i>
+								<span>产品库</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="product.html">我的产品</a></li>
+									<li><a href="index.html">产品列表</a></li>
+									<li><a href="add.html">添加产品</a></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<a href="../FastUp.html">
+								<i class="fa fa-tv"><img src="../../static/images/photo1.png" alt=""></i>
+								<span>闪传视频</span>
+							</a>
+						</li>
+						<li>
+							<a href="../auto-upVideo.html">
+								<i class="fa fa-photo"><img src="../../static/images/photo1.png" alt=""></i>
+								<span>我们的视频</span>
+							</a>
+						</li>
+						<li>
+							<a href="../FileUp.html">
+								<i class="fa fa-photo"><img src="../../static/images/photo1.png" alt=""></i>
+								<span>文件上传</span>
+							</a>
+						</li>
+						<li>
+							<a href="../database.html">
+								<i class="fa fa-bar-chart-o"><img src="../../static/images/photo1.png" alt=""></i>
+								<span>资料库</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="main_sideRh">
+				<div class="update-box">
+					<div class="addUser">
+						<form id="T_add_form">
+							<div class="add_title">添加产品&nbsp;&nbsp;<span></span></div>
+							<div class="input_item" id="Head" >
+								<label for="icon_url">产品图标:</label>
+								<div class="Head_img">
+									<img src="../../static/images/head.png" alt="">
+									<input type="text" name="icon_url" class="form-control-hidden face upfile" value="">
+									<input type="file" name="upfile" id="upfile" class="form-control-hidden" accept="image/*">
+									<p>点击上传</p>
+								</div>
+							</div>
+							<div class="input_item">
+								<label for="icon_name">产品名称:</label>
+								<input type="text" name="icon_name" id="icon_name" placeholder="请输入产品名称">
+							</div>
+							<div class="input_item">
+								<label for="skip_url">产品地址:</label>
+								<input type="text" name="skip_url" id="skip_url" placeholder="请输入产品地址,例http://www.baidu.com/img/bd_logo1.png">
+							</div>
+							<div class="input_item">
+								<label for="icon_desc">产品介绍:</label>
+								<input type="text" name="icon_desc" id="icon_desc" placeholder="请输入产品简介">
+							</div>
+						</form>
+					</div>
+					<div class="gong">
+						<div id="add_people"><button type="button" class="update">添加产品</button></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script src="../../static/js/rubilk.js"></script>
+<script>
+$(function () {
+	$('.update').on('click',function(){
+		var _fromdata = serialize(document.forms["T_add_form"]);
+	    _fromdata["token"] = _user.token;
+	    // _fromdata["gid"] = _user['userinfo'].gid;
+	    var checkVal = checkvalue(_fromdata,{"icon_name":"产品名称","skip_url":"产品地址","icon_url":"产品图标","icon_desc":"产品介绍"});
+	    console.log(_fromdata)
+	    if(checkVal['success']){
+	        httpx.post(user_add,_fromdata,function (data) {
+	        	var _data = JSON.parse(data);
+            msg(_data['info']);
+            if(_data['success'])setInterval(function (){location.href="index.html";},700)
+	        })
+	    }else {
+	        msg(checkVal['info']);
+	    }
+	});
+	// 上传图片 and
+	$("[type='file'].form-control-hidden").bind('change',function (e) {
+    e.preventDefault();
+    var formData = new FormData();
+    var _name = $(this).attr('name');
+    // formData.append("token",_user.token);
+    console.log(formData)
+    formData.append(_name,document.getElementById(_name).files[0]);
+    $.ajax({
+        url: 'http://api.greatorange.cn/box/yunFile/file',
+        type: 'POST',
+        data: formData,
+        dataType: "json",
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (returndata) {
+        	// var returndata = JSON.parse(returndata)
+            if(returndata['success'] != false){
+            	console.log(returndata)
+                $('#'+_name).siblings('img').attr("src",returndata['url']);
+                $('.'+_name).val(returndata['url']);
+            }else{
+                msg(returndata.info);
+            }
+        }
+    });
+  })// 上传图片 end
+
+})
+
+</script>
+</body>
+</html>

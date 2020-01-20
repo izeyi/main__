@@ -5,6 +5,7 @@
 	<title>Document</title>
 	<link rel="stylesheet" href="../static/css/style.css">
 	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+<script type="text/javascript" src="../../js/config/index.js"></script>
   	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
 	<!-- Madong -->
 	<style>
@@ -16,8 +17,8 @@
 	</style>
 	<script type="text/javascript">
 	var _user = store.get('userinfo');
-	var _list = 'http://api.greatorange.cn/box/ucenter/list/';
-	var _update = 'http://api.greatorange.cn/box/ucenter/update_user/';
+	var _list = globalApi_+'/box/ucenter/list/';
+	var _update = globalApi_+'/box/ucenter/update_user/';
 	var del_data = {'token':_user.token,'status':'9','uid':[]};
 	var default_data = {"success":true,"total":1,"data":[{"uid":"4","gid":"3","phone":"15202173034","openid":"","wxuserinfo":"{}","isadmin":"0","power":null,"nickname":"","position":"","email":"","sex":"0","face":"","content":"","status":"0","time":null}]}
 	function getdata(){httpx.get(_list,{"token":_user.token,"filter":JSON.stringify({"status[!]":"9"})},function(data){var _data = JSON.parse(data);if(_data.success)vmup(listData,_data)})}

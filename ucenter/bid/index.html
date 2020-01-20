@@ -47,10 +47,10 @@
 	<script type="text/javascript">
 		var _token = store.get('userinfo').token || getUrlParam('token');
 		// var _token = getUrlParam('token');
-		var _uppicApi = "http://api.greatorange.cn/box/ucenter/uppic/";
+		var _uppicApi = globalApi_+"/box/ucenter/uppic/";
 		var searchkey={"pagesize":500,"token":_token,"filter":JSON.stringify({"status[!]":"9"})};
 		function getdata() {
-			httpx.get('http://api.greatorange.cn/box/bids/list/',searchkey,function(data){
+			httpx.get(globalApi_+'/box/bids/list/',searchkey,function(data){
 				var _data = JSON.parse(data);
 				if(_data.success)vmup(listData,_data);
 			});
@@ -158,7 +158,7 @@ function _del(_id) {
 		,btn: ['是的', '算了']
 		,yes: function(index, layero){
         	console.log(index+'----'+layero);
-            httpx.post('http://api.greatorange.cn/box/bids/update/',del_data,function (ent) {msg(JSON.parse(ent).info);getdata()})
+            httpx.post(globalApi_+'/box/bids/update/',del_data,function (ent) {msg(JSON.parse(ent).info);getdata()})
       	}
     });
 }

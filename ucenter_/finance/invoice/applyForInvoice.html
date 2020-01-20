@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<title>申请提现01</title>
+		<link rel="stylesheet" href="../../static/css/style.css">
+		<link rel="stylesheet" href="../../static/iconfont/iconfont.css" type="text/css">
+		<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+		<script src="../../static/js/rubilk.js"></script>
+		<!-- Madong -->
+		<style>
+			body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
+	#admin_console{width: 100%;height: 100%}
+	.t_icon{margin: 0 2px;cursor: pointer;}
+	.icon-all_edit{color: #03a9f4;}
+	.icon-all_delete{color: #ff2d2dad}
+
+	/*.gong .paging{display: flex;align-items: center;justify-content: center;float: none;}*/
+
+	.M_title{color: #3c3c3c;font-weight: bolder;font-size: 26px;border-left: 3px solid #ff7e16;padding-left: 10px;/*margin: 40px 0 0px 40px;*/}
+	.M_title span{color: #838383;font-size: 16px;font-weight: lighter;}
+
+
+	.content_z{color: #00cb48;}
+	.content_t{color: #ff7e16;}
+	#add_people a{font-size: 18px;font-weight: bolder;color: #fff;display: block;width: 150px;height: 50px;background: #3c3c3c;text-align: center;line-height: 50px;border-radius: 8px;}
+	#add_people{margin-left: 40px;}
+
+	.M_title_tip{padding: 18px 20px;margin: 28px 40px 22px 40px;color: #ff7e16; border: 1px solid #ff7e16;box-sizing:border-box;background: #fcfad8;}
+	.up_btn_head_team{color: #3c3c3c;height: 56px;line-height: 56px;margin-top: 36px;}
+	.up_btn_head_team label,.up_btn_head_team input,.up_btn_head_team span{display: inline-block;height: 100%;}
+	.up_btn_head_team label{font-weight: bolder;}
+	.up_btn_head_team input{border: 1px solid #777;padding-left: 8px;vertical-align: top;box-sizing: border-box;}
+	.up_btn_head_team label{margin-right: 40px;width: 100%;max-width: 64px;}
+	.up_btn_head_team1{margin-top: 0;}
+	.up_btn_head_team2{margin-top: 10px;}
+	.up_btn_head_team3 input{width: 344px;}
+	/*layer关闭按钮*/
+	.layui-layer-setwin .layui-layer-close2{top: 318px; width: 80px; left: -90px; opacity: 0;}
+	.v_tabmain tr td:last-child div:last-child{margin-left: 0;}
+
+</style>
+<script type="text/javascript">
+	Vue.filter('_inv_type',function (str) {if(str == 1){return '普通发票';}else if(str == 2){return '专用发票';}});
+	Vue.filter('_status',function (str) {if(str == 1){return '待开票';}else if(str == 2){return '已开票';}});
+	var _user = store.get('userinfo');
+	var listApi = "http://api.greatorange.cn/box/invoices/list/";
+	var requestData = {'token':_user.token,"pagesize":500,"order":JSON.stringify({"time":"DESC"}),"filter":JSON.stringify({"status[!]":"9"})};
+	function getdata() {httpx.post(listApi,requestData,function (data){var _data = JSON.parse(data);if(_data.success)vmup(_app,_data)})}
+
+	var defaultData = {"success": true,"total": 1,"page": 1,"totalpage": 1,"data": [{"id": "6","gid": "2","uid": "2","type": "1","status": "0","money": "","info": "","arrall": {"money": "1000","info": ""},"time": "1554797983"}],"balance": "","comname": ""}
+</script>
+</head>
+	<body>
+		<div id="admin_console">
+			<!-- 主体 -->
+			<div class="main">
+				<div class="main_sideLf">
+					<ul>
+						<li><a href="../index.html"><img src="../../static/images/bao.png" alt=""><span>账户总览</span></a></li>
+						<li><a href="../withdrawal.html"><img src="../../static/images/ti.png" alt=""><span>申请提现</span></a></li>
+						<li><a href="index.html"><img src="../../static/images/ti.png" alt=""><span>申请发票</span></a></li>
+						<li class="cur"><a href="applyForInvoice.html"><img src="../../static/images/ti.png" alt=""><span>申请记录</span></a></li>
+					</ui>
+				</div>
+
+				<div class="main_sideRh">
+					<div class='M_title'>申请发票<span>&nbsp;&nbsp;Apply For Invoice</span></div>
+					<div class="update-box update-box1">
+						<div>
+							<div>
+								<table class="v_tabmain">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>发票类型</th>
+										<th>发票抬头</th>
+										<th>纳税人识别号</th>
+										<th>发票金额</th>
+										<th>联系人电话</th>
+										<th>邮寄地址</th>
+										<th>申请时间</th>
+										<th>状态</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class='content' v-for="(tt,index) in data">
+										<td>{{index+1}}</td>
+										<td>{{tt.arrall.inv_type | _inv_type}}</td>
+										<td>{{tt.arrall.title}}</td>
+										<td>{{tt.arrall.inv_identifyNum}}</td>
+										<td>{{tt.arrall.inv_money}}</td>
+										<td>{{tt.arrall.inv_phone}}</td>
+										<td>{{tt.arrall.inv_address}}</td>
+										<td>{{tt.time | time}}</td>
+										<td>{{tt.status | _status}}</td>
+									</tr>
+								</tbody>
+							</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			var _app = new Vue({el: '#admin_console',data: defaultData});
+			getdata();
+		</script>
+	</body>
+</html>

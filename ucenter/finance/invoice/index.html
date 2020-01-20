@@ -122,7 +122,7 @@
 		form_data['token'] = _user.token;
 		var checkVal = checkvalue(form_data,{'inv_money':'项目金额','title': '户名','inv_bank': '开户银行','inv_family': '公司账号','inv_identifyNum': '纳税人识别号','inv_address':'地址','inv_phone': '联系人电话','inv_type': '发票类型'});
 		if(checkVal['success']){
-			httpx.post("http://api.greatorange.cn/box/invoices/add/",form_data,function (data){
+			httpx.post(globalApi_+"/box/invoices/add/",form_data,function (data){
 				var _data = JSON.parse(data);msg(_data.info);
 				if(_data.success)location.href = 'applyForInvoice.html';
 			})

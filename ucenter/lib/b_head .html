@@ -5,6 +5,7 @@
 	<title>修改头像</title>
 
 	<link rel="stylesheet" href="../static/css/style.css">
+  <script type="text/javascript" src="../../js/config/index.js"></script>
   	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
 	<!-- Madong -->
 <style>
@@ -61,7 +62,7 @@
 		// var _user = store.get('userinfo');
 		var _user ={};
 		_user.token = "HiaDYjhKOtLW7nV2cKEEiAzhFpWiQMgpUno4/9iiy9Yy6YYRQs+LQ6sAEwFMsC65xBgr";
-		httpx.get('http://api.greatorange.cn/box/ucenter/info/',{"token":_user.token},function(data){
+		httpx.get(globalApi_+'/box/ucenter/info/',{"token":_user.token},function(data){
 			var _data = JSON.parse(data);
 			if(JSON.parse(data).success){vmup(listData,_data);}
 		});
@@ -76,7 +77,7 @@
 	        formData.append(_name,document.getElementById(_name).files[0]);
 
 	        $.ajax({
-	            url: 'http://api.greatorange.cn/box/upfiles/pic/',
+	            url: globalApi_+'/box/upfiles/pic/',
 	            type: 'POST',
 	            data: formData,
 	            dataType: "json",

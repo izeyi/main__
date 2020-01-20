@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../static/css/style.css">
+	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+  	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+	<!-- Madong -->
+	<style>
+		body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
+		#admin_console{width: 100%;height: 100%}
+		.t_icon{margin: 0 2px;cursor: pointer;}
+		.icon-all_edit{color: #03a9f4;}
+		.icon-all_delete{color: #ff2d2dad}
+
+		.input_item{margin-top: 28px}
+		.input_item>label{display: inline-block;width: 100px;font-weight: 500;color: #2b2b2b;text-align: right;padding-right: 12px;}
+		.input_item>input{display:inline-block;width: 450px;border: 1px solid #e5e5e5;box-sizing: border-box;height: 50px;padding-left: 15px;font-size: 16px;}
+		
+		.add_set_lf,.add_set_rh{display: inline-block;width: 49%; vertical-align: top;}
+		.add_set_rh label{display: inline-block;line-height: 160px;vertical-align: text-bottom;}
+		#add_set_rh_next{width: 260px;}
+	</style>
+	<script type="text/javascript">
+		var _user = store.get('userinfo');
+		var getid = getUrlParam('id');
+		var getdata = {"token":_user.token,"filter":JSON.stringify({"id":getid})}
+		httpx.get('http://api.greatorange.cn/box/project/list/',getdata,function(data){
+			var _data = JSON.parse(data);
+			if(JSON.parse(data).success)vmup(listData,_data.data[0]);
+		});
+	</script>
+</head>
+<body>
+	<div id="admin_console">
+		<!-- 主体 -->
+		<div class="main">
+			<div class="main_sideLf">
+				<ul>
+					<li><a href="project_list.html"><img src="../static/images/photo1.png" alt=""><span>项目列表</span></a></li>
+					<li><a href="project_add.html"><img src="../static/images/photo2.png" alt=""><span>新增项目</span></a></li>
+					<li class="cur"><a href=""><img src="../static/images/photo2.png" alt=""><span>修改项目</span></a></li>
+				</ui>
+			</div>
+
+			<div class="main_sideRh">
+				<div class="update-box">
+					<div class="addUser">
+						<form id="T_add_form">
+							<div class="add_title">项目详情&nbsp;&nbsp;<span>Project Details</span></div>
+
+
+
+							<div class="add_set">
+								<div class="add_set_lf">
+									<div id="Head">
+										<span class="class">项目封面:</span>
+										<div class="Head_img">
+											<img :src="arrall.cover | is_face" alt="">
+											<input type="text" name="cover" class="form-control-hidden face cover" :value="arrall.cover">
+											<input type="file" name="cover" id="cover" class="form-control-hidden" accept="image/*">
+											<p>上传图片</p><!--  onclick='b_hend()' -->
+										</div>
+									</div>
+									<div class="input_item">
+										<label for="name">项目名称:</label>
+										<input type="text" name="name" id="name":value="name" placeholder="请输入项目名称">
+									</div>
+									<div class="input_item">
+										<label for="phnicknameone">联系人:</label>
+										<input type="text" name="nickname" id="nickname" :value="arrall.nickname" placeholder="请输入联系人姓名">
+									</div>
+									<div class="input_item">
+										<label for="phone">联系方式:</label>
+										<input type="text" name="phone" id="phone" :value="arrall.phone" placeholder="请输入联系人的电话号码">
+									</div>
+									<div class="input_item">
+										<label for="workers">项目经理:</label>
+										<input type="text" name="workers" id="workers" :value="workers" placeholder="请输入项目经理的姓名">
+									</div>
+									<div class="input_item">
+										<label for="money">项目金额:</label>
+										<input type="text" name="money" id="money" :value="arrall.money" placeholder="请输入项目金额">
+									</div>
+									<div class="add_checkbox input_item">
+										<label>项目进度:</label>
+										<div id="position" style="display: inline;margin-left: 10px;">
+											<input type="radio" name="status" checked="checkbox" value="1">
+											<label for="">已下订单</label>
+											<input type="radio" name="status" value="2">
+											<label for="">已签合同</label>
+											<input type="radio" name="status" value="3">
+											<label for="">已完工</label>
+										</div>
+									</div>
+
+								</div>
+
+								<div class="add_set_rh">
+									<div class="input_item">
+										<label for="name">备注:</label>
+										<textarea name="" id="add_set_rh_next" cols="30" rows="10"></textarea>
+									</div>
+								</div>
+							</div>
+
+
+							<div id="add_people" class="mr_top"><button type="button" class="update">提交</button></div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+	
+<script>
+
+var default_data={"id":"6","uid":"4","gid":"3","name":"","workers":"","status":"","arrall":{"cover":"","name":"","nickname":"","phone":"","workers":"","originality":"","status":"1"},"time":"1553658087"};
+var listData = new Vue({el: '#admin_console',data:default_data});
+
+	Vue.filter('is_admin', function (str) {if(str == 0){return '员工';}else if(str == 1){return '管理员';}});
+	Vue.filter('is_open', function (str) {if(str == 0){return '开启'}else if(str == 1){return '关闭'}});
+	Vue.filter('is_face', function (str) {if(!str){return '../static/images/head.png'}else{return str}});
+
+	function b_hend(){
+		layer.open({
+		  type: 2,
+		  title: ['修改头像','color:#3c3c3c;background:#fff;font-weight:bold;font-size:16px;border-bottom:1px solid #bcbcbc;'],
+		  closeBtn: 1,
+		  area: ['655px', '326px'],
+		  shadeClose: true,
+		  content: 'lib/b_head.html'
+		});
+	}
+	// 上传图片 and
+	$("[type='file'].form-control-hidden").bind('change',function (e) {
+        e.preventDefault();
+        var formData = new FormData();
+        var _name = $(this).attr('name');
+        formData.append("token",_user.token);
+        console.log(formData)
+        formData.append(_name,document.getElementById(_name).files[0]);
+        $.ajax({
+            url: 'http://api.greatorange.cn/box/upfiles/pic/',
+            type: 'POST',
+            data: formData,
+            dataType: "json",
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (returndata) {
+                if(returndata.success != false){
+                	console.log(returndata)
+                    $('#'+_name).siblings('img').attr("src",returndata[_name]);
+                    $('.'+_name).val(returndata[_name]);
+                }else{
+                    msg(returndata.info);
+                }
+            }
+        });
+    })// 上传图片 end
+
+	$('.update').on('click',function(){
+		var _fromdata = serialize(document.forms["T_add_form"]);
+        _fromdata["token"] = _user.token;
+        _fromdata["id"] = getid;
+        var checkVal = checkvalue(_fromdata,{'cover': '封面','name': '项目名称','nickname': '联系人','phone': '联系人电话','workers': '项目经理','money':'项目金额'});
+        console.log(_fromdata)
+        if(checkVal['success']){
+            httpx.post("http://api.greatorange.cn/box/project/update/",_fromdata,function (data) {
+            	var _data = JSON.parse(data);
+                msg(_data.info);
+                if(_data.success){
+                	setInterval(function () {
+	                	msg('修改成功');
+	                	location.href="index.html";
+	                },700)
+                }
+            })
+        }else {
+            msg(checkVal.info);
+        }
+	})
+</script>
+</body>
+</html>

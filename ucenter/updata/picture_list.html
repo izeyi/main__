@@ -5,6 +5,7 @@
 	<title>图片列表</title>
 	<link rel="stylesheet" href="../static/css/style.css">
 	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+	<script type="text/javascript" src="../../js/config/index.js"></script>
   	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
 	<!-- Madong -->
 	<style>
@@ -20,9 +21,9 @@
 	Vue.filter('is_status', function (str) {if(str == 0){return '上传中';}else if(str == 1){return '已完成';}});
 
 	var _user = store.get('userinfo');
-	var _picsApi = "http://api.greatorange.cn/box/pics/list/";
-	var _uppicApi = "http://api.greatorange.cn/box/ucenter/uppic/";
-	var _updateApi = "http://api.greatorange.cn/box/pics/update/";
+	var _picsApi = globalApi_+"/box/pics/list/";
+	var _uppicApi = globalApi_+"/box/ucenter/uppic/";
+	var _updateApi = globalApi_+"/box/pics/update/";
 	var del_data = {'token':_user.token,'status':'9','id':[]};
 	var requestData = {'token':_user.token,"pagesize":500,"order":JSON.stringify({"time":"DESC"}),"filter":JSON.stringify({"status[!]":"9"})};
 	var default_data = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id":"6","uid":"4","gid":"3","tags":"","picurl":"","status":"0","sort":"0","time":"1555334697"}]};
@@ -68,6 +69,19 @@
 								<ul>
 									<li><a href="Weiwen/index.html">微文列表</a></li>
 									<li><a href="Weiwen/add.html">添加微文</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown">
+							<a href="javascript:;">
+								<i class="fa fa-photo"><img src="../static/images/photo1.png" alt=""></i>
+								<span>产品库</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="product/product.html">我的产品</a></li>
+									<li><a href="product/index.html">产品列表</a></li>
+									<li><a href="product/add.html">添加产品</a></li>
 								</ul>
 							</div>
 						</li>
@@ -127,7 +141,7 @@
 										<td>{{tt.id}}</td>
 										<td>{{tt.tags}}</td>
 										<td>{{tt.time | time}}</td>
-										<td><span :onclick="'_del('+tt.id+')'">删除</span></td>
+										<td><span  class="t_icon iconfont icon-all_delete" :onclick="'_del('+tt.id+')'"></span></td>
 									</tr>
 								</tbody>
 							</table>

@@ -5,6 +5,7 @@
 	<title>Document</title>
 	<link rel="stylesheet" href="../static/css/style.css">
 	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+	<script type="text/javascript" src="../../js/config/index.js"></script>
   	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
 	<!-- Madong -->
 	<style>
@@ -18,10 +19,10 @@
 	</style>
 	<script type="text/javascript">
 	var _user = store.get('userinfo');
-	var UrlDo = "http://api.greatorange.cn/box/ucenter/info/";
-	var addpictagsApi = "http://api.greatorange.cn/box/ucenter/addpictags/";
-	var detpictagsApi = "http://api.greatorange.cn/box/ucenter/delectpictags/";
-	var setpictagsApi = "http://api.greatorange.cn/box/ucenter/editpictags/";
+	var UrlDo = globalApi_+"/box/ucenter/info/";
+	var addpictagsApi = globalApi_+"/box/ucenter/addpictags/";
+	var detpictagsApi = globalApi_+"/box/ucenter/delectpictags/";
+	var setpictagsApi = globalApi_+"/box/ucenter/editpictags/";
 	var del_data = {'token':_user.token,'tag':''};
 	var set_data = {'token':_user.token,'tag':'','newtag':''};
 	var requestData = {'token':_user.token};
@@ -68,6 +69,19 @@
 								<ul>
 									<li><a href="Weiwen/index.html">微文列表</a></li>
 									<li><a href="Weiwen/add.html">添加微文</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown">
+							<a href="javascript:;">
+								<i class="fa fa-photo"><img src="../static/images/photo1.png" alt=""></i>
+								<span>产品库</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="product/product.html">我的产品</a></li>
+									<li><a href="product/index.html">产品列表</a></li>
+									<li><a href="product/add.html">添加产品</a></li>
 								</ul>
 							</div>
 						</li>
@@ -121,14 +135,20 @@
 										<th>操作</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr class='content' v-for="tt in cominfo.pictags" v-if="tt.status != '' || tt.status != 9">
-										<td>
-											<span>{{tt}}</span>
-										</td>
+								<tbody v-if="cominfo.pictags != null">
+									<tr class='content' v-for="tt in cominfo.pictags">
+										<td><span>{{tt}}</span></td>
 										<td>
 											<span class="t_icon iconfont icon-all_edit" :onclick="'_set('+JSON.stringify(tt)+')'"></span>
 											<span class="t_icon iconfont icon-all_delete" :onclick="'_det('+JSON.stringify(tt)+')'"></span>
+										</td>
+									</tr>
+								</tbody>
+								<tbody v-else>
+									<tr class='content' style="border: none;">
+										<td colspan="2" align="center" rowspan="4" style="width: 100%;padding: 0;">
+											<div style="margin-top: 20px;    display: block;">暂无任何数据，请 <a href="javascript:;" @click="add_photo_tags()">添加</a></div>
+											<img style='width: 330px;height: 273px;margin: 0 auto;' src="../static/images/bgg.png" alt="">
 										</td>
 									</tr>
 								</tbody>

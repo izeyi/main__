@@ -35,7 +35,7 @@
 <script type="text/javascript">
 	var _user = store.get('userinfo');
 	var _id = JSON.parse(getUrlParam('id'));
-	var	expenseApiUrl = "http://api.greatorange.cn/box/expense/home/";
+	var	expenseApiUrl = globalApi_+"/box/expense/home/";
 	var requestData = {'token':_user.token,"filter":JSON.stringify({"id":_id})};
 	console.log(requestData);
 	var defaultData = {"success":true,"data":[{"id":"6","type":"1","status":"0","money":0,"info":"","time":"1554797983"}],"balance":""};
@@ -52,7 +52,7 @@
 					<li class="cur"><a href="accounts_t01.html"><img src="../static/images/ti.png" alt=""><span>申请提现</span></a></li>
 					<li><a href="invoice/index.html"><img src="../static/images/ti.png" alt=""><span>申请发票</span></a></li>
 					<li><a href="invoice/applyForInvoice.html"><img src="../static/images/ti.png" alt=""><span>申请记录</span></a></li>
-				</ui>
+				</ul>
 			</div>
 
 			<div class="main_sideRh">

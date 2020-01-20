@@ -34,7 +34,7 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 	Vue.filter('is_status', function (str) {if(str == 0){return '上传中';}else if(str == 1){return '已完成';}});
 
 	var _user = store.get('userinfo');
-	var _listApi = globalApi_+"/api/product_list";
+	var _listApi = globalApi_+"/mfy/api/product_list";
 	var del_data = {'token':_user.token,'id':new Array(),'ids':new Array()};
 	var requestData = {'token':_user.token,"pagesize":500,"order":JSON.stringify({"time":"DESC"})};//,"status[!]":9
 	var default_data = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id": "14","uid": "0","gid": "0","tags": "","title": "","coverurl": "","url": "","sort": "0","ali_vid": "","status": "1"}],"videotags":[]};
@@ -79,8 +79,8 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 						</a>
 						<div class="sidebar-submenu">
 							<ul>
-								<li><a href="index.html">微文列表</a></li>
-								<li><a href="add.html">添加微文</a></li>
+								<li><a href="../Weiwen/index.html">微文列表</a></li>
+								<li><a href="../Weiwen/add.html">添加微文</a></li>
 							</ul>
 						</div>
 					</li>
@@ -148,7 +148,7 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 									<td>{{tt.icon_desc}}</td>
 									<td>
 										<!-- <span class="t_icon iconfont icon-all_delete" @click="_del(tt.id)"></span> -->
-										<span class="t_icon iconfont icon-attachment" @click="_take(tt.id)"></span>
+										<div tooltip="订阅"><span class="t_icon iconfont icon-attachment" @click="_take(tt.id)"></span></div>
 									</td>
 								</tr>
 							</tbody>
@@ -176,13 +176,13 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 		layer.open({content: '您正在订阅此产品',btn: ['确定', '再看看'],yes: function(index, layero){console.log(index+'----'+layero);
 			console.log(_takeData)
 			/*httpx.post({
-				url:globalApi_+"/api/select_product",
+				url:globalApi_+'+"/api/select_product",
 				headers:{"Content-Type": "application/json"},
 				data:JSON.stringify(_takeData),
 				success:function (ent) {msg(JSON.parse(ent).info);getdata()}
 			})*/
 			var settings = {
-				"url": globalApi_+"/api/select_product",
+				"url": globalApi_+"/mfy/api/select_product",
 				"method": "POST",
 				"timeout": 0,
 				"headers": {"Content-Type": "application/json"},

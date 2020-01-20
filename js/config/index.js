@@ -3,8 +3,7 @@
  * @type {String}
  */
 window.globalApi_ = "http://192.168.1.154"  //测试Api
-// window.globalApi = "http://192.168.1.154"  //测试Api
-window.globalApi = "http://api.greatorange.cn/box"  //生产Api
+// window.globalApi_ = "http://api.greatorange.cn"  //生产Api
 /**
  * setStorage 过期控制代码
  * @param {[type]} key   要存储的数据
@@ -30,4 +29,12 @@ function getStorage(key,h) {
         json = com > exp ? '' : dataObj.data
     }
     return json
+}
+/**
+ * 判断字符是否为空
+ * @param  {[type]}  obj [description]
+ * @return {Boolean}     [description]
+ */
+function isEmpty(obj){
+    return (typeof obj === 'undefined' || obj === null || obj === "");
 }

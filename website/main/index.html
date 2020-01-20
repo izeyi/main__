@@ -6,14 +6,12 @@
 <link href="css/iconfont.css" rel="stylesheet">
 <link href="css/index.css" rel="stylesheet">
 <script>
-  if (typeof module === 'object') {
-  	window.module = module;
-  	module = undefined;
-  }
+  if (typeof module === 'object') {window.module = module;module = undefined;}
   if (window.module) module = window.module;
   const {ipcRenderer} = require("electron");
 </script>
 <link rel="stylesheet" href="css/iconfont.css">
+<script type="text/javascript" src="../../js/config/index.js"></script>
 <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
 <style type="text/css">
 	.tab-grid{width: 20%; height: 169px;}
@@ -60,9 +58,9 @@ input[type="checkbox"]:checked+.radio_inner+.radio_label {color: #ec302c;}
 <script type="text/javascript">
 var _colordata = ['#fa2117','#ffcd0d','#0ce232','#089ff9','#cf41f4','#dc4b3e','#ffce44'];
 var _user = store.get('userinfo').token;
-var api_addurl = "http://api.greatorange.cn/box/links/add/";
-var api_getlis = "http://api.greatorange.cn/box/links/list/";
-var api_detli = "http://api.greatorange.cn/box/links/update/";
+var api_addurl = globalApi_+"/box/links/add/";
+var api_getlis = globalApi_+"/box/links/list/";
+var api_detli = globalApi_+"/box/links/update/";
 var default_data = {"success":true,"total": 0,"page": 1,"totalpage": 0,"data":[{"id":"","title": "","url":"","status":""}],"colordata":['#f44336','#e91e63','#9c27b0','#673ab7','#3f51b5','#2196f3','#03a9f4','#00bcd4','#15a05d','#4a8af4','#E6A23C','#F56C6C','#909399']};
 var _tcsys = {'token':_user,'pagesize':'64'};
 var _addata = {'token':_user};

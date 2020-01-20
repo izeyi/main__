@@ -5,7 +5,12 @@
 <title>公司视频</title>
 <link rel="stylesheet" href="../static/css/style.css">
 <link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+	<script type="text/javascript" src="../../js/config/index.js"></script>
 <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <!-- <script src="../static/js/rubilk.js"></script> -->
 <!-- Madong -->
 <style>
@@ -27,15 +32,37 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 .navbar-default {-webkit-transition:all .3s ease-in-out;-o-transition:all .3s ease-in-out;transition:all .3s ease-in-out;border-radius:0;padding:0;margin:0;border:0;background-color:#252c35;-webkit-box-shadow:0 0 15px #000;box-shadow:0 0 15px #000
 }
 
-
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 348px;
+    height: 178px;
+    display: block;
+  }
 </style>
 <script type="text/javascript">
 	var _user = store.get('userinfo');
-	var _GlobalsApi = "http://api.greatorange.cn/mfy";
+	var _GlobalsApi = globalApi_+"/mfy";
 	Vue.filter('is_status', function (str) {if(str == 0){return '上传中';}else if(str == 1){return '已完成';}});
 
 	var _user = store.get('userinfo');
-	var _videosApi = "http://api.greatorange.cn/box/videos/list/";
+	var _videosApi = globalApi_+"/box/videos/list/";
 	var _videosDelApi = _GlobalsApi+"/api/videos/update";
 	var del_data = {'token':_user.token,'id':[]};
 	var requestData = {
@@ -47,7 +74,7 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 	var default_data = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id": "14","uid": "0","gid": "0","tags": "","title": "","coverurl": "","url": "","sort": "0","ali_vid": "","status": "1"}],"videotags":[]};
 	function getdata(_searchkey) {
 		if(_searchkey)requestData.filter = JSON.stringify({"tags[!]":"闪传","tags[~]":_searchkey});
-		httpx.post(_videosApi,requestData,function (data){var _data = JSON.parse(data);_data["videotags"]=_user.cominfo.videotags;if(_data.success)vmup(_app,_data)})
+		httpx.post(_videosApi,requestData,function (data){var _data = JSON.parse(data);_data["videotags"]=_user.cominfo.videotags;if(_data.success)vmup(_app['data'],_data)})
 	}
 	getdata();
 </script>
@@ -150,7 +177,7 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 								<tr>
 									<th><span>视频信息</span></th>
 									<th class="kind select-menu-div">视频分类 <i class="select"></i>
-	            						<ul class="select-menu-ul" id="tags_box"><li v-for="ng in videotags" :data-value="ng">{{ng}}</li></ul>
+	            						<ul class="select-menu-ul" id="tags_box"><li v-for="ng in data.videotags" :data-value="ng">{{ng}}</li></ul>
             						</th>
 									<th>状态</th>
 									<th>视频来源</th>
@@ -159,16 +186,18 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 								</tr>
 							</thead>
 							<tbody>
-								<tr class='content' v-for="tt in data" v-if="data.length != 0 || tt.status != 9">
+								<tr class='content' v-for="tt in data.data" v-if="data.data.length != 0 || tt.status != 9">
 									<td @click="parent.parent.open_video(tt.ali_vid,tt.title)">
-										<!-- <input type="checkbox"> -->
 										<img :src="tt.coverurl"><span>{{tt.title}}</span>
 									</td>
-									<td>{{tt.tags}}</td><!--  | is_status -->
+									<td>{{tt.tags}}</td>
 									<td>{{tt.status | is_status}}</td>
 									<td>上传</td>
 									<td>{{tt.time | time}}</td>
-									<td><span class="t_icon iconfont icon-all_delete" @click="_del(tt.id)"></span></td>
+									<td>
+										<span class="t_icon iconfont icon-all_edit"   @click="_set(tt.id,tt.coverurl,tt.title)"></span>
+										<span class="t_icon iconfont icon-all_delete" @click="_del(tt.id)"></span>
+									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -188,6 +217,35 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 						</div>
 					</div> -->
 			</div>
+			<el-dialog
+			  title="修改视频信息"
+			  :visible.sync="dialogVisible"
+			  width="50%"
+			  :before-close="handleClose">
+			   <el-form :model="form">
+			    <el-form-item label="视频名称" :label-width="formLabelWidth">
+			      <el-input v-model="form.title" autocomplete="off"></el-input>
+			    </el-form-item>
+			    <el-form-item label="视频封面" :label-width="formLabelWidth">
+				    <el-upload
+						  class="avatar-uploader"
+						  action="http://api.greatorange.cn/box/yunFile/file"
+						  name="upfile"
+						  v-model="form.coverurl"
+						  :show-file-list="false"
+						  :on-success="handleAvatarSuccess"
+						  :before-upload="beforeAvatarUpload">
+						  <img v-if="form.coverurl" :src="form.coverurl" class="avatar">
+						  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+							 <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+						</el-upload>
+					</el-form-item>
+			  </el-form>
+			  <span slot="footer" class="dialog-footer">
+			    <el-button @click="dialogVisible = false">取 消</el-button>
+			    <el-button type="primary" @click="_push()">确 定</el-button>
+			  </span>
+			</el-dialog>
 
 		</div>
 
@@ -195,7 +253,57 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 </div>
 <script src="../static/js/rubilk.js"></script>
 <script>
-var _app = new Vue({el : "#App",data:default_data});
+var _app = new Vue({
+	el : "#App",
+	data:{
+		data:default_data,
+		dialogVisible:false,
+    formLabelWidth: '120px',
+		form: {title:'',coverurl:'',id:''}
+	},
+  methods: {
+    handleAvatarSuccess(res, file) {
+    	console.log(res)
+        this.form['coverurl'] = URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    },
+    handleClose(done) {done()
+      // this.$confirm('确认关闭？').then( => {}).catch( => {});
+    },
+    _set(_id,_coverurl,_title){
+    	this.form['id']=_id
+    	this.form['coverurl']=_coverurl
+    	this.form['title']=_title
+    	this.dialogVisible = true
+    },
+		_push:function () {
+				var _this = this;
+				var pushdata = _this.form;
+				// console.log(_this.form)
+				console.log(pushdata)
+				httpx.post(globalApi_+'/mfy/api/up_videoInfo',pushdata,function (m) {
+					if(JSON.parse(m)['success']){
+						_this.$message({message: JSON.parse(m).info ,type: 'success'});
+						_this.dialogVisible = false;
+						getdata();
+					}
+				})
+
+		}
+  }
+
+});
 
 function _del(_id) {//删除项目
 // del_data.id = JSON.stringify(_id);
@@ -210,6 +318,7 @@ layer.open({type: 2,title: '上传视频',closeBtn: 1,area: ['820px', '440px'],s
 	//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件//location.reload();　　//layer.open关闭刷新
 }});
 }
+
 function selectMenu(index) {//下拉列表
     //$(".select-menu-input").eq(index).val($(".select-this").eq(index).html()); //在输入框中自动填充第一个选项的值
     //$(".select-menu-input-v[type=hidden]").eq(index).val($(".select-this").eq(index).data('value'));

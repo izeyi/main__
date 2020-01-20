@@ -5,6 +5,7 @@
 	<title>Document</title>
 	<link rel="stylesheet" href="../../static/css/style.css">
 	<link rel="stylesheet" href="../../static/iconfont/iconfont.css" type="text/css">
+<script type="text/javascript" src="../../../js/config/index.js"></script>
   	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
 	<!-- Madong -->
 	<style>
@@ -19,7 +20,7 @@
 	</style>
 	<script type="text/javascript">
 	var _user = store.get('userinfo');
-	var user_add = "http://api.greatorange.cn/mfy";
+	var user_add = globalApi_+"/mfy";
 	</script>
 </head>
 <body>
@@ -67,6 +68,19 @@
 								<ul>
 									<li><a href="index.html">微文列表</a></li>
 									<li><a href="add.html">添加微文</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown ">
+							<a href="javascript:;">
+								<i class="fa fa-photo"><img src="../../static/images/photo1.png" alt=""></i>
+								<span>产品库</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="../product/product.html">我的产品</a></li>
+									<li><a href="../product/index.html">产品列表</a></li>
+									<li><a href="../product/add.html">添加产品</a></li>
 								</ul>
 							</div>
 						</li>
@@ -165,7 +179,7 @@ $(function () {
     console.log(formData)
     formData.append(_name,document.getElementById(_name).files[0]);
     $.ajax({
-        url: 'http://api.greatorange.cn/box/yunFile/file',
+        url: globalApi_+'/box/yunFile/file',
         type: 'POST',
         data: formData,
         dataType: "json",

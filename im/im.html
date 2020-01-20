@@ -8,7 +8,7 @@
     Vue.filter('is_face', function (str) {if(!str){return '../osmain/static/images/head.png'}else{return str}});
     var _user = store.get('userinfo');
     var pass = getUrlParam('pass');
-    var _ucenter = "http://api.greatorange.cn/box/ucenter/info/";
+    var _ucenter = globalApi_+"/box/ucenter/info/";
     var _gid = _user.userinfo.gid;
     var _uid = _user.userinfo.uid;
     var default_data={"success": true,"userinfo": {"phone":"","openid":"","wxuserinfo":"{}","isadmin":"0","power":null,"nickname":"","position":"","face":"","content":"","status":"0"},"cominfo": {"gid":"","logo":"","comname":"","videotags":"","pictags":"","rtckey": null}};

@@ -44,9 +44,9 @@
 	<script type="text/javascript">
 	var _user = store.get('userinfo');
 	var _carryData = JSON.parse(getUrlParam('withdrawals'));
-	var	withdrawalsApiUrl = "http://api.greatorange.cn/box/expense/cash/";
-	var sendcodeApiUrl = "http://api.greatorange.cn/box/sms/sendcode/";
-	var smscheckApiUrl = "http://api.greatorange.cn/box/sms/smscheck/";
+	var	withdrawalsApiUrl = globalApi_+"/box/expense/cash/";
+	var sendcodeApiUrl = globalApi_+"/box/sms/sendcode/";
+	var smscheckApiUrl = globalApi_+"/box/sms/smscheck/";
 	</script>
 </head>
 <body>
@@ -129,7 +129,7 @@ $('.withdraw_deposit').on('click',function (e) {
 
 var informdata = {"template_id":"_YbPgDCi6-kdr9ORzQ5fUTFrQVGr32wJXFjX45KI_P4","data":JSON.stringify({"openid":"oSDiUwL9WUmqJHtJEZ6WiwJlAM3s","url":"","first":"收到新的提现申请,请及时处理","keyword1":"魔方云财务系统","keyword2":"提现申请","keyword3":"重要信息,请及时处理！","remark":"更多信息，请关注公众号~"})}
 function inform(){
-	httpx.post('http://api.greatorange.cn/wxlogin/push_service_msg.php',informdata,function (ent) {if(JSON.parse(ent).success)msg('已通知管理员')})
+	httpx.post(globalApi_+'/wxlogin/push_service_msg.php',informdata,function (ent) {if(JSON.parse(ent).success)msg('已通知管理员')})
 }
 
 function b_money1(){

@@ -41,7 +41,7 @@
 	<script type="text/javascript">
 	var _user = store.get('userinfo');
 	var _id = JSON.parse(getUrlParam('id'));
-	var	expenseApiUrl = "http://api.greatorange.cn/box/expense/home/";
+	var	expenseApiUrl = globalApi_+"/box/expense/home/";
 	var requestData = {'token':_user.token,"order":JSON.stringify({"id":_id})};
 	var defaultData = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id":"6","gid":"2","uid":"2","type":"1","status":"0","money":"","info":"","arrall":{"money":"1000","info":""},"time":"1554797983"}],"balance":"","comname":""}
 	httpx.get(expenseApiUrl,requestData,function(data){var _data = JSON.parse(data);_data.comname=_user.cominfo.comname;if(_data.success)vmup(_app,_data)});

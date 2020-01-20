@@ -5,6 +5,7 @@
 <title>Document</title>
 <link rel="stylesheet" href="../../static/css/style.css">
 <link rel="stylesheet" href="../../static/iconfont/iconfont.css" type="text/css">
+  <script type="text/javascript" src="../../../js/config/index.js"></script>
 	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
 <!-- Madong -->
 <style>
@@ -128,7 +129,7 @@ $('.update_to').on('click',function(){
     _FormData["workers"] = 1;
     var checkVal = checkvalue(_FormData,{'inv_money':'项目金额','inv_name': '户名','inv_bank': '开户银行','inv_family': '公司账号','inv_identifyNum': '纳税人识别号','inv_address':'地址','inv_phone': '联系人电话','inv_type': '发票类型'});
     if(checkVal['success']){
-        httpx.post("http://api.greatorange.cn/box/project/add/",_FormData,function (data) {
+        httpx.post(globalApi_+"/box/project/add/",_FormData,function (data) {
         	var _data = JSON.parse(data);
             if(_data.success)b_hetong(_data.last_id)
             // msg(_data.info);

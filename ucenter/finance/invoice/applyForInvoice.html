@@ -44,7 +44,7 @@
 	Vue.filter('_inv_type',function (str) {if(str == 1){return '普通发票';}else if(str == 2){return '专用发票';}});
 	Vue.filter('_status',function (str) {if(str == 1){return '待开票';}else if(str == 2){return '已开票';}});
 	var _user = store.get('userinfo');
-	var listApi = "http://api.greatorange.cn/box/invoices/list/";
+	var listApi = globalApi_+"/box/invoices/list/";
 	var requestData = {'token':_user.token,"pagesize":500,"order":JSON.stringify({"time":"DESC"}),"filter":JSON.stringify({"status[!]":"9"})};
 	function getdata() {httpx.post(listApi,requestData,function (data){var _data = JSON.parse(data);if(_data.success)vmup(_app,_data)})}
 

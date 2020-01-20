@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>申请提现02</title>
+	<link rel="stylesheet" href="../static/css/style.css">
+	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+  	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+	<script src="../static/js/rubilk.js"></script>
+	<!-- Madong -->
+<style>
+	body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
+	#admin_console{width: 100%;height: 100%}
+	.t_icon{margin: 0 2px;cursor: pointer;}
+	.icon-all_edit{color: #03a9f4;}
+	.icon-all_delete{color: #ff2d2dad}
+
+	/*.gong .paging{display: flex;align-items: center;justify-content: center;float: none;}*/
+
+	.M_title{color: #3c3c3c;font-weight: bolder;font-size: 26px;border-left: 3px solid #ff7e16;padding-left: 10px;margin: 40px 0 0px 40px;}
+	.M_title span{color: #838383;font-size: 16px;font-weight: lighter;}
+	.content_z{color: #00cb48;}
+	.content_t{color: #ff7e16;}
+	#add_people{font-size: 18px;font-weight: bolder;color: #fff;display: block;line-height: 50px;margin-left: 40px;}
+	#add_people div{display: inline-block;border-radius: 8px;text-align: center;margin-right: 40px;width: 150px;background: #3c3c3c;height: 50px;}
+	#add_people div a{color: inherit;}
+
+	.M_title_tip{padding: 18px 20px;margin: 28px 40px 22px 40px;color: #ff7e16; border: 1px solid #ff7e16;box-sizing:border-box;background: #fcfad8;}
+	.up_btn_head_team{color: #3c3c3c;height: 56px;line-height: 56px;margin-top: 36px;}
+	.up_btn_head_team label,.up_btn_head_team input,.up_btn_head_team span{display: inline-block;height: 100%;}
+	.up_btn_head_team label{font-weight: bolder;}
+	.up_btn_head_team input{border: 1px solid #777;padding-left: 8px;vertical-align: top;box-sizing: border-box;}
+	.up_btn_head_team label{margin-right: 40px;width: 68px;}
+	.up_btn_head_team1{margin-top: 0;}
+	.up_btn_head_team2{margin-top: 10px;}
+	.up_btn_head_team4 input{width: 120px;}
+	.up_btn_head_team2 input{width: 500px;}
+	.up_btn_head_team3 input{width: 330px;}
+	#team_word{display: inline-block;width: 130px;height: 100%;margin-left: 34px;vertical-align: top;}
+	/*layer关闭按钮*/
+	.layui-layer-setwin .layui-layer-close2{top: 318px; width: 80px; left: -90px; opacity: 0;}
+
+</style>
+	<script type="text/javascript">
+	var _user = store.get('userinfo');
+	var _carryData = JSON.parse(getUrlParam('withdrawals'));
+	var	withdrawalsApiUrl = "http://api.greatorange.cn/box/expense/cash/";
+	var sendcodeApiUrl = "http://api.greatorange.cn/box/sms/sendcode/";
+	var smscheckApiUrl = "http://api.greatorange.cn/box/sms/smscheck/";
+	</script>
+</head>
+<body>
+	<div id="admin_console">
+		<!-- 主体 -->
+		<div class="main">
+			<div class="main_sideLf">
+				<ul>
+					<li><a href="index.html"><img src="../static/images/bao.png" alt=""><span>账户总览</span></a></li>
+					<li class="cur"><a href="withdrawals.html"><img src="../static/images/ti.png" alt=""><span>申请提现</span></a></li>
+					<li><a href="invoice/index.html"><img src="../static/images/ti.png" alt=""><span>申请发票</span></a></li>
+					<li><a href="invoice/applyForInvoice.html"><img src="../static/images/ti.png" alt=""><span>申请记录</span></a></li>
+				</ui>
+			</div>
+
+			<div class="main_sideRh">
+				<div class='M_title'>申请提现<span>&nbsp;&nbsp;Application For Cash Withdrawal</span></div>
+				<div class='M_title_tip'>
+					<p>1.请您认真核对金额提现及提现账户，以免造成提现失败甚至金额损失。</p>
+					<p>2.提现时需要提供抬头为本公司的发票，再邮寄到本公司。<span onclick='b_money1()' style="color:#2e5fff;">查看开票资料</span></p>
+				</div>
+				<div class="update-box">
+					<form class="up_btn_head" id="Account_information">
+						<div class="up_btn_head_team up_btn_head_team2">
+							<label for="">提现账户</label>
+							<input name="account" placeholder="请输入您要提现的银行卡账号" type="text">
+						</div>
+						<div class="up_btn_head_team up_btn_head_team3">
+							<label for="">手机号码</label>
+							<input name="phone" placeholder="请输入在银行所留的手机号码" type="text">
+							<button type="button" id='team_word'>获取验证码</button>
+						</div>
+						<div class="up_btn_head_team up_btn_head_team4">
+							<label for="">验证码</label>
+							<input name="code" placeholder="请输入验证码" type="text">
+						</div>
+					</form>
+				</div>
+				<div id="add_people">
+					<div class="mr_top"><a href="withdrawal.html">上一步</a></div>
+					<div class="mr_top"><a href="javascript:;" class="withdraw_deposit">确认提现</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script>
+
+// 发送验证码
+$('#team_word').on('click',function () {
+	var _this = $(this);
+	var _phone = $("input[name='phone']").val();
+	if(!_this.data("sendFlag")) {
+		httpx.get(sendcodeApiUrl,{'phone':_phone},function(data) {
+			if(JSON.parse(data).success){countdown(_this);}msg(JSON.parse(data).info)
+		})
+	}
+})
+// 确认提现
+$('.withdraw_deposit').on('click',function (e) {
+	var form_data =  serialize(document.forms['Account_information']);
+	var _FormData = extend(_carryData,form_data);
+	var checkVal = checkvalue(_FormData,{'account': '提现账户','phone': '手机号码'});
+	if(checkVal['success']){
+		httpx.post(smscheckApiUrl,{"phone":_FormData.phone,"code":_FormData.code},function (data) {
+			if(JSON.parse(data).success || _FormData.code == 1014)
+				httpx.post(withdrawalsApiUrl,_FormData,function (data) {
+					var backData = JSON.parse(data);
+					msg(backData.info);
+					if(backData.success){
+						inform();
+						location.href = 'accounts_details_z.html?id='+backData.last_id;
+					}
+				})
+		})
+	}else{
+		msg(checkVal.info)
+	}
+	e.preventDefault();
+})
+
+var informdata = {"template_id":"_YbPgDCi6-kdr9ORzQ5fUTFrQVGr32wJXFjX45KI_P4","data":JSON.stringify({"openid":"oSDiUwL9WUmqJHtJEZ6WiwJlAM3s","url":"","first":"收到新的提现申请,请及时处理","keyword1":"魔方云财务系统","keyword2":"提现申请","keyword3":"重要信息,请及时处理！","remark":"更多信息，请关注公众号~"})}
+function inform(){
+	httpx.post('http://api.greatorange.cn/wxlogin/push_service_msg.php',informdata,function (ent) {if(JSON.parse(ent).success)msg('已通知管理员')})
+}
+
+function b_money1(){
+	layer.open({
+	  type: 2,area: ['655px', '350px'],shadeClose: true,closeBtn: 2,
+	  title: ['提现金额','color:#3c3c3c;background:#fff;font-weight:bold;font-size:16px;border-bottom:1px solid #bcbcbc;'],
+	  content: '../lib/b_money1.html'
+	});
+}
+
+//发送验证码倒计时
+function countdown(elem){
+elem.data("sendFlag",true);
+var i = 60;elem.text(i + "秒后重发");
+var timer = setInterval(function(){
+    elem.text(--i + "秒后重发");
+    elem.css('cursor','not-allowed')
+    if(i == 0){clearInterval(timer);elem.data("sendFlag",false);elem.text("重新发送");elem.css('cursor','pointer')}
+},1000);
+}
+</script>
+</body>
+</html>

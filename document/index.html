@@ -3,8 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document展示</title>
-  <link rel="stylesheet" type="text/css" href="css/component.css" />
-  <link rel="stylesheet" type="text/css" href="css/content.css" />
+    <link rel="stylesheet" type="text/css" href="css/component.css" />
+    <link rel="stylesheet" type="text/css" href="css/content.css" />
+    <script type="text/javascript" src="../js/config/index.js"></script>
     <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
 	<script src="js/modernizr.custom.js"></script>
 	<style type="text/css">
@@ -103,8 +104,8 @@
 <script type="text/javascript">
 
 	var _user = store.get('userinfo');
-	var _filesApi = "http://api.greatorange.cn/box/files/list/";
-	var _fileDelApi = "http://api.greatorange.cn/box/files/update/";
+	var _filesApi = globalApi_+"/box/files/list/";
+	var _fileDelApi = globalApi_+"/box/files/update/";
 	var del_data = {'token':_user.token,'status':'9','id':[]};
 	var requestData = {'token':_user.token,"order":JSON.stringify({"time":"DESC"}),"filter":JSON.stringify({"status[!]":"9","tags[~]":"资料"})};
 	var default_data = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id": "14","uid": "0","gid": "0","tags": "","title": "","coverurl": "","url": "","sort": "0","ali_vid": "","status": "1"}]};

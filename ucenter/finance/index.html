@@ -44,7 +44,7 @@
 	var availableMoney=0;//可用金额
 	var notGetMoney=0;//申请金额
 	var totalMoney=0;
-	var _accApi = "http://api.greatorange.cn/box/expense/home/";
+	var _accApi = globalApi_+"/box/expense/home/";
 	var requestData = {"pagesize":500,'token':_user.token,"order":JSON.stringify({"time":"DESC"})};
 	var notGetCondi = {"pagesize":500,'token':_user.token,"filter":JSON.stringify({"status":"0","type":'1'})};//申请金额
 	var getCondi 	= {"pagesize":500,'token':_user.token,"filter":JSON.stringify({"status":"1","type":'1'})};//充值金额

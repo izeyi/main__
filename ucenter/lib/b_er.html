@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="../static/css/style.css">
 	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
   	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+  <script type="text/javascript" src="../../js/config/index.js"></script>
 	<script type="text/javascript" src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
 	<!-- Madong -->
 <style>
@@ -34,7 +35,7 @@
 	<script type="text/javascript">
 		var _index = parent.layer.getFrameIndex(window.name);
 		var _user = store.get('userinfo');
-		var _bwxApi = 'http://api.greatorange.cn/box/userlogin/bwx';
+		var _bwxApi = globalApi_+'/box/userlogin/bwx';
 		var _bwxData = {'token':_user.token,'openid':''};
 		function wxlogin(str) {
 			var _str = JSON.parse(str);console.log(_str);

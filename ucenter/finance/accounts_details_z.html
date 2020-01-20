@@ -44,7 +44,7 @@
 	Vue.filter('_status',function(str) {if(str == 0){return '提现';}else if(str == 1){return '充值';}});
 	var _user = store.get('userinfo');
 	var _id = getUrlParam('id');
-	var	expenseApiUrl = "http://api.greatorange.cn/box/expense/home/";
+	var	expenseApiUrl = globalApi_+"/box/expense/home/";
 	var requestData = {'token':_user.token,"filter":JSON.stringify({"id":_id})};
 	var defaultData = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id":"6","gid":"2","uid":"2","type":"1","status":"0","money":1000,"info":"","arrall":{"money":"1000","info":""},"time":"1554797983"}],"balance":3000.56,"comname":""}
 	httpx.get(expenseApiUrl,requestData,function(data){var _data = JSON.parse(data);_data.comname=_user.cominfo.comname;if(_data.success)vmup(_app,_data)});
@@ -59,7 +59,7 @@
 					<li class="cur"><a href="index.html"><img src="../static/images/bao.png" alt=""><span>账户总览</span></a></li>
 					<li><a href=""><img src="../static/images/piao.png" alt=""><span>申请发票</span></a></li>
 					<li><a href="accounts_t.html"><img src="../static/images/ti.png" alt=""><span>申请提现</span></a></li>
-				</ui>
+				</ul>
 			</div>
 
 			<div class="main_sideRh">

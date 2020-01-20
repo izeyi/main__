@@ -5,6 +5,7 @@
 <title>Document</title>
 <link rel="stylesheet" href="../../static/css/style.css">
 <link rel="stylesheet" href="../../static/iconfont/iconfont.css" type="text/css">
+  <script type="text/javascript" src="../../../js/config/index.js"></script>
 	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
 <!-- Madong -->
 <style>
@@ -50,7 +51,7 @@ input.select-menu-input{width: 100%; border: 1px solid #e5e5e5;padding-left: 15p
 	var _order = store.get('proid');
 	var _token = _user.token;
 	var searchkey={"id":_order,"token":_token};
-	var _updateApi = "http://api.greatorange.cn/box/project/update/";
+	var _updateApi = globalApi_+"/box/project/update/";
 </script>
 </head>
 <body>
