@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>上传视频</title>
-  <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+  <!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+  <script src="../../js/config.js" type="text/javascript"></script>
   <script src="../static/js/lib/aliyun-upload-sdk/aliyun-upload-sdk-1.5.0.min.js"></script>
   <script src="../static/js/lib/aliyun-upload-sdk/lib/es6-promise.min.js"></script>
   <script src="../static/js/lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-5.3.1.min.js"></script>
@@ -85,7 +86,7 @@
     <div class="action-bar">
       <div class="action-btn">
         <button class="action-bar-item next-btn-medium btn-primary next-btn" type="button" x="video">添加视频</button>
-        <input type="file" name="file_input" class="file_input" id="fileUpload">
+        <input type="file" name="file_input" class="file_input" id="fileUpload" accept = "video/*">
         <button class="action-bar-item next-btn-medium next-btn" disabled type="button">删除</button>
       </div>
     </div>

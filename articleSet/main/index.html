@@ -12,7 +12,11 @@
 </script>
 <link rel="stylesheet" href="css/iconfont.css">
 <script type="text/javascript" src="../../js/config/index.js"></script>
-<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+<script src="../js/config.js" type="text/javascript"></script>
+  <!-- 使用引导 -->
+  <link href="../../js/config/lib/intro/introjs.min.css" type="text/css" rel="stylesheet"/>
+  <script src="../../js/config/lib/intro/intro.min.js" type="text/javascript"></script>
 <style type="text/css">
 	.tab-grid{width: 20%; height: 169px;}
 	/*.tab-grid img{width: 156px; height: 125px;}*/
@@ -70,40 +74,8 @@ function AddSite(){layer.open({type: 1,title:'添加网站',area:'516px',skin:'l
 </head>
 <body>
 	<div class="back"></div>
-<!-- <div class="search-form-bg move-by-top" style="opacity: 1; top: 207px;">
-	<form id="search-form" action="https://www.so.com/s?ie=utf-8&amp;src=se7_newtab_new" type="GET">
-		<div class="search-logo"><a href="https://www.so.com/?src=se7_newtab_new&amp;ls=0" class="search-logo-link" target="_blank"></a></div>
-		<div class="search-ui">
-			<p class="tips">搜&nbsp;&nbsp;索</p>
-			<div class="search">
-				<div class="ipt-border">
-					<div class="ipt">
-						<div id="search-switch" class="search-engine"><a id="current-engine" class="so"></a>
-							<div class="search-arr"><span></span></div>
-							<div class="splitter"></div>
-						</div><input id="search-kw" class="search-text ac_input" name="q" type="text" placeholder="" autocomplete="off">
-					</div>
-				</div>
-				<div class="btn"><input value="立即搜索" class="search-btn" type="submit"></div>
-				<div class="ac_results" style="display: none; position: absolute; width: 638px;">
-					<ul></ul>
-					<div class="powered">由3亿人都在使用的<i>360搜索</i>提供</div>
-					<div class="search-sug-ft"><a class="search-sug-clear">清空历史记录</a></div>
-				</div>
-			</div>
-			<ul class="search-menu" style="display:none">
-				<li><a _href="#" class="so"></a>360搜索</li>
-				<li><a _href="#" class="google"></a>谷歌</li>
-				<li><a _href="#" class="baidu"></a>百度</li>
-			</ul>
-			<div class="sug-hotword-wrap">
-				<ul class="sug-hotword-container" data-pid="sugHotWords"></ul>
-			</div>
-		</div><input type="hidden" name="ie" value="utf-8"><input type="hidden" name="src" value="se7_newtab_new">
-	</form>
-</div> -->
 <div id="userApp" class="tab move-by-top">
-	<li v-for="(tt,index) in data"class="tab-grid">
+	<li v-for="(tt,index) in data"class="tab-grid" data-step="1" data-intro="	网站展示区，选择任一网站即可进入，无需打开浏览器搜索">
 		<a v-if="tt.status == 1" :href="tt.url" >
 			<div class="tab-content" v-bind:style="{backgroundColor:colordata[index]}">
 				<h4>{{tt.title}}</h4>
@@ -116,7 +88,9 @@ function AddSite(){layer.open({type: 1,title:'添加网站',area:'516px',skin:'l
 			</div>
 			<span class="tab_ihpone"><i class="iconfont icon-shouji"></i></span>
 		</a>
-		<span class="det_list" @click="_del(tt.id)"><svg t="1559629375466" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="827" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><defs><style type="text/css"></style></defs><path d="M784.3 526.1H283c-15.2 0-27.5-12.3-27.5-27.5s12.3-27.5 27.5-27.5h501.3c15.2 0 27.5 12.3 27.5 27.5-0.1 15.2-12.4 27.5-27.5 27.5z" fill="#fff" p-id="828"></path></svg></span>
+		<span class="det_list" @click="_del(tt.id)" data-step="2" data-intro="点此添加新的网站链接">
+			<svg t="1559629375466" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="827" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><defs><style type="text/css"></style></defs><path d="M784.3 526.1H283c-15.2 0-27.5-12.3-27.5-27.5s12.3-27.5 27.5-27.5h501.3c15.2 0 27.5 12.3 27.5 27.5-0.1 15.2-12.4 27.5-27.5 27.5z" fill="#fff" p-id="828"></path></svg>
+		</span>
 	</li>
 	<li class="tab-grid add" onclick="AddSite()">
 		<img src="img/38fde480.png"> <p></p>
@@ -214,6 +188,23 @@ var str=URL;
 // 　　console.log(e)
 // })
 // ipcRenderer.sendToHost('pong')//向webview所在页面的进程传达消息
+function startTour() {
+  var tour = introJs()
+  // tour.setOption('tooltipPosition', 'auto');
+  tour.setOptions({
+    // steps: [{intro: "Hello world!"}],
+    nextLabel: '下一步 &rarr;',
+    prevLabel: '&larr; 上一步',
+    skipLabel: '跳过',
+    doneLabel: "完成",
+    exitOnOverlayClick: false,
+    exitOnEsc: false,
+    showBullets: false,
+    tooltipPosition: 'auto'
+  })
+  tour.start()
+}
+startTour()
 </script>
 
 </body>

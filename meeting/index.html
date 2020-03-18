@@ -6,10 +6,14 @@
 <meta name="viewport" content="user-scalable=no">
 <link rel="stylesheet" href="css/style.css">
 <script type="text/javascript" src="../js/config/index.js"></script>
-<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+<script src="../js/config.js" type="text/javascript"></script>
 <script type="text/javascript">
 	// if(!AgoraRTC.checkSystemRequirements())layer.msg('请使用safari浏览器打开')
 </script>
+<!-- 使用引导 -->
+<link href="../js/config/lib/intro/introjs.min.css" type="text/css" rel="stylesheet"/>
+<script src="../js/config/lib/intro/intro.min.js" type="text/javascript"></script>
 </head>
 <style>
 *{margin: 0;padding:0;moz-user-select: -moz-none;-moz-user-select: none;-o-user-select:none;-khtml-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;}
@@ -19,18 +23,22 @@ body::-webkit-scrollbar { width: 0 !important }
   #UL div{width: 58%}
 }
 </style>
+<script type="text/javascript">
+    var _user = store.get('userinfo');
+    var _gid  = _user['userinfo'].gid;
+</script>
 <body>
 	<ul id="UL">
 		<li>
-			<a href="cam.html?roomId=1000">
-				<div>
+			<a id="room1" href="javascript:openRoom('1000')">
+				<div data-step="1" data-intro="三个会议入口，选择其一开启普通视频会议">
 					<img src="images/ico1.png" alt="">
 					<img src="images/img4.png" alt="">
 				</div>
 			</a>
 		</li>
 		<li>
-			<a href="cam.html?roomId=2000">
+			<a id="room2" href="javascript:openRoom('2000')">
 				<div>
 					<img src="images/ico2.png" alt="">
 					<img src="images/img5.png" alt="">
@@ -38,7 +46,7 @@ body::-webkit-scrollbar { width: 0 !important }
 			</a>
 		</li>
 		<li>
-			<a href="cam.html?roomId=3000">
+			<a id="room3" href="javascript:openRoom('3000')">
 				<div>
 					<img src="images/ico3.png" alt="">
 					<img src="images/img6.png" alt="">
@@ -47,21 +55,84 @@ body::-webkit-scrollbar { width: 0 !important }
 		</li>
 	</ul>
 	<div class="to_ucenter">
-        <div class="grid" tooltip="复制链接" onclick="copyText('https://api.namenb.com/rtc2/index.html?openbox')">
+        <div class="grid" tooltip="复制链接" onclick="copyText(parseInt(new Date().getTime()/1000))" data-step="2" data-intro="复制视频会议链接，分享给伙伴，一起加入视频会议">
             <img src="static/images/icon-copylink.svg" style="padding: 10px">
         </div>
     </div>
     <script type="text/javascript">
-	function copyText(text){ // text: 要复制的内容， callback: 回调
-	   var tag = document.createElement('input');
-	   tag.setAttribute('id','cp_zt_input');
-	   tag.value = text;
-	   document.getElementsByTagName('body')[0].appendChild(tag);
-	   document.getElementById('cp_zt_input').select();
-	   document.execCommand('copy');
-	   document.getElementById('cp_zt_input').remove();
-	   layer.msg('复制成功,分享给小伙伴,一起视频吧！')
+    function openRoom(room) {return location.href ='cam.html?roomId='+ room + _gid}
+    /*
+	* 函数功能：JS格式化时间
+	*/
+	var formatTime = function (time, format) {
+	    var t = new Date(time);
+	    var tf = function(i) {return (i < 10 ? '0' : '') + i };
+	    return format.replace(/yyyy|MM|dd|HH|mm|ss/g, function(a) {
+	        switch (a) {
+	            case 'yyyy':return tf(t.getFullYear()); break;
+	            case 'MM': return tf(t.getMonth() + 1); break;
+	            case 'mm': return tf(t.getMinutes()); break;
+	            case 'dd': return tf(t.getDate()); break;
+	            case 'HH': return tf(t.getHours()); break;
+	            case 'ss': return tf(t.getSeconds()); break;
+	        }
+	    })
+	}
+	/**
+	 * [timest 生成十位时间戳]
+	 * @Author   TongZhou
+	 * @DateTime 2020-03-03
+	 * @return   {[type]}   [description]
+	 */
+	function timest() {
+		var tmp = Date.parse(new Date()).toString();tmp = tmp.substr(0,10);return tmp;
+	}
+    /**
+     * 复制链接
+     * @param  {[type]} text [url]
+     * @return {[type]}      []
+     */
+	function copyText(text){
+		var _Room = JSON.stringify({'Id':text,"parent":'3000'+_gid})
+		var tag = document.createElement('input');
+		tag.setAttribute('id','cp_zt_input');
+		tag.value = 'https://api.chinavcr.com/roomPlugin/cam.html?roomId=3000'+_gid+'&Id='+text;
+		document.getElementsByTagName('body')[0].appendChild(tag);
+		document.getElementById('cp_zt_input').select();
+		document.execCommand('copy');
+		document.getElementById('cp_zt_input').remove();
+		layer.msg('复制成功,分享给小伙伴,一起视频吧！')
 	};
+	function newMeeting() {
+		var curDate = new Date()
+		console.log(curDate)
+		console.log(new Date(curDate.getTime() + 24*60*60*1000))
+	}
+	newMeeting()
+	console.log(timest())
+	console.log(parseInt(new Date().getTime()/1000))
+	console.log(formatTime(new Date().getTime(), 'yyyy-MM-dd'))
+	function startTour() {
+	  var tour = introJs()
+	  tour.setOptions({
+	    // steps: [{intro: "Hello world!"}],
+	    nextLabel: '下一步 &rarr;',
+	    prevLabel: '&larr; 上一步',
+	    skipLabel: '跳过',
+	    doneLabel: "完成",
+	    exitOnOverlayClick: false,
+	    exitOnEsc: false,
+	    showBullets: false,
+	    tooltipPosition: 'auto'
+	  })
+	  tour.start()
+	}
+var _main = store.get('isInit')
+if(_main && !_main['meeting']){
+    _main['meeting'] = true
+    store.set('isInit',_main)
+    startTour()
+}
 </script>
 </body>
 </html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>魔方会议</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link href="static/css/css.css" rel="stylesheet">
+  <script src="static/js/AgoraRTCSDK-2.6.1.js"></script>
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}  const {ipcRenderer} = require('electron');</script>
+  
+<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+<script src="../js/config.js" type="text/javascript"></script>
+  <style type="text/css">
+    .T_video{width: 100%}
+    .T_video>div{width: 100%;height: 188px;margin: 0 auto}
+    .T_btm_bar_box span:nth-child(4){background-color: rgba(0,0,0,0.38)}
+    .T_btm_bar_box span{line-height: 40px;width: 40px;height: 40px;margin: 16px 0px 10px 0px}
+    .maxWin{position: fixed;width: 52px;padding-top: 14px;text-align: center;left: 0;top: 0;cursor: pointer;}
+  </style>
+</head>
+<body>
+  <div class="maxWin T_btm_bar_box">
+    <span class="bar_btn" onclick="minWin()" tooltip="最大化"><i class="icon iconfont icon-quanping"></i></span>
+  </div>
+<div style="-webkit-app-region: drag;position: fixed;height: 25px;cursor:pointer;width:100%;z-index:999;background:#000;opacity: 0.5;"></div>
+  <div class="T_container">
+    <!-- 主视频框 class="compere"  -->
+    <div class="T_video clearfix" id="video-box">
+      <div id="agora_local" style="-webkit-app-region:drag;"></div>
+    </div><!-- /主视频框 -->
+
+     <!-- top工具条 -->
+    <div class="T_toolbar_top">
+      <div class="T_top_bar_box">
+        <span class="bar_btn"></span>
+      </div>
+      <div id="div_device" class="panel panel-default hide">
+        <div class="select"><label for="audioSource">选择麦克风: </label><select id="audioSource"></select></div>
+        <div class="select"><label for="videoSource">选择视频源: </label><select id="videoSource"></select></div>
+      </div>
+    </div><!-- /top工具条 -->
+
+    <!-- bottom工具条 -->
+    <div class="T_toolbar_btm">
+      <div class="T_btm_bar_box">
+        <span class="bar_btn" onclick="minWin()" tooltip="最小化"><i class="icon iconfont icon-guanbiquanping"></i></span>
+        <span class="bar_btn" onclick="voice_switch(this)" tooltip="扬声器"><i class="icon iconfont icon-yangshengqi"></i></span>
+        <span class="bar_btn" onclick="audio_switch(this)" tooltip="麦克风"><i class="icon iconfont icon-maikefeng-shi"></i></span>
+        <span class="bar_btn" onclick="video_switch(this)" tooltip="摄像头"><i class="icon iconfont icon-ic_videocam_px"></i></span>
+        <span class="bar_btn" onclick="cam2screen('close')" tooltip="结束投屏"><i class="icon iconfont icon-raoshexiangjixuanzhuan"></i></span>
+        <span class="bar_btn" onclick="leave(this)" tooltip="结束会议"><i class="icon iconfont icon-hungup" style="color:#f00;font-weight:bold;"></i></span>
+      </div>
+      <div id="div_join" class="panel panel-default hide">
+        <div class="panel-body">
+          <div style="display:none;">
+            ID: <input id="appId" type="text" value="6d2af95d9edb49ecb287744ec6715c17" size="36"></input>
+            房间: <input id="channel" type="text" value="99" size="4"></input>
+          </div>
+          开启视频？: <input id="video" type="checkbox" checked></input>
+          <button id="join" class="btn btn-primary" onclick="join()">进入会议室</button>
+          <button id="leave" class="btn btn-primary" onclick="leave()">离开会议室</button>
+          <button id="publish" class="btn btn-primary" onclick="publish()">推流</button>
+          <button id="unpublish" class="btn btn-primary" onclick="unpublish()">不推流</button>
+          <button class="btn btn-primary" onclick="disaudio()">关音</button>
+          <button class="btn btn-primary" onclick="disvideo()">关画</button>
+          <button id="cam2screen" class="btn btn-primary" onclick="cam2screen()">切屏</button>
+        </div>
+      </div>
+    </div><!-- /bottom工具条 -->
+
+  </div>
+<script language="javascript">
+
+  var _user = store.get('userinfo');
+  var _gid = _user.userinfo.gid;
+
+    /* select Log type */
+  if(!AgoraRTC.checkSystemRequirements())alert("not support WebRTC!")
+  var AppId = "6d2af95d9edb49ecb287744ec6715c17";
+  var ChannelId = '3000'+_gid;
+
+  var client, localStream, camera, microphone, videoList;
+  var audioSelect = document.querySelector('select#audioSource');
+  var videoSelect = document.querySelector('select#videoSource');
+  // 进入会议室
+  function join() {
+    console.log("Init AgoraRTC client with App ID: " + AppId);
+
+    var channel_key = null;
+
+    client = AgoraRTC.createClient({mode: 'interop'});
+    client.init(appId.value, function () {
+      console.log("AgoraRTC client initialized");
+      client.join(channel_key, ChannelId, null, function(uid) {
+        console.log("User " + uid + " join channel successfully");
+        if (document.getElementById("video").checked) {
+          camera = videoSource.value;
+          microphone = audioSource.value;
+          localStream = AgoraRTC.createStream({
+            streamID: uid,
+            audio: true,
+            microphoneId: microphone,
+            video: false,
+            screen: true
+          });
+          //localStream = AgoraRTC.createStream({streamID: uid,screen: true});//屏幕源
+          //localStream = AgoraRTC.createStream({
+          //  streamID: uid,
+          //  audio: true,
+          //  cameraId: camera,
+          //  microphoneId: microphone,
+          //  video: document.getElementById("video").checked,
+          //  screen: false
+          // });//摄像头源
+
+          if (document.getElementById("video").checked) {localStream.setVideoProfile('720p_3')}
+
+          localStream.on("accessAllowed", function(){console.log("accessAllowed")});// The user has granted access to the camera and mic.
+          localStream.on("accessDenied", function() {console.log("accessDenied")});// The user has denied access to the camera and mic.
+
+          localStream.init(function() {
+            console.log("getUserMedia successfully");
+            localStream.play('agora_local');
+            client.publish(localStream, function (err) { console.log("Publish local stream error: " + err);});
+            client.on('stream-published', function (evt) {console.log("Publish local stream successfully");});
+
+          }, function (err) {console.log("getUserMedia failed", err)});
+        }
+
+      }, function(err) {console.log("Join channel failed", err)});
+
+    }, function (err) {console.log("AgoraRTC client init failed", err)});
+
+    channelKey = "";
+    client.on('error', function(err) {
+      console.log("Got error msg:", err.reason);
+      if (err.reason === 'DYNAMIC_KEY_TIMEOUT') {
+        client.renewChannelKey(channelKey,function(){
+          console.log("Renew channel key successfully")
+        },function(err){
+          console.log("Renew channel key failed: ",err)
+        });
+      }
+    });
+
+
+    client.on('stream-added', function (evt) {
+      var stream = evt.stream;
+      console.log("New stream added: " + stream.getId());
+      console.log("Subscribe ", stream);
+      client.subscribe(stream,function (err){console.log("Subscribe stream failed", err)});
+    });
+
+    client.on('stream-subscribed', function (evt) {
+      var stream = evt.stream;
+      console.log("Subscribe remote stream successfully: " + stream.getId());
+      if($('div#video-box #agora_remote'+stream.getId()).length === 0){$('div#video-box').append('<div id="agora_remote'+stream.getId()+'"></div>')}
+      stream.play('agora_remote' + stream.getId());
+    });
+
+    client.on('stream-removed', function (evt) {
+      var stream = evt.stream;
+      stream.stop();
+      $('#agora_remote' + stream.getId()).remove();
+      console.log("Remote stream is removed " + stream.getId());
+    });
+
+    client.on('peer-leave', function (evt) {
+      var stream = evt.stream;
+      if (stream) {
+        stream.stop();
+        $('#agora_remote' + stream.getId()).remove();
+        console.log(evt.uid + " leaved from this channel");
+      }
+    });
+  }
+
+  function leave() {//离开会议室
+    document.getElementById("leave").disabled = true;
+    client.leave(function () { console.log("Leavel channel successfully");
+      ipcRenderer.send('disMeetingScreen');
+      store.set('channelid','');
+    }, function (err) {console.log("Leave channel failed")});
+  }
+  function publish() {//推流
+    document.getElementById("publish").disabled = true;
+    document.getElementById("unpublish").disabled = false;
+    client.publish(localStream, function (err) {console.log("Publish local stream error: " + err)});
+  }
+  function unpublish() {//不推流
+    document.getElementById("publish").disabled = false;
+    document.getElementById("unpublish").disabled = true;
+    client.unpublish(localStream, function (err) {console.log("Unpublish local stream failed" + err)});
+  }
+
+  function cam2screen(_obj) {//切屏
+    client.leave(function () {
+      ipcRenderer.send('disMeetingScreen',_obj);
+      console.log("Leavel channel successfully");
+    }, function (err) {console.log("Leave channel failed")});
+  }
+  function cancelScreen(){
+    client.leave(function () {
+      ipcRenderer.send('cancelSharescreen');
+      console.log("Leavel channel successfully");
+    }, function (err) {console.log("Leave channel failed")});
+
+  }
+  // function opaudio() {localStream.enableAudio();}//开音
+  // function disaudio() {localStream.disableAudio();}//关音
+  // function opvideo() {localStream.enableVideo();}//开画
+  // function disvideo() {localStream.disableVideo();}//关画
+  // function opvoice() {ipcRenderer.send('mutedsharescreen');}//开声
+  // function disvoice() {ipcRenderer.send('unmutedsharescreen');}//关声
+
+  function opaudio() {localStream.unmuteAudio()}//开音
+  function disaudio(){localStream.muteAudio()}//关音
+  function opvideo() {localStream.enableVideo()}//开画
+  function disvideo(){localStream.disableVideo()}//关画
+  function opvoice(){$("#video-box audio,#video-box video").each(function(){document.getElementById($(this).attr("id")).muted=true});}//开声
+  function disvoice(){$("#video-box audio,#video-box video").each(function(){document.getElementById($(this).attr("id")).muted=false});}//关声
+
+
+  function getDevices() {
+    AgoraRTC.getDevices(function (devices) {
+      for (var i = 0; i !== devices.length; ++i) {
+        var device = devices[i];
+        var option = document.createElement('option');
+        option.value = device.deviceId;
+        if (device.kind === 'audioinput') {
+          option.text = device.label || 'microphone ' + (audioSelect.length + 1);
+          audioSelect.appendChild(option);
+        } else if (device.kind === 'videoinput') {
+          option.text = device.label || 'camera ' + (videoSelect.length + 1);
+          videoSelect.appendChild(option);
+        } else {
+          console.log('Some other kind of source/device: ', device);
+        }
+      }
+    });
+  }
+
+/*---------- @Tong and ----------  */
+var flag = true;
+var sc   = 0;
+var mute = 0;
+var mWin = true;
+
+function audio_switch(t){//麦克风开关
+  if($(t).hasClass('off')){
+    opaudio();
+    $(t).removeClass('off');
+    $('.icon-maikefeng-jingyin').removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng-shi');
+  }else {
+    disaudio();
+    $(t).addClass('off');
+    $('.icon-maikefeng-shi').removeClass('icon-maikefeng-shi').addClass('icon-maikefeng-jingyin');
+  }
+}
+
+function video_switch(t) {//摄像头开关
+ if($(t).hasClass('off')){
+    opvideo();
+    $(t).removeClass('off');
+    $('.icon-ic_videocam_off_px').removeClass('icon-ic_videocam_off_px').addClass('icon-ic_videocam_px');
+    $('.T_background').addClass("hide").removeClass("h");
+  }else {
+    disvideo();
+    $(t).addClass('off');
+    $('.icon-ic_videocam_px').removeClass('iicon-ic_videocam_px').addClass('icon-ic_videocam_off_px');
+    $('.T_background').removeClass("hide").addClass("h");
+  }
+}
+
+function voice_switch(t){ //扬声器开关
+  if(mute == 0){
+    opvoice();
+    $(t).addClass('off');
+    $('.icon-yangshengqi').removeClass('icon-yangshengqi').addClass('icon-yangshengqiguanbi');mute=1;
+  }else{
+    disvoice();
+    $(t).removeClass('off');
+    $('.icon-yangshengqiguanbi').removeClass('icon-yangshengqiguanbi').addClass('icon-yangshengqi');
+    mute=0;
+  }
+}
+
+function FullScreen(el){ //全屏
+  if(sc == 0){//进入全屏
+    ipcRenderer.send('cammin');sc=1;
+  }else{//退出全屏
+    ipcRenderer.send('camful');sc=0;
+  }
+}
+function minWin() {
+  if(mWin){
+    ipcRenderer.send('sharescreen_hide');
+    $('body').addClass('min');
+    $('.maxWin').css('z-index','99');
+    mWin = false;
+  }else {
+    ipcRenderer.send('sharescreen_show');
+    $('body').removeClass('min');
+    $('.maxWin').css('z-index','-1');
+    mWin = true;
+  }
+}
+function toggleFullScreen(e){var el=e.srcElement||e.target;console.log(e);FullScreen(el)}//全屏开关
+
+function Members(){//其余人员显示
+  if(flag){
+    $(".T_container").addClass("off");flag = false;
+  } else {
+    $(".T_container").removeClass("off");flag = true;
+  }
+}
+//主播切换
+// $('.T_video').on('click', '.T_video>div', function(){
+//   $(this).addClass("compere");
+//   $(this).siblings().removeClass("compere");
+// })
+/*---------- @Tong end ----------  */
+  //audioSelect.onchange = getDevices;
+  //videoSelect.onchange = getDevices;
+  getDevices();
+
+
+
+// msg("您会议室的口令是：["+store.get('channelid').channelid+"]");
+// document.getElementById("channel").value = store.get('channelid').channelid;
+
+join();
+
+
+
+
+
+
+</script>
+</body>
+</html>

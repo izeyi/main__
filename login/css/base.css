@@ -47,7 +47,7 @@ input { display: inline-block; vertical-align: middle; border: 0;}
 .colse1{left: 12%;background: url(../images/quxiao.png) no-repeat 6px 0px;background-size: 26px 26px;}
 .colse2{left: 88%;background: url(../images/join.png) no-repeat 25px 0px;background-size: 26px 26px;}
 /*基本信息填写 information*/
-.information{background: url(../images/bg3.jpg) no-repeat;background-size: cover;}
+/*.information{background: url(../images/bg3.jpg) no-repeat;background-size: cover;}*/
 .information form{overflow: hidden;border-radius: 12px; font-size: 24px;color: #353535; width: 1120px;background: #fff;height: 720px;position: absolute;margin: auto;top: 0;bottom: 0;left: 0;right: 0;}
 .information .p{padding: 24px 0 12px 46px;font-size: 26px;color: #fff;background-color: #353535;}
 .information .p img{width: 28px;margin-right: 12px;}

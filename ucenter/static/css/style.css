@@ -104,7 +104,7 @@ img{ pointer-events: none;}
 
 /*个人信息修改 ...id_data.html*/
 #Head{margin-top: 40px}
-#Head div{display: inline-block;overflow: hidden;vertical-align: top;position: relative;}
+#Head div,.upload div{display: inline-block;overflow: hidden;vertical-align: top;position: relative;}
 .Head_img>img{display: inline-block;width: 122px;}/*border-radius: 50%;*/
 .Head_img>p{display: inline-block;vertical-align: bottom;font-size: 14px;margin-left: 8px;color: #61b0ff;}
 .Head_but span{margin-left: 40px; display: block;text-align: center;color: #fff; font-size: 16px;color: #fff!important;border-radius: 8px; background-color: #3c3c3c; width: 120px;height: 45px;line-height: 45px;}
@@ -268,7 +268,7 @@ input.select-menu-input{width: 100%}
 @-webkit-keyframes tooltips-horz {to {opacity: .9;-webkit-transform: translate(0, -50%);transform: translate(0, -50%);}}
 @keyframes tooltips-horz {to {opacity: .9;-webkit-transform: translate(0, -50%);transform: translate(0, -50%);}}
 
-/* FX All The Things */ 
+/* FX All The Things */
 [tooltip]:not([flow]):hover::before,[tooltip]:not([flow]):hover::after,
 [tooltip][flow^="up"]:hover::before,[tooltip][flow^="up"]:hover::after,
 [tooltip][flow^="down"]:hover::before,[tooltip][flow^="down"]:hover::after 

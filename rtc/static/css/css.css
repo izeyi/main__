@@ -215,7 +215,9 @@ body.min{padding-left: 100%}
 #Bind_phone_box .ucenter_title{display: inline-block;font-size: 28px;margin-top: 50px;margin-bottom: 20px;color: #212121;font-weight: 600}
 #Bind_phone_box .ucenter_title span{font-size: 16px;margin-left: 18px;font-weight: 200;}
 #Bind_phone_box .input_item{display: inline-block;line-height: 36px;border-radius: 18px;font-size: 12px;width: 300px;margin-top: 20px;}
-#Bind_phone_box .input_item i{display: block;width: 40px;height: 36px;float: left;background: url(../images/icon_phone.png) no-repeat center;border-radius: 18px 0 0 18px;background-color: #fff;}
+#Bind_phone_box .input_item i{display: block;width: 40px;height: 36px;float: left;
+	/*background: url(../images/icon_phone.png) no-repeat center;*/
+	border-radius: 18px 0 0 18px;background-color: #fff;}
 #Bind_phone_box .input_item input{width: 260px;font-size: 14px;border: 0;outline: 0;float: right;border-radius: 0 18px 18px 0;height: 36px;line-height: 16px;overflow: hidden;outline: 0;padding: 0;}
 #Bind_phone_box .verify{margin-top: 20px;height: 36px;line-height: 36px;width: 300px;}
 #Bind_phone_box .verify .input_item{float: left;width: 200px;margin-top: 0}

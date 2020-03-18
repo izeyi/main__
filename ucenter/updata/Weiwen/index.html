@@ -6,7 +6,8 @@
 <link rel="stylesheet" href="../../static/css/style.css">
 <link rel="stylesheet" href="../../static/iconfont/iconfont.css" type="text/css">
 <script type="text/javascript" src="../../../js/config/index.js"></script>
-<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+<script src="../../../js/config.js" type="text/javascript"></script>
 <!-- <script src="../static/js/rubilk.js"></script> -->
 <!-- Madong -->
 <style>
@@ -89,9 +90,9 @@ getdata();
 						</a>
 						<div class="sidebar-submenu">
 							<ul>
-								<li><a href="product/product.html">我的产品</a></li>
-								<li><a href="product/index.html">产品列表</a></li>
-								<li><a href="product/add.html">添加产品</a></li>
+								<li><a href="../product/product.html">我的产品</a></li>
+								<li><a href="../product/index.html">产品列表</a></li>
+								<li><a href="../product/add.html">添加产品</a></li>
 							</ul>
 						</div>
 					</li>
@@ -141,10 +142,14 @@ getdata();
 							</thead>
 							<tbody>
 								<tr class='content' v-for="tt in data" v-if="data.length != 0 || tt.status != 9">
-									<td><img :src="tt.cover"></td>
-									<td>{{tt.title}}</td>
-									<td>{{tt.desc}}</td>
-									<td><span class="t_icon iconfont icon-all_delete" @click="_del(tt.id)"></span></td>
+									<td>
+										<img :src="tt.cover">
+									</td>
+									<td style="max-width:300px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{tt.title}}</td>
+									<td style="max-width:680px;overflow: hidden;text-overflow: ellipsis;display: -webkit-inline-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;line-height: 1.6">{{tt.desc}}</td>
+									<td>
+										<span style="max-width:120px;" class="t_icon iconfont icon-all_delete" @click="_del(tt.id)"></span>
+									</td>
 								</tr>
 							</tbody>
 						</table>

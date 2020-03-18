@@ -1,5 +1,9 @@
 
-function vmup(vm,jdata){for(var o in jdata){Vue.set(vm,o,jdata[o])}}
+function vmup(vm,jdata){
+for(var o in jdata){
+Vue.set(vm,o,jdata[o]);
+}
+}
 
 Vue.filter('time', function (timeStamp) {//value为13位的时间戳
 var date = new Date();  
@@ -53,14 +57,5 @@ if(str == 2){return '女士';}
 
 Vue.filter('format_time', function (str) {
 return str.replace('T00:00:00', '');
+//return str;
 });
-
-
-
-
-
-
-
-
-
-

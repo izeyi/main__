@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <title>魔方云</title>
-  <script type="text/javascript" src="http://static.namenb.com/web/js/?tcbox"></script>
+  <!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+  <script src="../js/config.js" type="text/javascript"></script>
   <script type="text/javascript">
     Vue.filter('is_face', function (str) {if(!str){return '../osmain/static/images/head.png'}else{return str}});
     var _user = store.get('userinfo');

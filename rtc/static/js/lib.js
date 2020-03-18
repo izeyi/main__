@@ -1,7 +1,7 @@
-/*
- *
- */
+
 var sc = 0, _pass, audiodata = [], videodata = [], video_ = 1, audio_ = 1,layerOpen,_open;
+// 推送服务端
+var socket = io('http://api.greatorange.cn:3000/');
 var audioSelect = document.querySelector('select#audioSource');
 var videoSelect = document.querySelector('select#videoSource');
 var pushApi = globalApi_+"/box/push/";
@@ -27,12 +27,18 @@ function kling(){
   _pass = store.get('channelid');
   if(!_pass){
     _open = layer.open({
-      type: 1,title:'提案',area:'516px',skin:'layui-layer-nobg',shadeClose: true,content: $('#Bind_phone_box'),
-      cancel:function(index){parent.layer.close(_index);}
+      type: 1,
+      title:'超级提案',
+      area:'516px',
+      skin:'layui-layer-nobg',
+      content: $('#Bind_phone_box'),
+      cancel:function(index){
+        parent.layer.close(_index)
+      }
     });
   }else {
     msg("您会议室的口令是：["+ _pass.channelid + "]请牢记！");
-    // ChannelId=_pass.channelid;
+    ChannelId=_pass.pass;
     join();
     getDevices();
   }
@@ -42,9 +48,9 @@ function JoinConference() {
   if(!$("#bind_phone").val()){msg('口令不能为空');return}
   if(!$("#bind_code").val()){msg('密码不能为空');return}
   var pass = $("#bind_phone").val()
-  var text = $("#bind_code").val();
-  // ChannelId=pass+text;
-  store.set('channelid',{"channelid": text,"pass" : pass+text});
+  var text = $("#bind_code").val()
+  ChannelId = ChannelId+pass+text;
+  store.set('channelid',{"channelid": text,"pass" : ChannelId});
   join();
   getDevices();
   layer.close(_open);
@@ -98,33 +104,41 @@ function join() {
   client = AgoraRTC.createClient({mode: 'live'});
   client.init(AppId, function () {
     console.log("AgoraRTC client initialized");
-    client.join(channel_key, ChannelId, null, function(uid) {
-      console.log("User " + uid + " join channel successfully");
+    client.join(channel_key, ChannelId, null, function(uid) {//加入
+      console.log("用户 " + uid + " 加入频道成功");
 
       if (document.getElementById("video").checked) {
         camera = videoSource.value;
         microphone = audioSource.value;
-        localStream = AgoraRTC.createStream({streamID:uid,audio:true,cameraId:camera,microphoneId:microphone,video:document.getElementById("video").checked,screen:false});
+        localStream = AgoraRTC.createStream({// 创建音视频流
+          streamID:uid,
+          audio:true,
+          cameraId:camera,
+          microphoneId:microphone,
+          video:document.getElementById("video").checked,
+          screen:false
+        });
         if (document.getElementById("video").checked) {localStream.setVideoProfile('720p_3');}
         // The user has granted access to the camera and mic.
         localStream.on("accessAllowed", function() {console.log("accessAllowed");});
         // The user has denied access to the camera and mic.
         localStream.on("accessDenied", function() {console.log("accessDenied");});
-        localStream.init(function() {
-          localStream.play('agora_local');
-          client.publish(localStream, function (err) {console.log("Publish local stream error: " + err);});
-          client.on('stream-published', function (evt) {console.log("Publish local stream successfully");});
 
-          console.log("getUserMedia successfully");
+        localStream.init(function() {// 初始化本地的音视频流
+          localStream.play('agora_local');// 显示本地视频播放<div>标签id名
+          client.publish(localStream, function (err) {console.log("发布本地音视频流失败: " + err);});// 发布本地音视频流
+          client.on('stream-published', function (evt) {console.log("发布本地音视频流成功");});
+
+          console.log("获取用户媒体成功");
         }, function (err) {
-         console.log("getUserMedia failed", err);
+         console.log("获取用户媒体失败", err);
         });
       }
 
     }, function(err) {
-      console.log("Join channel failed", err);});
+      console.log("加入频道失败", err);});
   }, function (err) {
-    console.log("AgoraRTC client init failed", err);
+    console.log("AgoraRTC客户端初始化失败", err);
   });
 
   channelKey = "";
@@ -139,19 +153,18 @@ function join() {
     }
   });
 
-
+  // --------- 订阅远端音视频流 --------
+  // 监听到新的视频
   client.on('stream-added', function (evt) {
     var stream = evt.stream;
-    console.log("New stream added: " + stream.getId());
-    console.log("Subscribe ", stream);
-    client.subscribe(stream, function (err) {
-      console.log("Subscribe stream failed", err);
-    });
+    console.log("有新的音视频流: " + stream.getId());
+    console.log("订阅 ", stream);
+    client.subscribe(stream, function (err) {console.log("订阅流失败", err)});
   });
-
+  // 订阅远程视频
   client.on('stream-subscribed', function (evt) {
     var stream = evt.stream;
-    console.log("Subscribe remote stream successfully: " + stream.getId());
+    console.log("订阅远程音视频流成功: " + stream.getId());
     if ($('div#video_box #agora_remote'+stream.getId()).length === 0) {
       $('div#video_box').append('<div id="agora_remote'+stream.getId()+'" onclick="toggleBox(this)"></div>');
     }
@@ -167,7 +180,7 @@ function join() {
     var stream = evt.stream;
     stream.stop();
     $('#agora_remote' + stream.getId()).remove();
-    console.log("Remote stream is removed " + stream.getId());
+    console.log("删除远程流 " + stream.getId());
   });
 
   client.on('peer-leave', function (evt) {
@@ -275,7 +288,7 @@ function set_fun(){
 function cam2screen() {
   client.leave(function () {
     parent.layer.close(_index);
-    parent.push_screen();
+    parent.push_screen({'obj':"rtc",'ctrl':"block"});
     console.log("Leavel channel successfully")
   },function (err){
     console.log("Leave channel failed")
@@ -284,9 +297,11 @@ function cam2screen() {
 
 //抢麦
 function robMicrophone(){
-  httpx.get(pushApi,{'token':_user.token,'push':JSON.stringify({'type':'SuperCall','content':'ShutMicrophone','gid':_gid,'uid':_uid,'key':ChannelId})},function (data) {
-    JSON.parse(data).success ? msg('抢麦成功！') : msg(JSON.parse(data).info)
-  })
+  // httpx.get(pushApi,{'token':_user.token,'push':JSON.stringify({'type':'SuperCall','content':'ShutMicrophone','gid':_gid,'uid':_uid,'key':ChannelId})},function (data) {
+  //   JSON.parse(data).success ? msg('抢麦成功！') : msg(JSON.parse(data).info)
+  // })
+  var _dd = {'type':'SuperCall','content':'ShutMicrophone','gid':_gid,'uid':_uid,'key':ChannelId}
+  socket.emit('new message', _dd)
 }
 
 //全屏开关
@@ -333,30 +348,46 @@ function opvoice(){$("#video_box audio,#video_box video").each(function(){docume
 function disvoice(){$("#video_box audio,#video_box video").each(function(){document.getElementById($(this).attr("id")).muted=true});}//关声
 
 // 推送服务端
-var socket = io('http://api.namenb.com:2120');
+// var socket = io('http://api.namenb.com:2120');
 uid = _gid;// uid可以是自己网站的用户id，以便针对uid推送以及统计在线人数
 socket.on('connect',function(){socket.emit('login', uid);});// socket连`接后以uid登录
-socket.on('new_msg',function(msg_){// 后端推送来消息时
-  _msg=msg_.replace(/&quot;/g,'"');
-  var msgarr=DE_JSON(_msg);
-  console.log(msgarr);
-  if(!msgarr.gid || msgarr.gid !== uid) return; //是否为同一家公司
-  if(!msgarr.type || msgarr.type !== 'SuperCall') return; //是否为同一个栏目
+
+socket.on('new message', function(_msg){// 后端推送来消息时
+  var msgarr=_msg;console.log(msgarr);
+  if(!msgarr.type || msgarr.type != 'SuperCall') return;//是否为同一个栏目
+  // if(!msgarr.gid || msgarr.gid != _gid); return; //是否为同一家公司
   if(msgarr.key == ChannelId && msgarr.uid != _uid){
     msg('麦克风已禁用！');
     if(!$('#microphone').hasClass('off')){
       disaudio(); //关闭他人麦克风
       $('#microphone').addClass('off');
-      $('#microphone i').removeClass('icon-maikefeng-shi').addClass('icon-maikefeng-jingyin');
+      $('#microphone i').removeClass('icon-maikefeng-shi')  .addClass('icon-maikefeng-jingyin');
     }
-  }
-  if(msgarr.uid == _uid){
+  }else if(msgarr.uid == _uid){//是本人时
+    msg('抢麦成功！');
     if($('#microphone').hasClass('off')){
       opaudio();//打开自己麦克风
       $('#microphone').removeClass('off');
       $('#microphone i').removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng-shi');
     }
-  };//是否为本人
+  }
+
+  // if(msgarr.key == ChannelId && msgarr.uid != _uid){
+  //   msg('麦克风已禁用！');
+  //   if(!$('#microphone').hasClass('off')){
+  //     disaudio(); //关闭他人麦克风
+  //     $('#microphone').addClass('off');
+  //     $('#microphone i').removeClass('icon-maikefeng-shi').addClass('icon-maikefeng-jingyin');
+  //   }
+  // }
+  // if(msgarr.uid == _uid){
+  //   msg('抢麦成功！');
+  //   if($('#microphone').hasClass('off')){
+  //     opaudio();//打开自己麦克风
+  //     $('#microphone').removeClass('off');
+  //     $('#microphone i').removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng-shi');
+  //   }
+  // };//是否为本人
 //询问框
 });
 socket.on('update_online_count', function(online_stat){console.log(online_stat)});// 后端推送来在线数据时

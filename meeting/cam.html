@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -7,24 +7,21 @@
 <link href="static/css/css.css" rel="stylesheet">
 <script src="static/js/AgoraRTCSDK-2.6.1.js"></script>
 <script type="text/javascript" src="../js/config/index.js"></script>
-<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+<script src="../js/config.js" type="text/javascript"></script>
 <script type="text/javascript">
+    var _user = store.get('userinfo');
+    var _gid  = _user['userinfo'].gid;
 	var ChannelId = getUrlParam('roomId');
-	switch (ChannelId) {
-		case '1000':
-		console.log("进入了普通会议室");
-		break;
-		case '2000':
-		console.log("进入了内部会议室");
-		break;
-		case '3000':
-		console.log("进入了导演会议室");
-		break;
-		default:
-		alert('请输入会议号');
-		window.location.href = 'index.html';
-		break;
-	}
+	console.log(ChannelId)
+	// switch (ChannelId) {
+	// 	case '1000': console.log("进入了普通会议室"); break;
+	// 	case '2000': console.log("进入了内部会议室"); break;
+	// 	case '3000': console.log("进入了导演会议室"); break;
+	// 	default:
+	// 		alert('请输入会议号')
+	// 		window.location.href = 'index.html'
+	// }
 </script>
 <style type="text/css">
 
@@ -52,6 +49,9 @@
 			<div class="header_bar_right" id="pc_set">
 				<content class="bar_btn" tooltip="全屏开关" flow="down" onclick="toggleFullScreen(event)">
 					<span class="icon_box"><i class="icon iconfont icon-quanping"></i></span>
+				</content>
+				<content class="bar_btn" tooltip="投屏" flow="down" onclick="cam2screen()">
+					<span class="icon_box"><i class="iconfont icon-icon-wuxiantouping"></i></span>
 				</content>
 				<content class="bar_btn" tooltip="设置" flow="down" onclick="set_fun()">
 					<span class="icon_box"><i class="iconfont icon-shezhi"></i></span>

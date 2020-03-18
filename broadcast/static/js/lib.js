@@ -20,11 +20,10 @@ kling();
 function kling(){
   _open = layer.open({
     type: 1,
-    title:'提案',
+    title:'超级提案',
     area:'516px',
     skin:'layui-layer-nobg',
-    shadeClose: true,
-    content: $('#Bind_phone_box'),
+    content:$('#Bind_phone_box'),
     cancel:function(index){parent.layer.close(_index);}
   });
   // layer.prompt({
@@ -44,8 +43,8 @@ function JoinConference() {
   if(!$("#bind_code").val()){msg('密码不能为空');return}
   var pass = $("#bind_phone").val()
   var text = $("#bind_code").val();
-  // ChannelId=pass+text;
-  store.set('channelid',{"channelid": pass+text,"pass" : pass+text});
+  ChannelId = ChannelId+pass+text;
+  store.set('channelid',{"channelid": pass+text,"pass" : ChannelId});
   join();
   // getDevices();
   layer.close(_open);

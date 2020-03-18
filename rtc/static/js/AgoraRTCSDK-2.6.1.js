@@ -3254,7 +3254,7 @@
 						r.setAttribute("style", "text-align: right; padding: 16px 0;");
 						var s = document.createElement("button");
 						s.innerHTML = "取消",
-						s.setAttribute("style", "width: 85px;","line-height:25px"),
+						s.setAttribute("style", "width: 85px;line-height:2;cursor: pointer;"),
 						s.onclick = function() {cam2screen();document.body.removeChild(d), t && t("NotAllowedError")},
 						r.appendChild(s), o.appendChild(_o), i.appendChild(o), i.appendChild(a), i.appendChild(r);
 						var d = document.createElement("div");
@@ -3264,8 +3264,8 @@
 							if (e.id) {
 								var n = document.createElement("div");
 								n.setAttribute("style",
-										"width: 30%; height: 160px; padding: 20px 0; text-align: center;box-sizing: content-box;"), n.innerHTML =
-									'<div style="height: 120px; display: table-cell; vertical-align: middle;"><img style="width: 100%; background: #333333; box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);" src=' +
+										"width: 30%; height: 160px; padding: 20px 0; text-align: center;box-sizing: content-box;cursor: pointer;"), n.innerHTML =
+									'<div style="height: 120px;display: table-cell; vertical-align: middle;"><img style="width: 100%; background: #333333; box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);" src=' +
 									e.thumbnail.toDataURL() +
 									' /></div><span style="\theight: 40px; line-height: 40px; display: inline-block; width: 70%; word-break: keep-all; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' +
 									e.name.replace("Entire screen","系统屏幕")  + "</span>", n.onclick = function() {

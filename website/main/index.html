@@ -12,48 +12,52 @@
 </script>
 <link rel="stylesheet" href="css/iconfont.css">
 <script type="text/javascript" src="../../js/config/index.js"></script>
-<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+<script src="../../js/config.js" type="text/javascript"></script>
+<!-- 使用引导 -->
+<link href="../../js/config/lib/intro/introjs.min.css" type="text/css" rel="stylesheet"/>
+<script src="../../js/config/lib/intro/intro.min.js" type="text/javascript"></script>
 <style type="text/css">
 	.tab-grid{width: 20%; height: 169px;}
 	/*.tab-grid img{width: 156px; height: 125px;}*/
 	.hide{display: none}
-.back{width:100%;height:100%;position: absolute;z-index: -1;background: #e9ecef;background: url(img/background.png)no-repeat;background-size: cover;background-position: 100% 100%}
-	/*login ucentent*/
+	.back{width:100%;height:100%;position: absolute;z-index: -1;background: #e9ecef;background: url(img/background.png)no-repeat;background-size: cover;background-position: 100% 100%}
+		/*login ucentent*/
 
-.content .c-login {margin: 0 auto;background-color: #f4f5f3;padding-right: 100px;padding-left: 100px;padding-bottom: 70px;}
-.content .ucenter_title{display: inline-block;font-size: 28px;margin-top: 50px;margin-bottom: 20px;color: #212121;font-weight: 600}
-.content .ucenter_title span{font-size: 16px;margin-left: 18px;font-weight: 200;}
-.content .input_item{display: inline-block;line-height: 36px;border-radius: 18px;font-size: 16px;width: 300px;margin-top: 20px;}
-.content .input_item i{display: block;width: 40px;height: 36px;float: left;border-radius: 18px 0 0 18px;background-color: #fff;}
-.content .input_item input{width: 260px;border: 0;outline: 0;float: right;border-radius: 0 18px 18px 0;height: 36px;line-height: 16px;overflow: hidden;outline: 0;padding: 0;}
-.content .verify{margin-top: 20px;height: 36px;line-height: 36px;width: 300px;}
-.content .verify .input_item{float: left;width: 200px;margin-top: 0}
-.content .verify .input_item i{border-radius: 18px 0 0 18px;background-color: #fff;}
-.content .verify a{float: left;margin: 0;margin-left: 4px;width: 96px;position: relative;display: inline-block;height: 36px;border: 0;border-radius: 18px;line-height: 36px;font-size: 16px;text-align: center;color: #fff;cursor: pointer;background-color: #da001d;text-decoration: none;}
-.content .verify input{width: 160px;}
-.login{width: 300px;margin-top: 36px;font-size: 16px;border-radius: 18px;line-height: 36px;width: 300px;color: #fff;margin-top: 36px;outline: 0;border: 0;background-color: #2196f3;cursor: pointer;}
-.det_list{position: absolute;right: 0;top: 0;width: 24px;height: 24px;text-align: center;background: #fff;border-radius: 50%;z-index: 99;cursor: pointer;}
+	.content .c-login {margin: 0 auto;background-color: #f4f5f3;padding-right: 100px;padding-left: 100px;padding-bottom: 70px;}
+	.content .ucenter_title{display: inline-block;font-size: 28px;margin-top: 50px;margin-bottom: 20px;color: #212121;font-weight: 600}
+	.content .ucenter_title span{font-size: 16px;margin-left: 18px;font-weight: 200;}
+	.content .input_item{display: inline-block;line-height: 36px;border-radius: 18px;font-size: 16px;width: 300px;margin-top: 20px;}
+	.content .input_item i{display: block;width: 40px;height: 36px;float: left;border-radius: 18px 0 0 18px;background-color: #fff;}
+	.content .input_item input{width: 260px;border: 0;outline: 0;float: right;border-radius: 0 18px 18px 0;height: 36px;line-height: 16px;overflow: hidden;outline: 0;padding: 0;}
+	.content .verify{margin-top: 20px;height: 36px;line-height: 36px;width: 300px;}
+	.content .verify .input_item{float: left;width: 200px;margin-top: 0}
+	.content .verify .input_item i{border-radius: 18px 0 0 18px;background-color: #fff;}
+	.content .verify a{float: left;margin: 0;margin-left: 4px;width: 96px;position: relative;display: inline-block;height: 36px;border: 0;border-radius: 18px;line-height: 36px;font-size: 16px;text-align: center;color: #fff;cursor: pointer;background-color: #da001d;text-decoration: none;}
+	.content .verify input{width: 160px;}
+	.login{width: 300px;margin-top: 36px;font-size: 16px;border-radius: 18px;line-height: 36px;width: 300px;color: #fff;margin-top: 36px;outline: 0;border: 0;background-color: #2196f3;cursor: pointer;}
+	.det_list{position: absolute;right: 0;top: 0;width: 24px;height: 24px;text-align: center;background: #fff;border-radius: 50%;z-index: 99;cursor: pointer;}
 
-.tab-grid:hover .det_list{background: #f44336fc;opacity:1;}
-.tab-grid p{width: 89%;height: 18px;line-height: 18px;color: #666666;font-size: 16px;text-align: center;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin: 7.2% auto 0;}
-.tab-grid{width: 213px; height: 198px;}
-.tab-grid>a{width: 192px;height: 146px;display: block;line-height: 146px;position: relative;}
+	.tab-grid:hover .det_list{background: #f44336fc;opacity:1;}
+	.tab-grid p{width: 89%;height: 18px;line-height: 18px;color: #666666;font-size: 16px;text-align: center;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin: 7.2% auto 0;}
+	.tab-grid{width: 213px; height: 198px;}
+	.tab-grid>a{width: 192px;height: 146px;display: block;line-height: 146px;position: relative;}
 
-.tab-content{border-radius: 8px;display: block;width: 96%;height: 100%;-webkit-user-drag: none;transition: all .2s ease-out;margin: 0 auto;display: flex;}
-.tab-content h4{width: 100%;color: #fff;font-size: 24px;font-weight: 360;}
-.tab-grid:hover .tab-content{-webkit-filter: brightness(1.1);box-shadow: 0px 10px 18px 0px rgba(0,0,0,0.2)}
+	.tab-content{border-radius: 8px;display: block;width: 96%;height: 100%;-webkit-user-drag: none;transition: all .2s ease-out;margin: 0 auto;display: flex;}
+	.tab-content h4{width: 100%;color: #fff;font-size: 24px;font-weight: 360;}
+	.tab-grid:hover .tab-content{-webkit-filter: brightness(1.1);box-shadow: 0px 10px 18px 0px rgba(0,0,0,0.2)}
 
 
-.item_remind{line-height: 4;padding-left: 14px;}
-.radio_inner {border: 1px solid #999;border-radius: 100%;width: 18px;top: 3px;height: 18px;background-color: #fff;position: relative;cursor: pointer;display: inline-block;box-sizing: border-box;}
-.item_remind input{-webkit-appearance: none;width: 0;height: 0;visibility: hidden;border: none;float: left;margin: 0;}
-input[type="checkbox"]:checked+.radio_inner {border-color: #ec302c;background: #ec302c;}
-.radio_inner:after {width: 8px;height: 8px;border-radius: 100%;background-color: #fff;content: "";position: absolute;left: 50%;top: 50%;
-transform: translate(-50%,-50%) scale(0);transition: transform .15s cubic-bezier(.71,-.46,.88,.6);}
-input[type="checkbox"]:checked+.radio_inner:after {transform: translate(-50%,-50%) scale(1);}
-.radio_label {color: #333;margin-left: 5px;}
-input[type="checkbox"]:checked+.radio_inner+.radio_label {color: #ec302c;}
-.tab_ihpone{position: absolute;left: 4px;bottom: 0;height: 30px;line-height: 30px;width: 30px;color: rgba(43,51,63,.7);}
+	.item_remind{line-height: 4;padding-left: 14px;}
+	.radio_inner {border: 1px solid #999;border-radius: 100%;width: 18px;top: 3px;height: 18px;background-color: #fff;position: relative;cursor: pointer;display: inline-block;box-sizing: border-box;}
+	.item_remind input{-webkit-appearance: none;width: 0;height: 0;visibility: hidden;border: none;float: left;margin: 0;}
+	input[type="checkbox"]:checked+.radio_inner {border-color: #ec302c;background: #ec302c;}
+	.radio_inner:after {width: 8px;height: 8px;border-radius: 100%;background-color: #fff;content: "";position: absolute;left: 50%;top: 50%;
+	transform: translate(-50%,-50%) scale(0);transition: transform .15s cubic-bezier(.71,-.46,.88,.6);}
+	input[type="checkbox"]:checked+.radio_inner:after {transform: translate(-50%,-50%) scale(1);}
+	.radio_label {color: #333;margin-left: 5px;}
+	input[type="checkbox"]:checked+.radio_inner+.radio_label {color: #ec302c;}
+	.tab_ihpone{position: absolute;left: 4px;bottom: 0;height: 30px;line-height: 30px;width: 30px;color: rgba(43,51,63,.7);}
 </style>
 <script type="text/javascript">
 var _colordata = ['#fa2117','#ffcd0d','#0ce232','#089ff9','#cf41f4','#dc4b3e','#ffce44'];
@@ -70,39 +74,7 @@ function AddSite(){layer.open({type: 1,title:'添加网站',area:'516px',skin:'l
 </head>
 <body>
 	<div class="back"></div>
-<!-- <div class="search-form-bg move-by-top" style="opacity: 1; top: 207px;">
-	<form id="search-form" action="https://www.so.com/s?ie=utf-8&amp;src=se7_newtab_new" type="GET">
-		<div class="search-logo"><a href="https://www.so.com/?src=se7_newtab_new&amp;ls=0" class="search-logo-link" target="_blank"></a></div>
-		<div class="search-ui">
-			<p class="tips">搜&nbsp;&nbsp;索</p>
-			<div class="search">
-				<div class="ipt-border">
-					<div class="ipt">
-						<div id="search-switch" class="search-engine"><a id="current-engine" class="so"></a>
-							<div class="search-arr"><span></span></div>
-							<div class="splitter"></div>
-						</div><input id="search-kw" class="search-text ac_input" name="q" type="text" placeholder="" autocomplete="off">
-					</div>
-				</div>
-				<div class="btn"><input value="立即搜索" class="search-btn" type="submit"></div>
-				<div class="ac_results" style="display: none; position: absolute; width: 638px;">
-					<ul></ul>
-					<div class="powered">由3亿人都在使用的<i>360搜索</i>提供</div>
-					<div class="search-sug-ft"><a class="search-sug-clear">清空历史记录</a></div>
-				</div>
-			</div>
-			<ul class="search-menu" style="display:none">
-				<li><a _href="#" class="so"></a>360搜索</li>
-				<li><a _href="#" class="google"></a>谷歌</li>
-				<li><a _href="#" class="baidu"></a>百度</li>
-			</ul>
-			<div class="sug-hotword-wrap">
-				<ul class="sug-hotword-container" data-pid="sugHotWords"></ul>
-			</div>
-		</div><input type="hidden" name="ie" value="utf-8"><input type="hidden" name="src" value="se7_newtab_new">
-	</form>
-</div> -->
-<div id="userApp" class="tab move-by-top">
+<div id="userApp" class="tab move-by-top" data-step="1" data-intro="网站展示区，选择任一网站即可进入，无需打开浏览器搜索">
 	<li v-for="(tt,index) in data"class="tab-grid">
 		<a v-if="tt.status == 1" :href="tt.url" >
 			<div class="tab-content" v-bind:style="{backgroundColor:colordata[index]}">
@@ -116,7 +88,9 @@ function AddSite(){layer.open({type: 1,title:'添加网站',area:'516px',skin:'l
 			</div>
 			<span class="tab_ihpone"><i class="iconfont icon-shouji"></i></span>
 		</a>
-		<span class="det_list" @click="_del(tt.id)"><svg t="1559629375466" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="827" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><defs><style type="text/css"></style></defs><path d="M784.3 526.1H283c-15.2 0-27.5-12.3-27.5-27.5s12.3-27.5 27.5-27.5h501.3c15.2 0 27.5 12.3 27.5 27.5-0.1 15.2-12.4 27.5-27.5 27.5z" fill="#fff" p-id="828"></path></svg></span>
+		<span class="det_list" @click="_del(tt.id)" data-step="2" data-intro="点此添加新的网站链接">
+			<svg t="1559629375466" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="827" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><defs><style type="text/css"></style></defs><path d="M784.3 526.1H283c-15.2 0-27.5-12.3-27.5-27.5s12.3-27.5 27.5-27.5h501.3c15.2 0 27.5 12.3 27.5 27.5-0.1 15.2-12.4 27.5-27.5 27.5z" fill="#fff" p-id="828"></path></svg>
+		</span>
 	</li>
 	<li class="tab-grid add" onclick="AddSite()">
 		<img src="img/38fde480.png"> <p></p>
@@ -160,7 +134,14 @@ getData();
 
 function getData() {
 _tcsys['filter'] = JSON.stringify({"status[!]":"9"});
-httpx.get(api_getlis,_tcsys,function(data){var _data = JSON.parse(data);if(_data.success)vmup(_app,_data); console.log(_app)})
+httpx.get(api_getlis,_tcsys,function(data){
+	var _data = JSON.parse(data);
+	if(_data.success){
+		vmup(_app,_data);	//startTour()
+	}
+	console.log(_app)
+
+})
 }
 
 $('#to_ucenter_btn').on('click',function(){
@@ -214,6 +195,24 @@ var str=URL;
 // 　　console.log(e)
 // })
 // ipcRenderer.sendToHost('pong')//向webview所在页面的进程传达消息
+
+function startTour() {
+  var tour = introJs()
+  // tour.setOption('tooltipPosition', 'auto');
+  tour.setOptions({
+    // steps: [{intro: "Hello world!"}],
+    nextLabel: '下一步 &rarr;',
+    prevLabel: '&larr; 上一步',
+    skipLabel: '跳过',
+    doneLabel: "完成",
+    exitOnOverlayClick: false,
+    exitOnEsc: false,
+    showBullets: false,
+    tooltipPosition: 'auto'
+  })
+  tour.start()
+}
+
 </script>
 
 </body>

@@ -6,20 +6,25 @@
 <link href="static/css/css.css" rel="stylesheet">
 <script src="static/js/AgoraRTCSDK-2.6.1.js"></script>
 <script type="text/javascript" src="../js/config/index.js"></script>
-<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+<script src="../js/config.js" type="text/javascript"></script>
+<script src="http://mfyfile.greatorange.cn/socket.io.js"></script>
+  <!-- 使用引导 -->
+  <link href="../js/config/lib/intro/introjs.min.css" type="text/css" rel="stylesheet"/>
+  <script src="../js/config/lib/intro/intro.min.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="wrap">
 	<div id="header">
 		<div class="header_bar">
 			<div class="header_bar_right" id="pc_set">
-				<content class="bar_btn" tooltip="全屏开关" flow="down" onclick="toggleFullScreen(event)">
+				<content class="bar_btn" tooltip="全屏开关" flow="down" onclick="toggleFullScreen(event)" data-step="3" data-intro="全屏开关">
 					<span class="icon_box"><i class="icon iconfont icon-quanping"></i></span>
 				</content>
-				<content class="bar_btn" tooltip="投屏" flow="down" onclick="cam2screen()">
+				<content class="bar_btn" tooltip="投屏" flow="down" onclick="cam2screen()" data-step="4" data-intro="	发起投屏，将己方屏幕投屏至其他成员终端桌面">
 					<span class="icon_box"><i class="iconfont icon-icon-wuxiantouping"></i></span>
 				</content>
-				<content class="bar_btn" tooltip="设置" flow="down" onclick="set_fun()">
+				<content class="bar_btn" tooltip="设置" flow="down" onclick="set_fun()" data-step="5" data-intro="	设置己方麦克风、摄像头等设备参数">
 					<span class="icon_box"><i class="iconfont icon-shezhi"></i></span>
 				</content>
 			</div>
@@ -38,13 +43,13 @@
 			<div id="agora_local" class="main" onclick="toggleBox(this)"></div>
 		</div>
 		<div class="to_desktop">
-			<content class="bar_btn Previou" tooltip="显示成员" flow="down" onclick="Members()">
+			<content class="bar_btn Previou" tooltip="显示成员" flow="down" onclick="Members()" data-step="2" data-intro="显示/隐藏在线成员">
 				<span class="icon_box"><i class="iconfont icon-zhankai"></i></span>
 			</content>
 		</div>
 	</div>
 	<div id="footer">
-		<div class="bottom_bar">
+		<div class="bottom_bar" data-step="1" data-intro="控制己方音量、话筒、摄像头、视频状态的开关工具">
 			<div class="bottom_bar_conter">
 		      <content class="bar_btn" tooltip="音频开关" onclick="voice_switch()" id="loudspeaker">
 		      	<span class="icon_box"><i class="icon iconfont icon-yangshengqi"></i></span>
@@ -95,18 +100,48 @@
 	     <article class="c-login">
 	        <form class="ucenter_form">
 	          <span class="ucenter_title"><p>创建会议<span>Create Meeting</span></p></span>
-	          <span class="input_item"><i></i>
-	            <input type="text" name="bin_phone" placeholder="请输入会议口令" id="bind_phone">
-	          </span>
-	          <span class="input_item"><i></i>
-	            <input type="text" name="bind_code" placeholder="请输入密码" id="bind_code">
-	          </span>
+	          <div>
+		          <div class="input_item"><i></i>
+		            <input type="text" name="bin_phone" placeholder="请输入会议口令" id="bind_phone">
+		          </div>
+		          <div class="input_item"><i></i>
+		            <input type="text" name="bind_code" placeholder="请输入密码" id="bind_code">
+		          </div>
+	          </div>
 	        </form>
 	        <button type="button" class="login" id="Bind_phone_btn" onclick="JoinConference()">进入会议</button>
 	     </article>
     </div>
 	<iframe id="im" src="" frameborder="no" border="0" scrolling="no" allowTransparency="true" height="0"></iframe>
 </div>
+
+<!-- <script src="http://mfyfile.greatorange.cn/socket.io.js"></script> -->
 <script src="static/js/lib.js"></script>
+<script type="text/javascript">var socket = io('http://api.greatorange.cn:3000/');</script>
+<script type="text/javascript">
+	function startTour() {
+	  var tour = introJs()
+	  // tour.setOption('tooltipPosition', 'auto');
+	  tour.setOptions({
+	    // steps: [{intro: "Hello world!"}],
+	    nextLabel: '下一步 &rarr;',
+	    prevLabel: '&larr; 上一步',
+	    skipLabel: '跳过',
+	    doneLabel: "完成",
+	    exitOnOverlayClick: false,
+	    exitOnEsc: false,
+	    showBullets: false,
+	    tooltipPosition: 'auto'
+	  })
+	  tour.start()
+	}
+var _main = store.get('isInit')
+if(_main && !_main['rtc']){
+    _main['rtc'] = true
+    store.set('isInit',_main)
+    startTour()
+}
+</script>
+
 </body>
 </html>

@@ -52,7 +52,7 @@ $('#newMsg').html(newMsg);
 break;
 case 'logout':// 用户退出 更新用户列表
 // say(data['from_client_id'],data['from_client_name'],DE_JSON(decodeURIComponent(data['from_client_name']))["nickname"]+' 退出了魔方!',data['time']);
-msg(DE_JSON(decodeURIComponent(data['from_client_name']))["nickname"]+' 退出了魔方!')
+// msg(DE_JSON(decodeURIComponent(data['from_client_name']))["nickname"]+' 退出了魔方!')
 delete client_list[data['from_client_id']];
 flush_client_list();
 }

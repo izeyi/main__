@@ -160,6 +160,7 @@
 	    margin-bottom: 2em;
 	}
 	</style>
+	<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
 </head>
 <body>
 <div id="app">
@@ -175,19 +176,29 @@
 						<a class="outlink white" href="http://yun.greatorange.cn/task/task.html?loc=box">开始浏览</a>
 					</div>
 				</div>
-				<div class="card secondary">
+				<!-- <div class="card secondary">
 					<img class="logo" alt="" src="http://yun.greatorange.cn/task/images/outro-app.png">
 					<div class="card-footer">
 						<h3>金主爸爸</h3>
 						<h4>放心和实力企业合作!</h4>
 						<a class="outlink white helpviewer" href="http://yun.greatorange.cn/task/investor.html?loc=box">发布任务</a>
 					</div>
-				</div>
+				</div> -->
 			</div>
 			<p role="contentinfo">Copyright © 2019 橙影互联. 保留一切权利。</p>
 		</div>
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	var doc = new jsPDF({
+	  orientation: 'landscape',
+	  unit: 'in',
+	  format: [4, 2]
+	})
+
+	doc.text('Hello world!', 1, 1)
+	doc.save('two-by-four.pdf')
+</script>
 </body>
 </html>

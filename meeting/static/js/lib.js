@@ -1,19 +1,29 @@
-/**/
+/*
+* lib.js
+*
+* @Author: TongZhou
+* @Date:   2020-03-03 11:37:30
+* @Last Modified by:   TongZhou
+* @Last Modified time: 2020-03-15 23:37:43
+* @email: 993234530@qq.com
+* @des: ---
+*/
+
 
 var sc = 0, _pass,audiodata = [],videodata = [],video_ = 1,audio_ = 1,layerOpen,
 pushApi = globalApi_+"/box/push/";
-/**/
+var socket = io('http://api.greatorange.cn:3000/');
+
 var audioSelect = document.querySelector('select#audioSource');
 var videoSelect = document.querySelector('select#videoSource');
-var pushApi = globalApi_+"/box/push/";
 var _user = store.get('userinfo');
 var _gid = _user.userinfo.gid;
 var _uid = _user.userinfo.uid;
 var _index = parent.layer.getFrameIndex(window.name);
 if(!AgoraRTC.checkSystemRequirements())alert("Your browser does not support WebRTC!")
 var AppId = "";
-var ChannelId = getUrlParam('roomId')+_gid;//_gid
-// console.log(ChannelId)
+//var ChannelId = getUrlParam('roomId')+_gid;//_gid
+console.log(ChannelId)
 window.onload = function () {
 httpx.get(globalApi_+"/box/rtc/oauth/",{'token':_user.token},function(data){
 var _data = JSON.parse(data);
@@ -200,7 +210,7 @@ function set_fun(){
 function cam2screen() {
   client.leave(function () {
     parent.layer.close(_index);
-    parent.push_screen();
+    parent.push_screen({'obj':"meeting",'ctrl':"block"});
     console.log("Leavel channel successfully")
   },function (err){
     console.log("Leave channel failed")
@@ -250,7 +260,7 @@ function opvoice(){$("#video_box audio,#video_box video").each(function(){docume
 function disvoice(){$("#video_box audio,#video_box video").each(function(){document.getElementById($(this).attr("id")).muted=true});}//开声
 
 // 推送服务端
-var socket = io('http://api.namenb.com:2120');
+// var socket = io('http://api.namenb.com:2120');
 uid = _gid;// uid可以是自己网站的用户id，以便针对uid推送以及统计在线人数
 socket.on('connect',function(){socket.emit('login', uid);});// socket连接后以uid登录
 socket.on('new_msg',function(msg_){// 后端推送来消息时

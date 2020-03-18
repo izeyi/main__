@@ -6,7 +6,8 @@
 	<link rel="stylesheet" href="../static/css/style.css">
 	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
 	<script type="text/javascript" src="../../js/config/index.js"></script>
-  	<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+	<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+	<script src="../../js/config.js" type="text/javascript"></script>
 	<!-- Madong -->
 	<style>
 		body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
@@ -122,7 +123,8 @@
 							<div class='add_title'>上传文件<span>&nbsp;&nbsp;Upload File</span><span style="margin-left: 20px;font-size: 16px">(关于我们栏目)</span></div>
 							<div class="up_btn_sou">
 								<div class="up_btn_sou_lf">
-									<span class="up_btn_sou_lf_up" onclick='b_video()'>选择文件</span><span class="up_btn_sou_lf_delete">删除</span>
+									<span class="up_btn_sou_lf_up" onclick='b_video()'>选择文件</span>
+									<!-- <span class="up_btn_sou_lf_delete">删除</span> -->
 								</div>
 							</div>
 						</div>
@@ -139,8 +141,9 @@
 								<tbody>
 									<tr class='content' v-for="tt in data" v-if="data.length != 0 || tt.status != 9">
 										<td>
-											<input type="checkbox">
-											<span>{{tt.title}}</span></td>
+											<!-- <input type="checkbox"> -->
+											<span>{{tt.title}}</span>
+										</td>
 										<td>上传</td>
 										<td>{{tt.time | time}}</td>
 										<td><span class="t_icon iconfont icon-all_delete" @click="_del(tt.id)"></span></td>

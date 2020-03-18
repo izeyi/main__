@@ -39,7 +39,7 @@ body {font:12px/1.8 "Microsoft YaHei","PingFangSC-Regular";height:100%;overflow:
 /*# sourceMappingURL=style.css.map*/
  #wrapper{position: absolute;bottom: 0;text-align: center;width: 100%;}
     /*tong and*/
-#Tooblar{position: absolute;width: 100%;height: 100%;color: rgba(255,255,255,.76);}
+#Tooblar{color: rgba(255,255,255,.76);}/*position: absolute;width: 100%;height: 100%;*/
 .tooblarBox{position: absolute;padding: 0 12px;right: 0;box-sizing: border-box;transition: all .3s ease;z-index: 10;background-image: -webkit-linear-gradient(top,rgba(0,0,0,0.54) 0%,rgba(0,0,0,0.12) 70%,rgba(0,0,0,0.00) 100%);}/*transform: translateY(-28px);width: 100%;*/
 .tooblarBox:hover{background-image: -webkit-linear-gradient(top,rgba(0,0,0,0.74) 0%,rgba(0,0,0,0.32) 70%,rgba(0,0,0,0.10) 100%);}
 .tooblarBox .tooblar{display: flex;float: right;width: 120px;margin-top: 8px}
@@ -49,8 +49,8 @@ body {font:12px/1.8 "Microsoft YaHei","PingFangSC-Regular";height:100%;overflow:
 /*admin*/
 .admin_box{position: fixed;top: 0;right: -100%;width: 100%;padding: 0;height: 100%;z-index: 999;transition: all 0.45s ease-in-out;background-color: #333;}
 .admin_box.on{right: 0}
-.admin_box.on .to_desktop{top: 95%}
-.to_desktop{position: absolute;cursor: pointer;left: 0;top:22%;margin-left: -50px;transform: translateY(-50%);transition: all 0.3s ease;}
+.admin_box.on .to_desktop{top: 95%}/*transform: translateY(-50%);*/
+.to_desktop{position: absolute;cursor: pointer;left: 0;top:22%;margin-left: -50px;transition: all 0.3s ease;}
 .to_desktop .t_icon{width: 40px;height: 40px;background:transparent url(../images/re.png) no-repeat;transition: all 0.3s ease-in-out;float:left;}
 .to_desktop .Previou{background-position: 0 -126px;margin-left:10px;}
 .to_desktop .to_admin{background-position: 0 -84px;margin-right:10px;}

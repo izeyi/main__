@@ -6,7 +6,9 @@
   <link href="static/css/css.css" rel="stylesheet">
   <script src="static/js/AgoraRTCSDK-2.6.1.js"></script>
   <script>if (typeof module === 'object') {window.module = module; module = undefined;}  const {ipcRenderer} = require('electron');</script>
-  <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+
+<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+<script src="../js/config.js" type="text/javascript"></script>
   <style type="text/css">
     .T_video{width: 100%}
     .T_video>div{width: 100%;height: 188px;margin: 0 auto}
@@ -41,11 +43,11 @@
     <div class="T_toolbar_btm">
       <div class="T_btm_bar_box">
         <span class="bar_btn" onclick="minWin()" tooltip="最小化"><i class="icon iconfont icon-guanbiquanping"></i></span>
-        <span class="bar_btn" onclick="voice_switch(this)" tooltip="关闭扬声器"><i class="icon iconfont icon-yangshengqi"></i></span>
-        <span class="bar_btn" onclick="audio_switch(this)" tooltip="关闭麦克风"><i class="icon iconfont icon-maikefeng-shi"></i></span>
-        <span class="bar_btn" onclick="video_switch(this)" tooltip="关闭视频"><i class="icon iconfont icon-ic_videocam_px"></i></span>
-        <span class="bar_btn" onclick="cam2screen('close')" tooltip="切换摄像头"><i class="icon iconfont icon-raoshexiangjixuanzhuan"></i></span>
-        <span class="bar_btn" onclick="leave(this)" tooltip="挂断"><i class="icon iconfont icon-hungup" style="color:#f00;font-weight:bold;"></i></span>
+        <span class="bar_btn" onclick="voice_switch(this)" tooltip="扬声器"><i class="icon iconfont icon-yangshengqi"></i></span>
+        <span class="bar_btn" onclick="audio_switch(this)" tooltip="麦克风"><i class="icon iconfont icon-maikefeng-shi"></i></span>
+        <span class="bar_btn" onclick="video_switch(this)" tooltip="摄像头"><i class="icon iconfont icon-ic_videocam_px"></i></span>
+        <span class="bar_btn" onclick="cam2screen('close')" tooltip="结束投屏"><i class="icon iconfont icon-raoshexiangjixuanzhuan"></i></span>
+        <span class="bar_btn" onclick="leave(this)" tooltip="结束会议"><i class="icon iconfont icon-hungup" style="color:#f00;font-weight:bold;"></i></span>
       </div>
       <div id="div_join" class="panel panel-default hide">
         <div class="panel-body">
@@ -93,9 +95,22 @@
         if (document.getElementById("video").checked) {
           camera = videoSource.value;
           microphone = audioSource.value;
-          localStream = AgoraRTC.createStream({streamID: uid, audio: false,  microphoneId: microphone,video: false, screen: true});
+          localStream = AgoraRTC.createStream({
+            streamID: uid,
+            audio: true,
+            microphoneId: microphone,
+            video: false,
+            screen: true
+          });
           //localStream = AgoraRTC.createStream({streamID: uid,screen: true});//屏幕源
-          //localStream = AgoraRTC.createStream({ streamID: uid, audio: true,cameraId: camera,microphoneId: microphone,video: document.getElementById("video").checked, screen: false });//摄像头源
+          //localStream = AgoraRTC.createStream({
+          //  streamID: uid,
+          //  audio: true,
+          //  cameraId: camera,
+          //  microphoneId: microphone,
+          //  video: document.getElementById("video").checked,
+          //  screen: false
+          // });//摄像头源
 
           if (document.getElementById("video").checked) {localStream.setVideoProfile('720p_3')}
 
@@ -119,7 +134,11 @@
     client.on('error', function(err) {
       console.log("Got error msg:", err.reason);
       if (err.reason === 'DYNAMIC_KEY_TIMEOUT') {
-        client.renewChannelKey(channelKey,function(){console.log("Renew channel key successfully")},function(err){console.log("Renew channel key failed: ",err)});
+        client.renewChannelKey(channelKey,function(){
+          console.log("Renew channel key successfully")
+        },function(err){
+          console.log("Renew channel key failed: ",err)
+        });
       }
     });
 

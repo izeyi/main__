@@ -6,11 +6,16 @@
   <link href="static/css/style.css" type="text/css" rel="stylesheet" />
   <link href="static/css/iconfont.css" type="text/css" rel="stylesheet" />
   <link href="static/css/loader.css" type="text/css" rel="stylesheet" />
-  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+  <script>if (typeof module === 'object'){window.module = module; module = undefined;}</script>
   <script src="../js/config/index.js" type="text/javascript"></script>
-  <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+  <!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+  <script src="../js/config.js" type="text/javascript"></script>
+  <!-- 使用引导 -->
+  <link href="../js/config/lib/intro/introjs.min.css" type="text/css" rel="stylesheet"/>
+  <script src="../js/config/lib/intro/intro.min.js" type="text/javascript"></script>
   <script>
-    if (window.module) module = window.module;const {ipcRenderer} = require("electron");
+    if (window.module) module = window.module;
+    const {ipcRenderer} = require("electron");
     //分辨率适配
     var devInnerHeight = 1080.0; //开发时的InnerHeight
     var devDevicePixelRatio = 1.5; //开发时的devicepixelratio
@@ -21,12 +26,11 @@
     /*loading*/
     var _LoadingHtml = '<div id="loader-wrapper"><div id="loader"></div><div class="loader-section section-left"></div><div class="loader-section section-right"></div><div class="load_title">技术天橙，缔造完美<br><span></span></div></div>';
     //呈现loading效果
-    document.write(_LoadingHtml);
-    setInterval(function () {$('body').addClass('loaded');$('#loader-wrapper .load_title').remove()},1500);
-
-    Vue.filter('is_face', function (str) {if(!str){return 'static/images/head.png'}else{return str}});
-    var _user = store.get('userinfo');
-    var default_data={"success": true,"userinfo": {"phone":"","openid":"","wxuserinfo":"{}","isadmin":"0","power":null,"nickname":"","position":"","face":"","content":"","status":"0"},"cominfo": {"gid":"","logo":"","comname":"","videotags":"","pictags":"","rtckey": null}};
+    document.write(_LoadingHtml)
+    setInterval(function () {$('body').addClass('loaded');$('#loader-wrapper .load_title').remove()},1500)
+    Vue.filter('is_face', function (str) {if(!str){return 'static/images/head.png'}else{return str}})
+    var _user = store.get('userinfo')
+    var default_data={"success": true,"userinfo": {"phone":"","openid":"","wxuserinfo":"{}","isadmin":"0","power":null,"nickname":"","position":"","face":"","content":"","status":"0"},"cominfo": {"gid":"","logo":"","comname":"","videotags":"","pictags":"","rtckey": null}}
     // updata();
     console.log(_user)
     var _Arr = ["static/images/des01.jpg","static/images/des02.jpg","static/images/des03.jpg","static/images/des04.jpg"];
@@ -55,18 +59,18 @@
     </header>
     <!-- tong end -->
     <div id="desk">
-      <ul>
+      <ul style="display: flex;width: 336px" data-step="4" data-intro="这里是我们常用的功能模块！">
         <li style="left:30px;top:40px" onclick='openwindow("视频案例","../anlie/index.html","1");'>
           <img src="static/images/icon.png" /><span title="视频案例">视频案例</span><em></em>
         </li>
-        <li style="left:30px;top:170px" onclick='openwindow("导演连线","../meeting/index.html","2");'>
-          <img src="static/images/icon2.png" /><span title="导演连线">导演连线</span><em></em>
+        <li style="left:30px;top:170px" onclick='openwindow("魔方会议室","../meeting/index.html","2");'>
+          <img src="static/images/icon2.png" /><span title="魔方会议室">魔方会议室</span><em></em>
         </li>
          <!-- <li style="left:30px;top:300px" onclick='ipcRenderer.send("cam");'> -->
         <li style="left:30px;top:300px" onclick='onlookers("超级提案","../rtc/cam.html","3");' id="_draft">
           <img src="static/images/icon6.png" /><span title="超级提案">超级提案</span><em></em>
         </li>
-         <li style="left:30px;top:430px" onclick='openStaticWin("闪传","../pushvideolist/index.html","1");'>
+        <li style="left:30px;top:430px" onclick='openStaticWin("闪传","../pushvideolist/index.html","1");'>
           <img src="static/images/icon3.png" /><span title="闪传">闪传</span><em></em>
         </li>
         <li style="left: 30px; top: 560px;" onclick='openwindow("产品库","../product/index.html","3");'>
@@ -75,9 +79,9 @@
         <!-- <li style="left:30px;top:560px" onclick='pdfview("AI智慧营销",`file://${__dirname}/../pdffiles/「橙影互联」AI智慧营销.pdf`)'>
           <img src="static/images/icon14.png" /><span title="AI智慧营销">AI智慧营销</span><em></em>
         </li> -->
-        <!-- <li style="left:30px;top:690px" onclick='pdfview("AI智能名片",`file://${__dirname}/../pdffiles/「橙影互联」加推AI智能名片.pdf`)'>
-          <img src="static/images/icon00.png" /><span title="AI智能名片">AI智能名片</span><em></em>
-        </li> -->
+        <li style="left:30px;top:690px" onclick='openActivity("用户福利","http://yun.greatorange.cn/activity/index.html?id="+_user.token,"3")'>
+          <img src="static/images/icon99.png" /><span title="用户福利">用户福利</span><em></em>
+        </li>
         <!-- 2 col -->
         <li style="left: 136px; top: 40px;" onclick='openwindow("资料库","../document/index.html","5");'>
           <img src="static/images/icon10.png" /><span title="资料库">资料库</span><em></em>
@@ -88,8 +92,9 @@
         <li style="left: 136px; top: 300px;" onclick='openwindow("关于我们","../about/index.html","6");'>
           <img src="static/images/icon5.png" /><span title="关于天橙">关于我们</span><em></em>
         </li>
-        <!-- <li style="left: 136px; top: 430px;" onclick='msg("即将开放...")'>http://yun.greatorange.cn/task/task.html -->
-        <li style="left: 136px; top: 430px;" onclick='openwindow("任务大厅","hall.html","7");'>
+        <li style="left: 136px; top: 430px;" onclick='msg("即将开放...")'>
+        <!-- <li style="left: 30px; top: 430px;" onclick='msg("即将开放...")'> -->
+        <!-- <li style="left: 136px; top: 430px;" onclick='openwindow("任务大厅","http://yun.greatorange.cn/task/task.html?loc=box","7");'> -->
           <img src="static/images/icon4.png" /><span title="任务大厅">任务大厅</span><em></em>
         </li>
         <!-- <li style="left: 136px; top: 560px;" onclick='openwindow("天橙案例","../case/index.html","11");'>
@@ -107,9 +112,9 @@
   </div>
   <!-- 工具栏 -->
   <div class="side-bar">
-    <ul>
+    <ul style="display: flex;" data-step="3" data-intro="这里是我们魔方云的工具！">
       <li onclick='ipcRenderer.send("wechat");' tooltip="微信登录" flow="down">
-        <img src="static/images/icon11.png"/><span title="打开文件">微信登录</span>
+        <img src="static/images/icon11.png"/><span title="微信登录">微信登录</span>
       </li>
       <li onclick='onlookers("会议直播","../broadcast/cam.html","4");' tooltip="会议直播" flow="down">
         <img src="static/images/icon21.png"/><span title="会议直播">会议直播</span>
@@ -120,25 +125,29 @@
       <li onclick='ipcRenderer.send("airplay");msg("请将手机连接WIFI后使用AirPlay投屏！")' tooltip="魔方投屏" flow="down">
         <img src="static/images/icon22.png"/><span title="魔方投屏">魔方投屏</span>
       </li>
-      <li class="boundary" style="width: 0"></li>
+     <!--  <li class="boundary" style="width: 0"></li>
       <li onclick='openwindow("商机•电销","https://web.kdzl.cn/","9")' tooltip="商机•电销" flow="down">
         <img src="static/images/icon13.png"/><span title="商机•电销">商机•电销</span>
-      </li>
-      <li onclick='openweb("商机•橙标","http://ai.namenb.com/toolbox/phoneviewer/?url=http://api.greatorange.cn/bid/index.html?_openid=oSDiUwITps0WeY6ur1m5R0Omp-0w")' tooltip="商机•橙标" flow="down">
+      </li> -->
+      <!-- <li onclick='openweb("商机•橙标","http://ai.namenb.com/toolbox/phoneviewer/?url=http://api.greatorange.cn/bid/index.html?_openid=oSDiUwITps0WeY6ur1m5R0Omp-0w")' tooltip="商机•橙标" flow="down">
+        <img src="static/images/icon18.png"/>
+        <span title="商机•橙标">商机•橙标</span>
+      </li> -->
+      <li onclick='msg("即将开放...");' tooltip="商机•橙标" flow="down">
         <img src="static/images/icon18.png"/>
         <span title="商机•橙标">商机•橙标</span>
       </li>
-      <li onclick='openweb("商机•橙标","http://ai.namenb.com/toolbox/phoneviewer/?url=http://api.greatorange.cn/bid_pro/index.html?_openid=oSDiUwITps0WeY6ur1m5R0Omp-0w")' tooltip="商机•意向" flow="down">
+      <!-- <li onclick='openweb("商机•橙标","http://ai.namenb.com/toolbox/phoneviewer/?url=http://api.greatorange.cn/bid_pro/index.html?_openid=oSDiUwITps0WeY6ur1m5R0Omp-0w")' tooltip="商机•意向" flow="down">
         <img src="static/images/icon17.png"/><span title="商机•意向">商机•意向</span>
-      </li>
-       <li onclick='msg("即将开放...");' tooltip="我要推广" flow="down">
+      </li> -->
+       <!-- <li onclick='msg("即将开放...");' tooltip="我要推广" flow="down">
         <img src="static/images/icon7.png"/><span title="我要推广">我要推广</span>
-      </li>
+      </li> -->
     </ul>
   </div>
   <!-- 用户信息 板块 -->
-  <div class="webos-card" id="userApp">
-    <div class="card-close" onclick="to_ucenter()">管理面板</div>
+  <div class="webos-card" id="userApp" data-step="1" data-intro="您可以在这里，点击设置修改您的信息！">
+    <div class="card-close" onclick="openwindow('信息设置','../ucenter/user_info.html')">设置</div>
     <div class="thumbnail"><img :src="userinfo.face | is_face"/></div>
     <div class="content">
       <div>
@@ -152,7 +161,10 @@
   <!-- 管理员 板块 -->
   <div class="admin_box">
     <iframe src="" frameborder="0" id="mainframe" width="100%" height="100%"></iframe>
-    <div class="to_desktop"><div id="t_lt" onclick="to_ucenter()" class="to_admin t_icon card-close" tooltip="进入控制台" flow="left"></div><div id="t_rt" class="Previou t_icon" tooltip="返回系统" flow="right"></div></div>
+    <div class="to_desktop" data-step="2" data-intro="如果您是管理员，您可以从这里进入后台系统！">
+      <div id="t_lt" onclick="to_ucenter()" class="to_admin t_icon card-close" tooltip="进入控制台" flow="left"></div>
+      <div id="t_rt" class="Previou t_icon" tooltip="返回系统" flow="right"></div>
+    </div>
   </div>
   <!-- IM 板块 -->
   <!-- <div class="IM_box">
@@ -227,7 +239,7 @@
       </span>
       <div class="verify">
         <span class="input_item"><i></i>
-          <input type="text" name="code" placeholder="请输入验证码" id="ucenter_code">
+          <input type="text" name="code" placeholder="请输入验证码" id="ucenter_code" maxlength="4">
         </span>
         <a href="javascript:;" id="btn_getCode_ucerner">发送验证码</a>
       </div>
@@ -235,15 +247,16 @@
     <button type="button" class="login" id="to_ucenter_btn">进入用户中心</button>
   </article>
 </div>
-<script type="text/javascript" src="static/js/common.js"></script>
+<!-- <script type="text/javascript" src="static/js/common.js"></script> -->
+<script src="http://mfyfile.greatorange.cn/socket.io.js"></script>
 <script>
 var ucenter_key,
     _bind_data = {},
     _tcsys = {},
     t_url,
     _app = new Vue({el : "#openbox",data:default_data})
-updata();
-dynamicDesktop();
+updata();//用户信息
+dynamicDesktop();//随机背景图片
 
     var _gid = _user.userinfo.gid;
     var _uid = _user.userinfo.uid;
@@ -253,14 +266,24 @@ dynamicDesktop();
     var ws,room_id, client_list={};
     room_id=userinfo["gid"];
 
-//修改背景图片
-function dynamicDesktop(){var _des = Math.floor(Math.random() * _Arr.length + 1)-1;$('#desktop').css('background-image','url('+_Arr[_des]+')')}
+/**
+ * 随机背景图片
+ * @return {[type]} [description]
+ */
+function dynamicDesktop(){
+  var _des = Math.floor(Math.random() * _Arr.length + 1)-1;
+  $('#desktop').css('background-image','url('+_Arr[_des]+')')
+}
 //更新提示and
 openStaticWin("魔方云的新功能","../whats_new/index.html","10");
 // if(typeof(store.get('record')) == 'undefined'){store.set('record','1');openwindow("天橙魔方的新功能","../whats_new/index.html","10");};
 //更新提示end
 
-// 进入用户中心
+/**
+ * 进入后台
+ * @param  {[type]} _url 具体栏目
+ * @return {[type]}      [description]
+ */
 function to_ucenter(_url){
   t_url = _url ? '../ucenter/index.html?pag='+_url : '../ucenter/index.html';
   if(!ucenter_key){
@@ -269,35 +292,65 @@ function to_ucenter(_url){
     $('.admin_box').addClass('on');$('#mainframe').attr('src',t_url);layer.closeAll();
   }
 }
-// 退出用户中心
+/**
+ * 退出后台
+ * @param  {[type]} ){$('.admin_box').removeClass('on');updata();} [description]
+ * @return {[type]}                                                  [description]
+ */
 $('.Previou').on('click',function (){$('.admin_box').removeClass('on');updata();})
 
-
-//退出提示 and
+/**
+ * 退出提示
+ * @return {[type]} [description]
+ */
 function mexit() {
-layer.confirm('确定退出系统?',{title:'魔方云',btn:['确定','取消']},function(){store.clearAll();ipcRenderer.send("closeWin");},function(){console.log("取消操作了！")});
+  layer.confirm('确定退出系统?',{title:'魔方云',btn:['确定','取消']},function(){
+    store.clearAll();ipcRenderer.send("closeWin");
+  },function(){
+    console.log("取消操作了！")
+  })
 }
-//退出提示 end
-
-//and  ucenter
-$("#btn_getCode_ucerner").on("click",function(){//发送验证码
+/**
+ * 管理员进入系统后台 发送验证码
+ * @param  {[type]}   [description]
+ * @return {[type]}   [description]
+ */
+$("#btn_getCode_ucerner").on("click",function(){
   var _this = $(this);
   _tcsys.phone = $("#ucenter_phone").val();
   if(!_this.data("sendFlag"))httpx.get(sendcodeApi,{phone:_tcsys.phone},function(data){if(JSON.parse(data).success)countdown(_this); layer.msg(JSON.parse(data).info)});
 });
-$('#to_ucenter_btn').on('click',function() {//进入后台
+/**
+ * 管理员进入系统后台
+ * @param  {[type]}   [description]
+ * @return {[type]}   [description]
+ */
+$('#to_ucenter_btn').on('click',function() {
   _tcsys.phone = $("#ucenter_phone").val();
   _tcsys.code = $("#ucenter_code").val();
   httpx.get(loginAdminApi,_tcsys,function(data){
-  if (JSON.parse(data).success || _tcsys.code=='0000'){ucenter_key = true;$('.admin_box').addClass('on');$('#mainframe').attr('src',t_url);layer.closeAll()}
+    if (JSON.parse(data).success || _tcsys.code=='0000'){
+      ucenter_key = true;$('.admin_box').addClass('on');$('#mainframe').attr('src',t_url);layer.closeAll()
+    }
     msg(JSON.parse(data).info);
   });
 });
+/**
+ * 监听进入后台的回车事件
+ * @param  {[type]} [description]
+ * @return {[type]} [description]
+ */
+$('#ucenter_box').bind('keyup',function(event) {if(event.keyCode == "13")$('#to_ucenter_btn').click()});
+
+
 function openwindow (tit,url,id){
-  layer.open({type:2,id:id,title:tit,shadeClose:false,skin: 'layui-layer-nobg',shade:false,area: ['1280px','800px'],maxmin:true,resize:false,content: url})
+  layer.open({type:2,id:id,title:tit,shadeClose:false,skin: 'layui-layer-nobg',shade:false,area: ['1280px','800px'],maxmin:true,resize:false,content: url,cancel:function (){updata()}})
 }
 function openStaticWin (tit,url,id){
   layer.open({type:2,id:id,title:tit,shadeClose:false,skin: 'layui-layer-nobg',shade:false,area: ['1280px','800px'],maxmin:false,resize:false,content: url})
+}
+function openActivity (tit,url,id){
+  layer.open({type:2,id:id,title:'',shadeClose:false,skin: 'layui-layer-nobg',shade:false,area: ['500px','630px'],maxmin:false,resize:false,content: url})
 }
 function onlookers(tit,url,id){
   layer.open({type:2,title:tit,id:id,shadeClose:false,skin: 'layui-layer-nobg',shade:false,area: ['1280px','800px'],maxmin:true,content:url,cancel:function () {store.set('channelid','')}})
@@ -306,27 +359,37 @@ function onlookers(tit,url,id){
 function openweb(_tit,_url){layer.open({type:2,title:_tit,shadeClose:false,skin: 'layui-layer-nobg',shade:false,area: ['500px','910px'],content: _url});}
 
 function updata() {
-  if(_user.token)httpx.post(_ucenter,{'token':_user.token},function (data){
+  if(_user['token'])httpx.post(_ucenter,{'token':_user.token},function (data){
     var _data = JSON.parse(data);
-    if(_data.success){_data['token'] = _user.token;store.set('userinfo',_data);vmup(_app,_data);$('#ucenter_phone').val(_data.userinfo.phone)}})
+    if(_data['success']){
+      _data['token'] = _user.token;
+      store.set('userinfo',_data);
+      vmup(_app,_data);
+      $('#ucenter_phone').val(_data.userinfo.phone)
+    }
+  })
 }
+if(_user['is_init'] == 1){startTour();store.set('isInit',{'osmain':false})}
 // 推送服务端
-var socket = io('http://api.namenb.com:2120');
+var socket = io('http://api.greatorange.cn:3000/');
+// var socket = io('http://api.namenb.com:2120');
 // uid可以是自己网站的用户id，以便针对uid推送以及统计在线人数
 uid = _gid;
 // socket连接后以uid登录
 socket.on('connect', function(){socket.emit('login', uid);});
 // 后端推送来消息时
-socket.on('new_msg', function(msg){
-msg=msg.replace(/&quot;/g,'"');
-var msgarr=DE_JSON(msg);
+socket.on('new message', function(msg){
+  // console.log(msg)
+// msg=msg.replace(/&quot;/g,'"');
+// msg=JSON.parse(msg)
+// var msgarr=DE_JSON(msg);
+var msgarr=msg;
 console.log(msgarr);
 if(!msgarr.gid || msgarr.gid !== uid)return;
 if(msgarr.uid == _uid && msgarr.type == "video"){layer.msg('推送成功!');return;}
 if(msgarr.content == "pushVideo" && msgarr.type == "video"){ MsgTts('收到视频'+msgarr.title,_user.token);
-layer.confirm('收到视频推送！是否打开？',{offset:'rt',btn: ['立即查看','取消操作']}, function(index){open_video(msgarr.ali_vid,msgarr.title);layer.close(index)});
-}
-
+  layer.confirm('收到视频推送！是否打开？',{offset:'rt',btn: ['立即查看','取消操作']}, function(index){open_video(msgarr.ali_vid,msgarr.title);layer.close(index)});
+  }
 });
 // 后端推送来在线数据时
 socket.on('update_online_count', function(online_stat){console.log(online_stat);});
@@ -395,14 +458,14 @@ function countdown(elem){
   var i = 60;
   elem.text(i + "秒后重发");
   var timer = setInterval(function(){
-      elem.text(--i + "秒后重发");
-      elem.css('cursor','not-allowed')
-      if(i == 0){
-          clearInterval(timer);
-          elem.data("sendFlag",false);
-          elem.text("重新发送");
-          elem.css('cursor','pointer')
-      }
+    elem.text(--i + "秒后重发");
+    elem.css('cursor','not-allowed')
+    if(i == 0){
+      clearInterval(timer);
+      elem.data("sendFlag",false);
+      elem.text("重新发送");
+      elem.css('cursor','pointer')
+    }
   },1000);
 }
 $('.wechat_min_win').on('click',function (){$('#chat').addClass('min')})
@@ -412,20 +475,48 @@ $('.wechat_hid_win').on('click',function (){$('#chat,#chat_bar').addClass('on');
 
 function Enter_chat(tt,event) {if($('#chat').hasClass('min')){$('#chat').removeClass('min')};return false;}
 
-function push_screen() {ipcRenderer.send('sharescreen')}
+function push_screen(_obj) {ipcRenderer.send('sharescreen',_obj)}
+// function meeting_screen() {ipcRenderer.send('meetingScreen')}
 
-ipcRenderer.on('ipcmsg', (event, arg) =>{if(arg.obj == 'close_share'){onlookers("超级提案","../rtc/cam.html","27")}})
+ipcRenderer.on('ipcmsg', (event, arg) =>{
+  if(arg.obj == 'close_share') onlookers("超级提案","../rtc/cam.html","27")
+  if(arg.obj == 'Meeting_share') onlookers("外部会议","../meeting/cam.html?roomId=3000"+_gid,"28")
+})
+/**
+ * [右键菜单]
+ * @Author   TongZhou
+ * @DateTime 2020-03-11
+ * @param    {[type]}   'contextmenu' [description]
+ * @param    {[type]}   (e            [description]
+ * @return   {[type]}                 [description]
+ */
 window.addEventListener('contextmenu', (e) => {
-e.preventDefault();
-ipcRenderer.send('RightClickMenu');
+  e.preventDefault();
+  ipcRenderer.send('RightClickMenu')
 });
 
 function openPdfView(_title,_file) { pdfview(_title,`file://${__dirname}/../pdffiles/`+_file)}
 
 //监听下载返回数据
-ipcRenderer.on('downfile_re', (event, arg) => {
-msg("已经下载更新" + arg + "%，请勿退出");
-});
+ipcRenderer.on('downfile_re', (event, arg) => {msg("已经下载更新" + arg + "%，请勿退出")});
+
+function startTour() {
+  var tour = introJs()
+  // tour.setOption('tooltipPosition', 'auto');
+  tour.setOptions({
+    // steps: [{intro: "Hello world!"}],
+    nextLabel: '下一步 &rarr;',
+    prevLabel: '&larr; 上一步',
+    skipLabel: '跳过',
+    doneLabel: "完成",
+    exitOnOverlayClick: false,
+    exitOnEsc: false,
+    showBullets: false,
+    tooltipPosition: 'auto'
+  })
+  tour.start()
+}
+
 </script>
 
 </body>
