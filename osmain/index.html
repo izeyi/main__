@@ -15,7 +15,12 @@
   <script src="../js/config/lib/intro/intro.min.js" type="text/javascript"></script>
   <script>
     if (window.module) module = window.module;
-    const {ipcRenderer} = require("electron");
+    const {ipcRenderer,remote} = require("electron");
+    const {Menu,MenuItem} = remote;
+    const menu = new Menu()
+    menu.append(new MenuItem({ label: '刷新', click() { ipcRenderer.send("loginmain")} }))
+    menu.append(new MenuItem({ label: '剪切' ,role:'cut'}));
+    menu.append(new MenuItem({ label: '粘贴' ,role:'paste'}));
     //分辨率适配
     var devInnerHeight = 1080.0; //开发时的InnerHeight
     var devDevicePixelRatio = 1.5; //开发时的devicepixelratio
@@ -492,7 +497,8 @@ ipcRenderer.on('ipcmsg', (event, arg) =>{
  */
 window.addEventListener('contextmenu', (e) => {
   e.preventDefault();
-  ipcRenderer.send('RightClickMenu')
+  menu.popup({ window: remote.getCurrentWindow()})
+  // ipcRenderer.send('RightClickMenu')
 });
 
 function openPdfView(_title,_file) { pdfview(_title,`file://${__dirname}/../pdffiles/`+_file)}
