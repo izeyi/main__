@@ -29,14 +29,17 @@ html,body{margin: 0;padding: 0;height: 100%;color: #fff; background: #000;font:1
 
 .Return{position: absolute;top:4%;right: 6%;}
 .con_content{position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);overflow: hidden;}
-.content1{min-width: 960px;width: 64%; height: 680px;overflow: hidden;overflow-y: auto;text-align: left;}
+.content1{min-width: 960px;width: 64%; height: 680px;overflow: hidden;overflow-y: auto;text-align: left;    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;}
 .content1::-webkit-scrollbar {width: 8px;height: 1px;}/*滚动条整体样式*/
 .content1::-webkit-scrollbar-thumb {border-radius: 10px;-webkit-box-shadow: inset 0 0 2px rgba(255,255,255,0.8)background: #000}/*滚动条里面小方块*/
 .content1::-webkit-scrollbar-track {-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);border-radius: 10px;background: none;}/*滚动条里面轨道*/
-.content1 div{display: inline-block;width: 30%;margin: 12px 1%;cursor: pointer;transition: 1s;font-size: 0}
+.content1 div{display: inline-block;width: 30%;height: 194px;padding: 12px 1%;cursor: pointer;transition: .2s;font-size: 0;
+    background: rgba(225,225,225,.15);}
 .content1 div:hover{box-shadow: 0px 0px 8px #ffffff;}
 .content1 div img{display: block;width: 100%;height: 164px;}
-.content1 div p{height: 30px;line-height: 30px;margin: 0;background: rgba(0, 0, 0, 0.3);font-size: 14px}
+.content1 div p{height: 30px;line-height: 30px;margin: 0;background: rgba(0, 0, 0, 0.6);font-size: 14px;text-align: center;}
 
 .content2{width: 82%;min-width: 830px;height: 640px;overflow: hidden;}
 .content2_lf,.content2_rh{float: left;height: 100%;cursor: pointer;}
@@ -68,8 +71,8 @@ html,body{margin: 0;padding: 0;height: 100%;color: #fff; background: #000;font:1
 .to_ucenter .grid:hover{opacity: 1}
 
 
-
-.content2_rh li{}
+#pictab_1 > ul{display: flex;justify-content: space-between;flex-wrap: wrap;}
+.content2_rh li{ background: rgba(225,225,225,.15);display: flex;width: 120px;height: 80px;margin-bottom: 30px;}
 .content2_rh a{display: flex;width: 120px;height: 80px;float: left;margin-right: 1%;margin-bottom: 30px;overflow: hidden;}
 .content2_rh img{display: block;width: auto;height: auto;object-fit: cover}
 /*.content2_rh li:nth-child(4n){margin-right: 0px;}*/
@@ -97,17 +100,37 @@ var _filesApi   = globalApi_+"/box/files/list/";
 
 var _minname    = _user.cominfo.arrall ? _user.cominfo.arrall.minname : '我们的';
 var searchkey   = {"pagesize":500,"token":_token,"filter":JSON.stringify({})};
-var requestData = {"pagesize":500,"token":_token,"filter":JSON.stringify({"tags[~]":"我们"})};/*"order":JSON.stringify({"time":"DESC"}),*/
+var requestData = {"pagesize":500,"token":_token,"filter":JSON.stringify({"tags[~]":"我们"})};
 var default_data={"success": true,"data":[{"id":"","uid":"","gid":"","tags":"","picurl":"http://api.greatorange.cn/box/upfiles/upload/pic/uid12/2019/06/19/156092748639170.jpg","status":"","sort":"","time":""}]};
-//视频列表
-httpx.post(videoApiUrl,requestData,function(Vd){
+
+httpx.post(videoApiUrl,requestData,function(Vd){//视频列表
 	var _Vd=JSON.parse(Vd);
-	if(_Vd['success'])picdata['Vdata'] = _Vd['data']
+	if(_Vd['success']){
+		if(_Vd['data'].length < 9){
+			var _Vvacancy = []
+			for (var i = 0; i < 9 - _Vd['data'].length; i++) {
+				_Vvacancy.push({"id": "","sort": "","status": "","tags": "","time": ""})
+			}
+			console.log(_Vvacancy)
+			picdata['Vvacancy'] =_Vvacancy
+		}
+		picdata['Vdata'] = _Vd['data']
+	}
 })
 //文档列表
 httpx.post(_filesApi,requestData,function(data){
 	var _Fd=JSON.parse(data);
-	if(_Fd['success'])picdata['files'] = _Fd['data']
+	if(_Fd['success']){
+		if(_Fd['data'].length < 9){
+			var _Fvacancy = []
+			for (var i = 0; i < 9 - _Fd['data'].length; i++) {
+				_Fvacancy.push({"id": ""})
+			}
+			console.log(_Fvacancy)
+			picdata['Fvacancy'] =_Fvacancy
+		}
+		picdata['files'] = _Fd['data']
+	}
 })
 //图片列表
 function getapidata(_searchkey){
@@ -116,6 +139,15 @@ if(_searchkey){searchkey['filter'] = JSON.stringify({"status[!]":"9",'tags[~]':_
 httpx.get(picsApiUrl,searchkey,function(d){
 	var _d=JSON.parse(d);
 	if(_d['success']){
+		if(_d['data'].length < 42){
+			var _Pvacancy = []
+			for (var i = 0; i < 42 - _d['data'].length; i++) {
+				_Pvacancy.push({"id": ""})
+			}
+			console.log(_Pvacancy)
+			picdata['Pvacancy'] =_Pvacancy
+		}
+
 		// picdata['files'] = _Fdata;
 		// picdata['Vdata'] = _Vdata;
 		vmup(picdata['data'],_d)
@@ -149,6 +181,7 @@ console.log(picdata)
 			<img :src="tt.coverurl">
 			<p>{{tt.title}}</p>
 		</div>
+		<div v-for="t1 in Vvacancy"></div>
 	</div>
 </div>
 <!-- 图片列表 -->
@@ -168,6 +201,7 @@ console.log(picdata)
 				<li v-for="(ng,index) in data.data">
 					<a class="spotlight" :href="ng.picurl" :data-description="ng.tags +' '+ timenow(ng.time)"><img :src="ng.picurl+'_s'"></a>
 				</li>
+				<li v-for="t2 in Pvacancy"></li>
 			</ul>
 		</div>
 	</div>
@@ -228,8 +262,11 @@ var picdata = new Vue({
 	el:'#app',
 	data:{
 		'Vdata':[],//视频
+		'Vvacancy':[],
 		'data':default_data,//图片
+		'Pvacancy':[],
 		'files':[],//文档
+		'Fvacancy':[],
 		'minname':_minname,
 		'pictags':_pictags
 	},

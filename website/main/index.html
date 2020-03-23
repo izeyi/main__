@@ -109,17 +109,17 @@ function AddSite(){layer.open({type: 1,title:'添加网站',area:'516px',skin:'l
     <form class="ucenter_form">
       <span class="ucenter_title"><p>添加网站<span>Add site</span></p></span>
       <span class="input_item"><i></i>
-        <input type="text" name="title" placeholder="请输入网站名称" maxlength="7" id="title">
+        <input type="text" name="title" placeholder="请输入网站名称,如:百度" maxlength="7" id="title">
       </span>
       <span class="input_item"><i></i>
-        <input type="text" name="url" placeholder="请输入网站地址" id="url">
+        <input type="text" name="url" placeholder="请输入网站地址,如:http://www.baidu.com" id="url">
       </span>
     </form>
     <p class="item_remind">
       	<label for="com_status" class="zt_radio">
 			<input type="checkbox" name="status" id="com_status" value="2">
 			<span class="radio_inner"></span>
-			<span class="radio_label"> 如需移动设备展示，请勾选！</span>
+			<span class="radio_label"> 此站为手机站！</span>
 		</label>
     </p>
     <button type="button" class="login" id="to_ucenter_btn">添加</button>
@@ -145,27 +145,28 @@ httpx.get(api_getlis,_tcsys,function(data){
 }
 
 $('#to_ucenter_btn').on('click',function(){
-if($("#title").val()){_addata.title = $("#title").val()}else{msg('名称不能为空！');return};
-if($("#url").val()){_addata.url = $("#url").val()}else{msg('地址不能为空！');return};
-if($("input[type='checkbox']").is(':checked')){_addata.status = 2}else {_addata.status =1};
-var reg_url = $("#url").val();
+	if($("#title").val()){_addata.title = $("#title").val()}else{msg('名称不能为空！');return};
+	if($("#url").val()){_addata.url = $("#url").val()}else{msg('地址不能为空！');return};
+	if($("input[type='checkbox']").is(':checked')){_addata.status = 2}else {_addata.status =1};
+	var reg_url = $("#url").val();
 
-console.log(_addata)
-if(Expression.test(reg_url) !=true){msg('地址不合法，请输入正确的url！');$("#url").focus();return}
+	console.log(_addata)
+	if(Expression.test(reg_url) !=true){msg('地址不合法，请输入正确的url！');$("#url").focus();return}
 
-// if(reg_url.substr(0,7).toLowerCase() == "http://" || reg_url.substr(0,8).toLowerCase() == "https://"){
-// 	_addata.url = reg_url;
-// }else{
-// 	_addata.url = "http://" + reg_url;
-// }
-console.log(_addata)
-httpx.get(api_addurl,_addata,function(data){
-	if(JSON.parse(data).success){
-		getData();
-		layer.close(1);
-	}
-	_addata.status = '';
-	msg(JSON.parse(data).info)})
+	// if(reg_url.substr(0,7).toLowerCase() == "http://" || reg_url.substr(0,8).toLowerCase() == "https://"){
+	// 	_addata.url = reg_url;
+	// }else{
+	// 	_addata.url = "http://" + reg_url;
+	// }
+	console.log(_addata)
+	httpx.get(api_addurl,_addata,function(data){
+		if(JSON.parse(data).success){
+			getData();
+			layer.closeAll();
+		}
+		_addata.status = '';
+		msg(JSON.parse(data).info)
+	})
 })
 
 function _del(_id) {_detli.id = _id;httpx.get(api_detli,_detli,function(data){if (JSON.parse(data).success){getData()}msg(JSON.parse(data).info)})}

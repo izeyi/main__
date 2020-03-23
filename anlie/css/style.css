@@ -56,7 +56,8 @@ img{ pointer-events: none;}
         border-radius: 10px;
         background: #EDEDED;
     }
-.case li{float: left;width: 212px;padding: 4px 5px;border-radius: 6px;margin: 0 0 48px 38px;transition: 0.5s;}
+.case li{float: left;width: 212px;padding: 4px 5px;border-radius: 6px;margin: 0 0 48px 38px;transition: 0.5s;
+    background: rgba(255, 255, 255, .15);cursor: pointer;height: 190px}
 .case li:hover{background-color: #fff;}
 .case img{display: block;border-radius: 10px;width: 100%;height: 128px;}
 .case p{line-height: 40px;font-size: 14px;text-overflow: ellipsis;width: 90%;white-space: nowrap;overflow: hidden;}

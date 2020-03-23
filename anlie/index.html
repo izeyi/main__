@@ -11,16 +11,31 @@
 <script type="text/javascript">
 	var UrlDo = globalApi_+"/box/videos/list/";
   	var _user = store.get('userinfo');
-	var _token = store.get('userinfo').token;
-  	var _gid = store.get('userinfo').cominfo.gid;
-  	var _videotags = store.get('userinfo').cominfo.videotags;
+	var _token = _user.token;
+  	var _gid = _user.cominfo.gid;
+  	var _videotags = _user.cominfo.videotags;
 	var searchkey={"pagesize":500,"token":_token,"filter":JSON.stringify({"tags[!]":'["闪传"]'})};
-	var default_data={"success": true,"total":0,"videotags":[],"data":[{"ali_vid": "","coverurl": "","gid": "","id": "","sort": "","status": "","tags": "","time": "","title": "","uid": "","url": ""}]};
+	var default_data={"success": true,"total":0,"videotags":[],"vacancy":[],"data":[{"ali_vid": "","coverurl": "","gid": "","id": "","sort": "","status": "","tags": "","time": "","title": "","uid": "","url": ""}]};
 	function getapidata(_searchkey){
 		if(_searchkey && typeof _searchkey == 'object')searchkey['filter'] = JSON.stringify(_searchkey)
 		if(_searchkey && typeof _searchkey == 'string')searchkey['filter'] = JSON.stringify({'tags[~]':_searchkey,"tags[!]":'["闪传"]'});
 		vmup(caseData,{});
-		httpx.get(UrlDo,searchkey,function(d){var _d=JSON.parse(d);if(_d.success){_d['videotags']=_videotags;vmup(caseData,_d)}})
+		httpx.get(UrlDo,searchkey,function(d){
+			var _d=JSON.parse(d);
+			if(_d.success){
+				_d['videotags']=_videotags;
+				if(_d['data'].length<8){
+					var _vacancy = []
+					for (var i = 0; i < 8 - _d['data'].length; i++) {
+						_vacancy.push({"gid": "","id": "","sort": "","status": "","tags": "","time": ""})
+					}
+					console.log(_vacancy)
+					_d['vacancy']=_vacancy
+				}
+				console.log(_d)
+				vmup(caseData,_d)
+			}
+		})
 	}
 	//loading and
 	store.set('mlog','{"mod":"case","info":"打开了天橙案例"}');
@@ -57,7 +72,7 @@
 			<input data-step="1" data-intro="输入关键词，搜索已上传案例！" id="search_input" type="text" placeholder="videos" onchange="searck()" onfocus="this.placeholder='';" onblur="this.placeholder='videos'">
 		</div>
 		<ul class="case" data-step="2" data-intro="已上传案例在这里出现！">
-			<li v-for="tt in data" v-if="total !== 0">
+			<li v-for="tt in data" :key="tt.id"><!--  v-if="total !== 0" -->
 				<figure  @click="parent.open_video(tt.ali_vid,tt.title)">
 					<img :src="tt.coverurl" alt="">
 				</figure>
@@ -69,7 +84,8 @@
 					<span  @click="parent.open_video('0144ff932ac4448ba4d59589d4395639',tt.title)">复制链接</span> -->
 				</div>
 			</li>
-			<li v-else>暂无数据...</li>
+			<li v-for="zt in vacancy"></li>
+			<!-- <li v-else>暂无数据...</li> -->
 		</ul>
 	</div>
 	<div class="to_ucenter">

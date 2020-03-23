@@ -101,20 +101,22 @@ $('.update').on('click',function(){
 	$('#position input:checked').each(function (index, item) {vals.push($(this).val());});
 	var _fromdata = serialize(document.forms["T_add_form"]);
     _fromdata["token"] = _user.token;
-    _fromdata["power"] = JSON.stringify(vals);
+    // _fromdata["power"] = JSON.stringify(vals);
     var checkVal = checkvalue(_fromdata,{"nickname":"姓名","position":"职位","phone":"电话"});
     if(checkVal['success']){
         httpx.post(user_add,_fromdata,function (data) {
+        	console.log(data)
         	var _data = JSON.parse(data);
-            msg(_data.info);
-            if(_data.success){
+            msg(_data['info']);
+        	// var _data = data;
+            if(_data['success']){
             	setInterval(function () {
             	msg('修改成功');
             	location.href="list.html";
             },700)
             }
         })
-    }else {
+    }else{
         msg(checkVal.info);
     }
 })

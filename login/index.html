@@ -6,8 +6,9 @@
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/swiper.min.css">
 <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
-<script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script>
+<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
 <script type="text/javascript" src="../js/config/index.js"></script>
+<script type="text/javascript" src="../js/config.js"></script>
 <script type="text/javascript" src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
 <script type="text/javascript">
   if (window.module)module = window.module;
@@ -20,7 +21,7 @@
   var zoomFactor = window.innerHeight / devInnerHeight * window.devicePixelRatio / devDevicePixelRatio * devScaleFactor / scaleFactor;
   require('electron').webFrame.setZoomFactor(zoomFactor);
   //平台判断
-  const {remote} = require('electron');
+  // const {remote} = require('electron');
 
 </script>
 <style type="text/css">
@@ -148,13 +149,21 @@ var __tt = {
 }
 
 initWin()//初始化
+/*网络检测*/
+window.addEventListener('offline',function () {
+  new window.Notification('魔方云',{'title':'魔方云小助手','body':'您的网络似乎已经断开，请检查您的网络状态~','icon':'../../icon/logo.ico'})
+})
 
 /**
  * 用户设备检测
  * @return {[type]}
  */
 function initWin() {
-  if(window.navigator.onLine!=true) {ipcRenderer.send('window-close');msg("您的电脑未连接网络,请检查网络状态!");}// 网络
+  if(window.navigator.onLine!=true) {
+    ipcRenderer.send('window-close');
+    msg("您的电脑未连接网络,请检查网络状态!");
+    new window.Notification('魔方云',{'title':'魔方云小助手','body':'您的网络似乎已经断开，请检查您的网络状态~','icon':'../../icon/logo.ico'})
+  }// 网络
   if(screen.width<1440){msg("您的电脑屏幕分辨率较低，建议升级显示器获取最佳体验!");}// 分辨率
   v.innerHTML = 'V '+appVersion//显示当前版本
   httpx.json(globalApi_+"/box/release/verupdate/",{},function(res) {//自动更新模块
@@ -358,6 +367,7 @@ function login_verify(_da) {
         break;
     }
   }else{
+    msg(_da['info']);
     if(_da['tok']){store.set('tok',_str.tok);information();};
     if(_da['openid']){store.set('openid',_da.openid);}
   }
@@ -411,7 +421,6 @@ $('#Bind_phone_btn').on('click',function() {
 function to_bin_phone(_title) {
 layer.open({type: 1,title:_title,closeBtn:0,area:'516px',skin:'layui-layer-nobg',closeBtn: 0,shadeClose: true,content: $('#Bind_phone_box')})
 }
-
 
 
 </script>

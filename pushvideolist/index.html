@@ -135,7 +135,7 @@ img{ pointer-events: none;}
 		parent.layer.open({type:2,title:'上传视频',area: ['820px','440px'],shadeClose: false,content:'../pushvideolist/upvideo/index.html',end:function (argument) {getapidata()}})
 	}
 	//输入框绑定
-	$('.search-input').bind('keyup',function(event){
+	$('.search-input').bind('blur',function(event){
 	_value = $(this).val().trim();
 	if(_value.length){getapidata({"OR":{"tags[~]":_value,"title[~]":_value},"status[!]":"9"})}else{getapidata();msg('请输入您想推送的内容');}
 	});

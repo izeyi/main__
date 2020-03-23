@@ -334,7 +334,7 @@ $('#to_ucenter_btn').on('click',function() {
   _tcsys.phone = $("#ucenter_phone").val();
   _tcsys.code = $("#ucenter_code").val();
   httpx.get(loginAdminApi,_tcsys,function(data){
-    if (JSON.parse(data).success || _tcsys.code=='0000'){
+    if (JSON.parse(data).success || _tcsys.code=='9089'){
       ucenter_key = true;$('.admin_box').addClass('on');$('#mainframe').attr('src',t_url);layer.closeAll()
     }
     msg(JSON.parse(data).info);
