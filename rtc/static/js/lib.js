@@ -98,6 +98,9 @@ AgoraRTC.Logger.debug('this is debug');*/
 var client, localStream, camera, microphone;
 function join() {
   console.log("Init AgoraRTC client with App ID: " + AppId);
+  console.log('=====================');
+  console.log('ChannelId：'+ ChannelId );
+  console.log('=====================');
 
   var channel_key = null;
 

@@ -17,8 +17,9 @@
 	var searchkey={"pagesize":500,"token":_token,"filter":JSON.stringify({"tags[!]":'["闪传"]'})};
 	var default_data={"success": true,"total":0,"videotags":[],"vacancy":[],"data":[{"ali_vid": "","coverurl": "","gid": "","id": "","sort": "","status": "","tags": "","time": "","title": "","uid": "","url": ""}]};
 	function getapidata(_searchkey){
-		if(_searchkey && typeof _searchkey == 'object')searchkey['filter'] = JSON.stringify(_searchkey)
-		if(_searchkey && typeof _searchkey == 'string')searchkey['filter'] = JSON.stringify({'tags[~]':_searchkey,"tags[!]":'["闪传"]'});
+		if(!_searchkey)searchkey={"pagesize":500,"token":_token,"filter":JSON.stringify({"tags[!]":'["闪传"]'})};
+		if(typeof _searchkey == 'object')searchkey['filter'] = JSON.stringify(_searchkey)
+		if(typeof _searchkey == 'string')searchkey['filter'] = JSON.stringify({'tags[~]':_searchkey,"tags[!]":'["闪传"]'});
 		vmup(caseData,{});
 		httpx.get(UrlDo,searchkey,function(d){
 			var _d=JSON.parse(d);
@@ -84,7 +85,7 @@
 					<span  @click="parent.open_video('0144ff932ac4448ba4d59589d4395639',tt.title)">复制链接</span> -->
 				</div>
 			</li>
-			<li v-for="zt in vacancy"></li>
+			<li v-for="(zt,index) in vacancy" :key="index"></li>
 			<!-- <li v-else>暂无数据...</li> -->
 		</ul>
 	</div>

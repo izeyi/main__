@@ -21,7 +21,7 @@
   var zoomFactor = window.innerHeight / devInnerHeight * window.devicePixelRatio / devDevicePixelRatio * devScaleFactor / scaleFactor;
   require('electron').webFrame.setZoomFactor(zoomFactor);
   //平台判断
-  // const {remote} = require('electron');
+  const {remote} = require('electron');
 
 </script>
 <style type="text/css">
@@ -167,16 +167,16 @@ function initWin() {
   if(screen.width<1440){msg("您的电脑屏幕分辨率较低，建议升级显示器获取最佳体验!");}// 分辨率
   v.innerHTML = 'V '+appVersion//显示当前版本
   httpx.json(globalApi_+"/box/release/verupdate/",{},function(res) {//自动更新模块
-  // if(res["ver"] > appVersion)
-  // layer.confirm('检测到有新版发布，请及时更新系统！',{title:"更新信息",btn:['立即更新','暂不更新']},function(index, layero){
-  //     if(remote.getGlobal('SysInfo').platform=="darwin"){
-  //       ipcRenderer.send('verupdate',{"url":res["macurl"],"title":"开始下载中....."});
-  //     }else{
-  //       ipcRenderer.send('verupdate',{"url":res["winurl"],"title":"开始下载中....."});
-  //     }
-  //     layer.close(index);
-  //     document.getElementById('loading').style.transform = 'scale(1)'
-  // },function(){console.log("取消操作了！")});
+  if(res["ver"] > appVersion)
+  layer.confirm('检测到有新版发布，请及时更新系统！',{title:"更新信息",btn:['立即更新','暂不更新']},function(index, layero){
+      if(remote.getGlobal('SysInfo').platform=="darwin"){
+        ipcRenderer.send('verupdate',{"url":res["macurl"],"title":"开始下载中....."});
+      }else{
+        ipcRenderer.send('verupdate',{"url":res["winurl"],"title":"开始下载中....."});
+      }
+      layer.close(index);
+      document.getElementById('loading').style.transform = 'scale(1)'
+  },function(){console.log("取消了更新！")});
   });
 }
 
@@ -363,7 +363,7 @@ function login_verify(_da) {
         msg('您的资料未通过审核！');
         break;
       default:
-        msg('您的资料未通过审核！');
+
         break;
     }
   }else{

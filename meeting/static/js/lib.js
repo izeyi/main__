@@ -4,7 +4,7 @@
 * @Author: TongZhou
 * @Date:   2020-03-03 11:37:30
 * @Last Modified by:   TongZhou
-* @Last Modified time: 2020-03-15 23:37:43
+* @Last Modified time: 2020-03-31 10:07:29
 * @email: 993234530@qq.com
 * @des: ---
 */
@@ -16,6 +16,7 @@ var socket = io('http://api.greatorange.cn:3000/');
 
 var audioSelect = document.querySelector('select#audioSource');
 var videoSelect = document.querySelector('select#videoSource');
+var _Special = document.querySelector('content#Special');
 var _user = store.get('userinfo');
 var _gid = _user.userinfo.gid;
 var _uid = _user.userinfo.uid;
@@ -30,6 +31,7 @@ var _data = JSON.parse(data);
 if(_data.success)AppId=_data["AppId"];
 join();
 getDevices();
+if(ChannelId>30000){$('#Special').removeClass('Special')}
 })
 }//初始化
 
@@ -219,9 +221,14 @@ function cam2screen() {
 
 //抢麦
 function robMicrophone(){
-  httpx.get(pushApi,{'token':_user.token,'push':JSON.stringify({'type':'DirectorCall','content':'ShutMicrophone','gid':_gid,'uid':_uid,'key':ChannelId})},function (data) {
-    JSON.parse(data).success ? msg('静音成功！') : msg(JSON.parse(data).info)
-  })
+  // httpx.get(pushApi,{'token':_user.token,'push':JSON.stringify({'type':'DirectorCall','content':'ShutMicrophone','gid':_gid,'uid':_uid,'key':ChannelId})},function (data) {
+  //   JSON.parse(data).success ? msg('静音成功！') : msg(JSON.parse(data).info)
+  // })
+  // httpx.get(pushApi,{'token':_user.token,'push':JSON.stringify({'type':'SuperCall','content':'ShutMicrophone','gid':_gid,'uid':_uid,'key':ChannelId})},function (data) {
+  //   JSON.parse(data).success ? msg('抢麦成功！') : msg(JSON.parse(data).info)
+  // })
+  var _dd = {'type':'SuperCall','content':'ShutMicrophone','gid':_gid,'uid':_uid,'key':ChannelId}
+  socket.emit('new message', _dd)
 }
 
 //全屏开关
@@ -239,10 +246,14 @@ function audio_switch(t){//麦克风开关
   }
 }
 function video_switch(t) {//摄像头开关
-  if($('#camera').hasClass('off')){ disvideo();
-    $('#camera').removeClass('off'); $('#camera i').removeClass('icon-ic_videocam_off_px').addClass('icon-ic_videocam_px');
-  }else { opvideo();
-    $('#camera').addClass('off'); $('#camera i').removeClass('iicon-ic_videocam_px').addClass('icon-ic_videocam_off_px');
+  if($('#camera').hasClass('off')){
+    disvideo();
+    $('#camera').removeClass('off');
+    $('#camera i').removeClass('icon-ic_videocam_off_px').addClass('icon-ic_videocam_px');
+  }else {
+    opvideo();
+    $('#camera').addClass('off');
+    $('#camera i').removeClass('iicon-ic_videocam_px').addClass('icon-ic_videocam_off_px');
   }
 }
 function voice_switch(t){ //扬声器开关
@@ -254,34 +265,36 @@ function voice_switch(t){ //扬声器开关
 }
 function opaudio() {localStream.unmuteAudio()}//开音
 function disaudio(){localStream.muteAudio()}//关音
-function opvideo() {localStream.enableVideo()}//开画
-function disvideo(){localStream.disableVideo()}//关画
+function opvideo() {localStream.disableVideo()}//开画
+function disvideo(){localStream.enableVideo()}//关画
 function opvoice(){$("#video_box audio,#video_box video").each(function(){document.getElementById($(this).attr("id")).muted=false});}//关声
 function disvoice(){$("#video_box audio,#video_box video").each(function(){document.getElementById($(this).attr("id")).muted=true});}//开声
 
+
 // 推送服务端
-// var socket = io('http://api.namenb.com:2120');
+
 uid = _gid;// uid可以是自己网站的用户id，以便针对uid推送以及统计在线人数
-socket.on('connect',function(){socket.emit('login', uid);});// socket连接后以uid登录
-socket.on('new_msg',function(msg_){// 后端推送来消息时
-  _msg=msg_.replace(/&quot;/g,'"');
-  var msgarr=DE_JSON(_msg);
-  console.log(msgarr);
-  if(!msgarr.gid || msgarr.gid !== uid) return; //是否为同一家公司
-  if(!msgarr.type || msgarr.type !== "DirectorCall") return; //是否为同一个栏目
-  if(msgarr.key == ChannelId && msgarr.uid != _uid){ msg('麦克风已禁用！');
-    if(!$('#microphone').hasClass('off')){ disaudio(); //关闭他人麦克风
-      $('#microphone').addClass('off'); $('#microphone i').removeClass('icon-maikefeng-shi').addClass('icon-maikefeng-jingyin1');
+socket.on('connect',function(){socket.emit('login', uid);});// socket连`接后以uid登录
+
+socket.on('new message', function(_msg){// 后端推送来消息时
+  var msgarr=_msg;console.log(msgarr);
+  if(!msgarr.type || msgarr.type != 'SuperCall') return;//是否为同一个栏目
+  // if(!msgarr.gid || msgarr.gid != _gid); return; //是否为同一家公司
+  if(msgarr.key == ChannelId && msgarr.uid != _uid){
+    msg('麦克风已禁用！');
+    if(!$('#microphone').hasClass('off')){
+      disaudio(); //关闭他人麦克风
+      $('#microphone').addClass('off');
+      $('#microphone i').removeClass('icon-maikefeng-shi')  .addClass('icon-maikefeng-jingyin');
+    }
+  }else if(msgarr.uid == _uid){//是本人时
+    msg('抢麦成功！');
+    if($('#microphone').hasClass('off')){
+      opaudio();//打开自己麦克风
+      $('#microphone').removeClass('off');
+      $('#microphone i').removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng-shi');
     }
   }
-  if(msgarr.uid == _uid){
-    if(!$('#loudspeaker').hasClass('off')){ disvoice();//关闭自己扬声器
-      $('#loudspeaker').addClass('off');$('#loudspeaker i').removeClass('icon-yangshengqi').addClass('icon-yangshengqiguanbi');
-    };
-    if($('#microphone').hasClass('off')){ opaudio();//打开自己麦克风
-      $('#microphone').removeClass('off'); $('#microphone i').removeClass('icon-maikefeng-jingyin1').addClass('icon-maikefeng-shi');
-    }
-  };//是否为本人
 //询问框
 });
 socket.on('update_online_count', function(online_stat){console.log(online_stat)});// 后端推送来在线数据时

@@ -275,8 +275,8 @@ var _app = new Vue({
 			console.log(_this.form)
 			console.log(pushdata)
 			httpx.post(globalApi_+'/mfy/api/up_videoInfo',pushdata,function (m) {
+				_this.$message({message: JSON.parse(m).info ,type: 'info'});
 				if(JSON.parse(m)['success']){
-					_this.$message({message: JSON.parse(m).info ,type: 'success'});
 					_this.dialogVisible = false;
 					getdata();
 				}

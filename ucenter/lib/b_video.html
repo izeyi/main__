@@ -287,7 +287,7 @@ var videoList= ""
 
 
 $('#fileUpload').on('change', function (e) {
-  if(!document.getElementById("tags").value){ msg('请选择视频分类！');return}
+  if(!document.getElementById("tags").value){ msg('请选择视频分类！若无分类，请先添加分类后上传');return}
   var file = e.target.files[0]
   if(!file){ msg("请先选择需要上传的文件!"); return }
   file.progress = 0

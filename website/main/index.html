@@ -61,15 +61,19 @@
 </style>
 <script type="text/javascript">
 var _colordata = ['#fa2117','#ffcd0d','#0ce232','#089ff9','#cf41f4','#dc4b3e','#ffce44'];
-var _user = store.get('userinfo').token;
+var _user = store.get('userinfo');
+var _token = _user.token;
 var api_addurl = globalApi_+"/box/links/add/";
 var api_getlis = globalApi_+"/box/links/list/";
 var api_detli = globalApi_+"/box/links/update/";
 var default_data = {"success":true,"total": 0,"page": 1,"totalpage": 0,"data":[{"id":"","title": "","url":"","status":""}],"colordata":['#f44336','#e91e63','#9c27b0','#673ab7','#3f51b5','#2196f3','#03a9f4','#00bcd4','#15a05d','#4a8af4','#E6A23C','#F56C6C','#909399']};
-var _tcsys = {'token':_user,'pagesize':'64'};
-var _addata = {'token':_user};
-var _detli = {'token':_user,'status':'9','id':[]}
-function AddSite(){layer.open({type: 1,title:'添加网站',area:'516px',skin:'layui-layer-nobg',shadeClose:true,content: $('#add_box'),end:function (){getData()}})}
+var _tcsys = {'token':_token,'pagesize':'64'};
+var _addata = {'token':_token};
+var _detli = {'token':_token,'status':'9','id':[]}
+function AddSite(){
+	msg(_user['userinfo'].isadmin)
+	if(_user['userinfo']['isadmin'] != '1'){msg('您不是管理员，无法进行操作！');return}
+	layer.open({type: 1,title:'添加网站',area:'516px',skin:'layui-layer-nobg',shadeClose:true,content: $('#add_box'),end:function (){getData()}})}
 </script>
 </head>
 <body>
@@ -160,7 +164,7 @@ $('#to_ucenter_btn').on('click',function(){
 	// }
 	console.log(_addata)
 	httpx.get(api_addurl,_addata,function(data){
-		if(JSON.parse(data).success){
+		if(JSON.parse(data)['success']){
 			getData();
 			layer.closeAll();
 		}
@@ -169,7 +173,11 @@ $('#to_ucenter_btn').on('click',function(){
 	})
 })
 
-function _del(_id) {_detli.id = _id;httpx.get(api_detli,_detli,function(data){if (JSON.parse(data).success){getData()}msg(JSON.parse(data).info)})}
+function _del(_id) {
+	if(_user['userinfo']['isadmin'] != '1'){msg('您不是管理员，无法进行操作！');return}
+	_detli.id = _id;
+	httpx.get(api_detli,_detli,function(data){if(JSON.parse(data)['success']){getData()}msg(JSON.parse(data).info)})
+}
 
 $('.tips').on('click',function (e) {e.stopPropagation();$('.search-ui').addClass('active')})
 $('body').on('click',function () {$('.search-ui').removeClass('active')})

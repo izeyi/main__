@@ -5,6 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link href="static/css/css.css" rel="stylesheet">
   <script src="static/js/AgoraRTCSDK-2.6.1.js"></script>
+  <script type="text/javascript" src="../js/config/index.js"></script>
   <script>if (typeof module === 'object') {window.module = module; module = undefined;}  const {ipcRenderer} = require('electron');</script>
 
 <!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
@@ -71,12 +72,18 @@
 <script language="javascript">
 
   var _user = store.get('userinfo');
-  var _gid = _user.userinfo.gid;
+  var _gid = _user.userinfo['gid'];
+  var ChannelId = store.get('channelid')['pass'];
+  console.log(ChannelId)
 
     /* select Log type */
   if(!AgoraRTC.checkSystemRequirements())alert("not support WebRTC!")
-  var AppId = "6d2af95d9edb49ecb287744ec6715c17";
-  var ChannelId = _gid;
+  var AppId = "";
+  httpx.get(globalApi_+"/box/rtc/oauth/",{'token':_user.token},function(data){
+    var _data = JSON.parse(data);
+    if(_data.success)AppId=_data["AppId"];
+    join();
+  })
 
   var client, localStream, camera, microphone, videoList;
   var audioSelect = document.querySelector('select#audioSource');
@@ -84,6 +91,9 @@
   // 进入会议室
   function join() {
     console.log("Init AgoraRTC client with App ID: " + AppId);
+  console.log('=====================')
+  console.log('ChannelId：'+ChannelId)
+  console.log('=====================')
 
     var channel_key = null;
 
@@ -328,7 +338,7 @@ function Members(){//其余人员显示
 msg("您会议室的口令是：["+store.get('channelid').channelid+"]");
 document.getElementById("channel").value = store.get('channelid').channelid;
 
-join();
+
 
 
 

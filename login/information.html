@@ -308,21 +308,21 @@
                 }
             })
             //公司名验证
-            $('#CompanyName').on('blur', function () {
-                if (!$(this).val().replace(/\s/g, '').length)
-                    var keys = true;
-                    for (var t = 0; t < CompanyArr.length; t++) {
-                        if ($(this).val().replace(/\s/g, '').indexOf(CompanyArr[t]) === -1) {
-                            $(this).addClass('error');
-                            keys = false;
-                            layer.msg("请输入贵公司完整的名称");
-                        } else {
-                            $(this).removeClass('error');
-                            keys = true;
-                            break;
-                        }
-                    }
-             }).trigger('focus');
+            // $('#CompanyName').on('blur', function () {
+            //     if (!$(this).val().replace(/\s/g, '').length)
+            //         var keys = true;
+            //         for (var t = 0; t < CompanyArr.length; t++) {
+            //             if ($(this).val().replace(/\s/g, '').indexOf(CompanyArr[t]) === -1) {
+            //                 $(this).addClass('error');
+            //                 keys = false;
+            //                 layer.msg("请输入贵公司完整的名称");
+            //             } else {
+            //                 $(this).removeClass('error');
+            //                 keys = true;
+            //                 break;
+            //             }
+            //         }
+            //  }).trigger('focus');
         });
     </script>
 </body>

@@ -32,7 +32,7 @@
 		-webkit-transform: perspective(300px) rotateX(29deg) rotateY(-61deg) rotateZ(-11deg) translateX(8px) translateY(8px);
 		transform: perspective(300px) rotateX(29deg) rotateY(-61deg) rotateZ(-11deg) translateX(8px) translateY(8px);z-index: -1;}
 	.books-list li:first-child{margin-left: 48px}
-	.books-list li span{    font-size: 14px;line-height: 2;color: #222;margin-left: -12px;text-align: center;display: inline-block;white-space: nowrap;width: 116px;overflow: hidden;text-overflow: ellipsis;}/*margin-left: -12px;*/
+	.books-list li span{font-size: 14px;line-height: 2;color: #222;margin-left: -12px;text-align: center;display: inline-block;white-space: nowrap;}/*overflow: hidden;margin-left: -12px;*/
 	.books-bottom{margin-top: 12px}
 	.details{width: 100px;height: 132px;position: absolute;left: 12px;bottom: 0;background-color: rgba(255,255,255,.38);
 		text-align: center;line-height: 238px;opacity: 0;transition: all .15s ease}
@@ -47,6 +47,13 @@
     .to_ucenter .grid svg{left: 10px;position: absolute;top: 10px;}
     .to_ucenter .grid:hover{opacity: 1}
 
+    @keyframes scroll-mobile {
+        0% {transform: translateX(0%)}
+        100%{transform: translateX(-70%)}
+    }
+    .books-list li:hover span{
+        animation: scroll-mobile 5s ease infinite;
+    }
 
 </style>
 <link href="../js/config/lib/tooltip.css" type="text/css" rel="stylesheet"/>
