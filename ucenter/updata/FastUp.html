@@ -23,7 +23,7 @@
 
 	var _user = store.get('userinfo');
 	var _videosApi = globalApi_+"/box/videos/list/";
-	var _videosDelApi = globalApi_+"/box/videos/update/";
+	var _videosDelApi = globalApi_+"/mfy/api/videos/update/";
 	var del_data = {'token':_user.token,'status':'9','id':[]};
 	var requestData = {'token':_user.token,"order":JSON.stringify({"time":"DESC"}),"filter":JSON.stringify({"status[!]":"9","tags[~]":"闪传"})};
 	var default_data = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id": "14","uid": "0","gid": "0","tags": "","title": "","coverurl": "","url": "","sort": "0","ali_vid": "","status": "1"}]};
@@ -182,7 +182,7 @@ function _del(_id) {
 		,btn: ['是的', '算了']
 		,yes: function(index, layero){
         	console.log(index+'----'+layero);
-            httpx.post(_videosDelApi,del_data,function (ent) {msg(JSON.parse(ent).info);getdata()})
+            httpx.post(_videosDelApi,del_data,function (ent) {msg(JSON.parse(ent)['info']);getdata()})
       	}
     });
 }

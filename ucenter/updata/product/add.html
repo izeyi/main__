@@ -243,31 +243,32 @@ $(function () {
 	// 上传图片 and
 	$("[type='file'].form-control-hidden").bind('change',function (e) {
     e.preventDefault();
+    var formData = new FormData();
     var _file = $(this).attr('id');
     var _FileDes = document.getElementById(_file).files[0]
-    if(_FileDes.size >= 10485760){
-    	layer.msg('上传的文件不能小于0kb且不能大于10mb',{skin:'demo-class'});
+    if(!_FileDes){return false}
+    if( _FileDes.size >= 41943040){
+    	layer.msg('上传的文件不能小于0KB且不能大于40MB',{skin:'demo-class'});
     	_file.value = '';return false;
+    } else {
+  		$('#'+_file).siblings('p').text('正在上传，请稍等...')
     }
-  	$(".Head_img.loading").css("display","block");
-    var formData = new FormData();
-    formData.append("upfile",_FileDes);
     console.log(_FileDes)
     // console.log(_name)
     // console.log(_file)
     // formData.append("token",_user.token);
     console.log(formData)
     console.log(_FileDes)
+    formData.append("upfile",_FileDes);
     $.ajax({
         url: globalApi_+'/box/yunFile/file',
         type: 'POST',
         data: formData,
         dataType: "json",
         beforeSend:function (){
-  				$(".Head_img.loading").css("display","block");
-          // $("#"+_file).parent().addClass('loading');
+  			// $("#loading").text('正在上传，请稍等...');
       	},
-        async: false,
+        // async: false,
         cache: false,
         contentType: false,
         processData: false,
@@ -284,6 +285,7 @@ $(function () {
                 	$('.'+_file+'-name').val(_FileDes['name'])
                 	$('.'+_file+'-name').css('width','auto')
                 }
+                $('#'+_file).siblings('p').text('重新上传');
             }else{
                 msg(returndata.info);
             }
