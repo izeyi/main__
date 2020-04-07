@@ -269,18 +269,18 @@ var _app = new Vue({
     	this.form['title']=_title
     	this.dialogVisible = true
     },
-	_push:function () {
-			var _this = this;
-			var pushdata = _this.form;
-			console.log(_this.form)
-			console.log(pushdata)
-			httpx.post(globalApi_+'/mfy/api/up_videoInfo',pushdata,function (m) {
-				_this.$message({message: JSON.parse(m).info ,type: 'info'});
-				if(JSON.parse(m)['success']){
-					_this.dialogVisible = false;
-					getdata();
-				}
-			})
+	_push() {
+		var _this = this;
+		var pushdata = _this.form;
+		console.log(_this.form)
+		console.log(pushdata)
+		httpx.post(globalApi_+'/mfy/api/up_videoInfo',pushdata,function (m) {
+			_this.$message({message: JSON.parse(m).info ,type: 'info'});
+			if(JSON.parse(m)['success']){
+				_this.dialogVisible = false;
+				getdata();
+			}
+		})
 
 	}
   }
