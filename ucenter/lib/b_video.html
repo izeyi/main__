@@ -114,6 +114,7 @@ tbody tr td span:first-child{margin-right: 16px;}
       <button class="action-bar-item next-btn-medium btn-primary next-btn" type="button" x="video">添加视频</button>
       <input type="file" name="file_input" class="file_input" id="fileUpload" accept = "video/*">
       <button class="action-bar-item next-btn-medium next-btn" disabled type="button">删除</button>
+      <!-- <span>请先选择需要上传的</span> -->
     </div>
     <div class="action-select">
       <div class="zt_form_item">
@@ -161,6 +162,7 @@ tbody tr td span:first-child{margin-right: 16px;}
 <script type="text/javascript">
   var _token = _user.token;
   var _tags = _user.cominfo.videotags;
+  var _tag;
 
   var uploader = null
   var videoList= ""
@@ -296,12 +298,13 @@ tbody tr td span:first-child{margin-right: 16px;}
 
     $('#fileUpload').on('change', function (e) {
       console.log(uploader)
-      if(!document.getElementById("tags").value){ msg('请选择视频分类！若无分类，请先添加分类后上传');return}
       var file = e.target.files[0]
-      if(!file){ msg("请先选择需要上传的文件!"); return }
-      file.progress = 0
-      var Title = file.name
+      _tag = document.getElementById("tags").value
       var userData = '{"Vod":{}}'
+      if(!_tag){msg('请选择视频分类！若无分类，请先添加分类后上传')}
+      if(!file){msg("请先选择需要上传的文件!"); return }
+      file.progress = 0
+      // var Title = file.name
       if(uploader) {
         uploader.stopUpload()
         $('#progress').text('0')
@@ -315,6 +318,8 @@ tbody tr td span:first-child{margin-right: 16px;}
 
     // 第一种方式 UploadAuth 上传
     $('#authUpload').on('click', function () {
+      _tag = document.getElementById("tags").value
+      if(!_tag){msg('请选择视频分类');return}
       console.log(uploader)
       if (uploader !== null) {
         uploader.startUpload()// 然后调用 startUpload 方法, 开始上传
@@ -347,6 +352,7 @@ tbody tr td span:first-child{margin-right: 16px;}
 
     //关闭上传窗口
     $('#clos_box').on('click',function (){
+      uploader.cancelFile(0)
       uploader = null
       parent.layer.closeAll();//关闭窗口
     })
