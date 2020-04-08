@@ -112,7 +112,7 @@ tbody tr td span:first-child{margin-right: 16px;}
   <div class="action-bar">
     <div class="action-btn">
       <button class="action-bar-item next-btn-medium btn-primary next-btn" type="button" x="video">添加视频</button>
-      <input type="file" name="file_input" class="file_input" id="fileUpload" accept = "video/*">
+      <input type="file" name="file_input" class="file_input" id="fileUpload" accept="video/*">
       <button class="action-bar-item next-btn-medium next-btn" disabled type="button">删除</button>
       <!-- <span>请先选择需要上传的</span> -->
     </div>
@@ -263,16 +263,18 @@ tbody tr td span:first-child{margin-right: 16px;}
         onUploadCanceled: function (uploadInfo, code, message) {// 取消文件上传
           $('#status').text('暂停上传')
           console.log(uploadInfo)
-          httpx.post(globalApi_+'/mfy/api/cancel_upload',{"token": _token,"VideoId":uploadInfo.videoId}, function(data){
-
-          });
+          httpx.post(globalApi_+'/mfy/api/cancel_upload',{"token": _token,"VideoId":uploadInfo.videoId},function(data){});
           console.log("Canceled file:"+ uploadInfo.file.name +",code:"+ code +",message:"+ message)
         },
         onUploadProgress: function (uploadInfo, totalSize, progress) {// 文件上传进度，单位：字节, 可以在这个函数中拿到上传进度并显示在页面上
           var progressPercent = Math.ceil(progress * 100)
           $('#progress').text(progressPercent+"%")
           $('#status').text('上传中')
-          console.log("onUploadProgress:file:"+ uploadInfo.file.name +",fileSize:"+ totalSize +",percent:"+ Math.ceil(progress * 100) +"%")
+          console.log(
+            "onUploadProgress:file:"+ uploadInfo.file.name +
+            ",fileSize:"+ totalSize +
+            ",percent:"+ Math.ceil(progress * 100) +"%"
+            )
         },
         onUploadTokenExpired: function (uploadInfo) {// 上传凭证超时
           // 上传大文件超时, 如果是上传方式一即根据 UploadAuth 上传时
@@ -331,15 +333,6 @@ tbody tr td span:first-child{margin-right: 16px;}
       }
     })
 
-    // 取消上传
-    $('#upload-view').on('click','#cancel',function (){
-      console.log(uploader.listFiles())
-      if (uploader !== null) {
-        uploader.cancelFile(0)      //uploader.listFiles()[0]['videoId']
-        // $('#resumeUpload').attr('disabled', false)
-        // $('#pauseUpload').attr('disabled', true)
-      }
-    })
 
     // 重新上传
     $('#resumeUpload').on('click', function () {
@@ -352,14 +345,30 @@ tbody tr td span:first-child{margin-right: 16px;}
 
     //关闭上传窗口
     $('#clos_box').on('click',function (){
-      uploader.cancelFile(0)
-      uploader = null
+      $('#fileUpload').val('')
+      if (uploader !== null) {
+        uploader.cancelFile(0)
+        uploader = null
+      }
       parent.layer.closeAll();//关闭窗口
     })
 
+    // 取消上传
+    $('#upload-view').on('click','#cancel',function (){
+      console.log(uploader.listFiles())
+      $('#fileUpload').val('')
+      if (uploader !== null) {
+        uploader.cancelFile(0)      //uploader.listFiles()[0]['videoId']
+        // $('#resumeUpload').attr('disabled', false)
+        // $('#pauseUpload').attr('disabled', true)
+      }
+    })
+
+    // 删除
     $('#upload-view').on('click','#delete',function () {
      console.log(uploader)
       $('#upload-view').html('')
+      $("#fileUpload").val('');
       if (uploader !== null) {
         uploader.deleteFile(0);//删除
         uploader = null

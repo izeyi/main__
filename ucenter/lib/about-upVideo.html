@@ -77,6 +77,8 @@
     .ui-file .u-detail{width: 70px;}
     .ui-file .u-op{}
     .ui-file .u-state { min-width: 55px;}
+    #upload-view #cancel,#upload-view.back #delete{display: none;}
+    #upload-view.back #cancel{display: block;}
 
 </style>
 </head>
@@ -119,7 +121,7 @@
   </section>
   <footer class="next-dialog-footer">
     <button class="next-btn next-btn-primary next-btn-medium btn-primary" id="authUpload">开始上传</button>
-    <button class="next-btn next-btn-primary next-btn-medium" id="clos_box" onclick="parent.layer.closeAll()">取消</button>
+    <button class="next-btn next-btn-primary next-btn-medium" id="clos_box">取消</button>
   </footer>
 
 <script>
@@ -163,7 +165,8 @@ $(document).ready(function () {
         '  <td class="next-table-cell last" style="text-align: left;">'+
         '    <div class="next-table-cell-wrapper">'+
         '      <div class="settings">'+
-        '        <a href="javascript:;">删除</a></div>'+
+        '        <a id="delete" href="javascript:;">删除</a></div>'+
+        '        <a id="cancel" href="javascript:;">取消</a></div>'+
         '    </div>'+
         '  </td>'+
         '</tr>';
@@ -184,7 +187,7 @@ $(document).ready(function () {
         // 如果 uploadInfo.videoId 存在, 调用 刷新视频上传凭证接口(https://help.aliyun.com/document_detail/55408.html)
         // 如果 uploadInfo.videoId 不存在,调用 获取视频上传地址和凭证接口(https://help.aliyun.com/document_detail/55407.html)
         console.log(uploadInfo)
-        if (!uploadInfo.videoId) {
+        // if (!uploadInfo.videoId) {
           var createUrl =globalApi_+'/box/videososs/CreateUploadVideo/?title='+uploadInfo.file.name+'&token='+encodeURIComponent(_token)+'&tags='+encodeURI('["我们的"]')
           $.get(createUrl, function (data) {
             var uploadAuth = data.UploadAuth
@@ -194,19 +197,19 @@ $(document).ready(function () {
           }, 'json')
           $('#status').text('上传中')
           console.log("onUploadStarted:"+uploadInfo.file.name+", endpoint:"+uploadInfo.endpoint+",bucket:"+uploadInfo.bucket+",object:"+uploadInfo.object)
-        } else {
-          // 如果videoId有值，根据videoId刷新上传凭证
-          // https://help.aliyun.com/document_detail/55408.html?spm=a2c4g.11186623.6.630.BoYYcY
-          var refreshUrl = globalApi_+'/box/videososs/RefreshUploadVideo/?videoid='+uploadInfo.videoId+'&token='+encodeURIComponent(_token)
-          $.get(refreshUrl, function (data) {
-            var uploadAuth = data.UploadAuth
-            var uploadAddress = data.UploadAddress
-            var videoId = data.VideoId
-            uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress,videoId)
-          }, 'json')
-          $('#status').text('上传中')
-          console.log("onUploadStarted:"+uploadInfo.file.name+", endpoint:"+uploadInfo.endpoint+",bucket:"+uploadInfo.bucket+",object:"+uploadInfo.object)
-        }
+        // } else {
+        //   // 如果videoId有值，根据videoId刷新上传凭证
+        //   // https://help.aliyun.com/document_detail/55408.html?spm=a2c4g.11186623.6.630.BoYYcY
+        //   var refreshUrl = globalApi_+'/box/videososs/RefreshUploadVideo/?videoid='+uploadInfo.videoId+'&token='+encodeURIComponent(_token)
+        //   $.get(refreshUrl, function (data) {
+        //     var uploadAuth = data.UploadAuth
+        //     var uploadAddress = data.UploadAddress
+        //     var videoId = data.VideoId
+        //     uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress,videoId)
+        //   }, 'json')
+        //   $('#status').text('上传中')
+        //   console.log("onUploadStarted:"+uploadInfo.file.name+", endpoint:"+uploadInfo.endpoint+",bucket:"+uploadInfo.bucket+",object:"+uploadInfo.object)
+        // }
       },
       // 文件上传成功
       onUploadSucceed: function (uploadInfo) {
@@ -221,6 +224,7 @@ $(document).ready(function () {
       // 取消文件上传
       onUploadCanceled: function (uploadInfo, code, message) {
         $('#status').text('暂停上传')
+        httpx.post(globalApi_+'/mfy/api/cancel_upload',{"token": _token,"VideoId":uploadInfo.videoId},function(data){});
         console.log("Canceled file:"+ uploadInfo.file.name +",code:"+ code +",message:"+ message)
       },
       // 文件上传进度，单位：字节, 可以在这个函数中拿到上传进度并显示在页面上
@@ -277,9 +281,19 @@ $(document).ready(function () {
       uploader.startUpload()
       $('#authUpload').attr('disabled', true)
       $('#pauseUpload').attr('disabled', false)
+      $('#upload-view').addClass('back')
     }else{
       msg('请先选择需要上传的视频文件!')
     }
+  })
+
+  
+  //关闭上传窗口
+  $('#clos_box').on('click',function (){
+    $('#fileUpload').val('')
+    uploader.cancelFile(0)
+    uploader = null
+    parent.layer.closeAll();//关闭窗口
   })
 
   // 暂停上传
@@ -291,17 +305,46 @@ $(document).ready(function () {
     }
   })
 
-  // 重新上传
-  $('#resumeUpload').on('click', function () {
-    if (uploader !== null) {
-      uploader.startUpload()
-      $('#resumeUpload').attr('disabled', true)
-      $('#pauseUpload').attr('disabled', false)
-    }
-  })
 
-  // @tong -------------------------------
-  var _option = '';
+    // 重新上传
+    $('#resumeUpload').on('click', function () {
+      if (uploader !== null) {
+        uploader.startUpload()
+        $('#resumeUpload').attr('disabled', true)
+        $('#pauseUpload').attr('disabled', false)
+      }
+    })
+
+    //关闭上传窗口
+    $('#clos_box').on('click',function (){
+      $('#fileUpload').val('')
+      if (uploader !== null) {
+        uploader.cancelFile(0)
+        uploader = null
+      }
+      parent.layer.closeAll();//关闭窗口
+    })
+
+    // 取消上传
+    $('#upload-view').on('click','#cancel',function (){
+      console.log(uploader.listFiles())
+      $('#fileUpload').val('')
+      if (uploader !== null) {
+        uploader.cancelFile(0)      //uploader.listFiles()[0]['videoId']
+        // $('#resumeUpload').attr('disabled', false)
+        // $('#pauseUpload').attr('disabled', true)
+      }
+    })
+    // 删除
+    $('#upload-view').on('click','#delete',function () {
+     console.log(uploader)
+      $('#upload-view').html('')
+      $("#fileUpload").val('');
+      if (uploader !== null) {
+        uploader.deleteFile(0);//删除
+        uploader = null
+      }
+    })
 
   function formatBytes(bytes) {
      var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
