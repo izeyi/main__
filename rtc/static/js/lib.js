@@ -54,6 +54,7 @@ function JoinConference() {
   join();
   getDevices();
   layer.close(_open);
+  startTour()
 }
 /*function kling(){
   _pass = store.get('channelid');

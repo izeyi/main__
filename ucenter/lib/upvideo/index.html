@@ -222,7 +222,7 @@ $(document).ready(function () {
         // 如果 uploadInfo.videoId 不存在,调用 获取视频上传地址和凭证接口(https://help.aliyun.com/document_detail/55407.html)
         console.log(uploadInfo)
         // if (!uploadInfo.videoId) {
-          var createUrl =globalApi_+'/box/videososs/CreateUploadVideo/?title='+uploadInfo.file.name+'&token='+encodeURIComponent(_token)+'&tags='+encodeURI('["闪传"]')
+          var createUrl =globalApi_+'/box/videososs/CreateUploadVideo/?title='+uploadInfo.file.name+'&token='+encodeURIComponent(_token)+'&tags='+encodeURI('闪传')
           $.get(createUrl, function (data) {
             var uploadAuth = data.UploadAuth
             var uploadAddress = data.UploadAddress

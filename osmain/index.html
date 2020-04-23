@@ -102,9 +102,9 @@
         <!-- <li style="left: 136px; top: 430px;" onclick='openwindow("任务大厅","http://yun.greatorange.cn/task/task.html?loc=box","7");'> -->
           <img src="static/images/icon4.png" /><span title="任务大厅">任务大厅</span><em></em>
         </li>
-        <!-- <li style="left: 136px; top: 560px;" onclick='openwindow("天橙案例","../case/index.html","11");'>
-          <img src="static/images/icon00.png" /><span title="天橙案例">天橙案例</span><em></em>
-        </li> -->
+        <li style="left: 136px; top: 560px;" onclick='msg("即将开放...")'>
+          <img src="static/images/icon23.png" /><span title="园区宝">园区宝</span><em></em>
+        </li>
         <!-- 3 col -->
         <li style="left: 242px; top: 40px;" onclick='ipcRenderer.send("opfiles");'>
           <img src="static/images/icon9.png"/><span title="打开文件">打开文件</span><em></em>
@@ -134,20 +134,20 @@
       <li onclick='openwindow("商机•电销","https://web.kdzl.cn/","9")' tooltip="商机•电销" flow="down">
         <img src="static/images/icon13.png"/><span title="商机•电销">商机•电销</span>
       </li> -->
-      <!-- <li onclick='openweb("商机•橙标","http://ai.namenb.com/toolbox/phoneviewer/?url=http://api.greatorange.cn/bid/index.html?_openid=oSDiUwITps0WeY6ur1m5R0Omp-0w")' tooltip="商机•橙标" flow="down">
-        <img src="static/images/icon18.png"/>
-        <span title="商机•橙标">商机•橙标</span>
-      </li> -->
-      <li onclick='msg("即将开放...");' tooltip="商机•橙标" flow="down">
+      <li onclick='openweb("商机•橙标","http://ai.namenb.com/toolbox/phoneviewer/?url=http://api.greatorange.cn/bid/index.html?_openid=oSDiUwITps0WeY6ur1m5R0Omp-0w")' tooltip="商机•橙标" flow="down">
         <img src="static/images/icon18.png"/>
         <span title="商机•橙标">商机•橙标</span>
       </li>
+     <!--  <li onclick='msg("即将开放...");' tooltip="商机•橙标" flow="down">
+        <img src="static/images/icon18.png"/>
+        <span title="商机•橙标">商机•橙标</span>
+      </li> -->
       <!-- <li onclick='openweb("商机•橙标","http://ai.namenb.com/toolbox/phoneviewer/?url=http://api.greatorange.cn/bid_pro/index.html?_openid=oSDiUwITps0WeY6ur1m5R0Omp-0w")' tooltip="商机•意向" flow="down">
         <img src="static/images/icon17.png"/><span title="商机•意向">商机•意向</span>
       </li> -->
-       <!-- <li onclick='msg("即将开放...");' tooltip="我要推广" flow="down">
+       <li onclick='msg("即将开放...");' tooltip="我要推广" flow="down">
         <img src="static/images/icon7.png"/><span title="我要推广">我要推广</span>
-      </li> -->
+      </li>
     </ul>
   </div>
   <!-- 用户信息 板块 -->
@@ -160,7 +160,7 @@
         <span>{{userinfo.position}}</span>
       </div>
       <p>{{cominfo.comname}}</p>
-      <p> <span>宣传片</span> <span>广告片</span> </p>
+      <!-- <p> <span>宣传片</span> <span>广告片</span> </p> -->
     </div>
   </div>
   <!-- 管理员 板块 -->
@@ -280,7 +280,8 @@ function dynamicDesktop(){
   $('#desktop').css('background-image','url('+_Arr[_des]+')')
 }
 //更新提示and
-openStaticWin("魔方云的新功能","../whats_new/index.html","10");
+// openStaticWin("魔方云的新功能","../whats_new/index.html","10");http://yun.greatorange.cn/whats_new/
+openStaticWin("魔方云的新功能","http://yun.greatorange.cn/whats_new/index.html","10");
 // if(typeof(store.get('record')) == 'undefined'){store.set('record','1');openwindow("天橙魔方的新功能","../whats_new/index.html","10");};
 //更新提示end
 
@@ -495,11 +496,11 @@ ipcRenderer.on('ipcmsg', (event, arg) =>{
  * @param    {[type]}   (e            [description]
  * @return   {[type]}                 [description]
  */
-window.addEventListener('contextmenu', (e) => {
-  e.preventDefault();
-  menu.popup({ window: remote.getCurrentWindow()})
-  // ipcRenderer.send('RightClickMenu')
-});
+// window.addEventListener('contextmenu', (e) => {
+//   e.preventDefault();
+//   menu.popup({ window: remote.getCurrentWindow()})
+//   // ipcRenderer.send('RightClickMenu')
+// });
 
 function openPdfView(_title,_file) { pdfview(_title,`file://${__dirname}/../pdffiles/`+_file)}
 

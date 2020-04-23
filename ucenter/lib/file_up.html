@@ -4,7 +4,7 @@
 	<title>文件上传</title>
 	<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
 	<script src="../../js/config.js" type="text/javascript"></script>
-  <script type="text/javascript" src="../../js/config/index.js"></script>
+ 	<script src="../../js/config/index.js" type="text/javascript"></script>
 	<link href="css/uploader.css" rel="stylesheet" type="text/css" />
 	<style type="text/css">
 	  body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select{margin:0;padding:0}
@@ -131,61 +131,14 @@
 		<button class="next-btn next-btn-primary next-btn-medium" onclick="parent.layer.closeAll()">完成</button>
 	</footer>
 	<script type="text/javascript" src="js/Q.js"></script>
-  <script type="text/javascript" src="js/Q.Uploader.js"></script>
-  <script type="text/javascript" src="js/Q.Uploader.UI.File.js"></script>
+	<script type="text/javascript" src="js/Q.Uploader.js"></script>
+	<script type="text/javascript" src="js/Q.Uploader.UI.File.js"></script>
 	<script type="text/javascript">
 
-// $(function () {
-// 	var _option = '';
-// 	for (var i = 0; i < _tags.length; i++) { _option += '<li data-value="'+ _tags[i] + '">' + _tags[i] + '</li>';}
-// 	 document.getElementById('tags_box').innerHTML = _option;
-// })
-//下拉列表
-// function selectMenu(index) {
-//     $(".select-menu-input").eq(index).val($(".select-this").eq(index).html()); //在输入框中自动填充第一个选项的值
-//     $(".select-menu-input-v[type=hidden]").eq(index).val($(".select-this").eq(index).data('value'));
-//     $(".select-menu-div").eq(index).on("click", function(e) {
-//         e.stopPropagation();
-//         if($(".select-menu-ul").eq(index).css("display") === "block") {
-//             $(".select-menu-ul").eq(index).hide();
-//             $(".select-menu-div").eq(index).find("i").removeClass("select-menu-i");
-//             $(".select-menu-ul").eq(index).animate({marginTop: "50px",opacity: "0"}, "fast");
-//         } else {
-//             $(".select-menu-ul").eq(index).show();
-//             $(".select-menu-div").eq(index).find("i").addClass("select-menu-i");
-//             $(".select-menu-ul").eq(index).animate({marginTop: "5px",opacity: "1"}, "fast");
-//         }
-//         for(var i = 0; i < $(".select-menu-ul").length; i++) {
-//             if(i !== index && $(".select-menu-ul").eq(i).css("display") === "block") {
-//                 $(".select-menu-ul").eq(i).hide();
-//                 $(".select-menu-div").eq(i).find("i").removeClass("select-menu-i");
-//                 $(".select-menu-ul").eq(i).animate({marginTop: "50px",opacity: "0"}, "fast");
-//             }
-//         }
-//     });
-//     $(".select-menu-ul").eq(index).on("click", "li", function() { //给下拉选项绑定点击事件
-//         $(".select-menu-input").eq(index).val($(this).html()); //把被点击的选项的值填入输入框中
-//         $(".select-menu-input-v[type=hidden]").eq(index).val($(this).data('value'));
-//         $(".select-menu-div").eq(index).click();
-//         $(this).siblings(".select-this").removeClass("select-this");
-//         $(this).addClass("select-this");
-//     });
-//     $("body").on("click", function(event) {
-//         event.stopPropagation();
-//         if($(".select-menu-ul").eq(index).css("display") === "block") {
-//             $(".select-menu-ul").eq(index).hide();
-//             $(".select-menu-div").eq(index).find("i").removeClass("select-menu-i");
-//             $(".select-menu-ul").eq(index).animate({marginTop: "50px",opacity: "0"}, "fast");
-//         }
-
-//     });
-// }
-// selectMenu(0);
-
 var map_settings = {image: {allows: ".jpg,.png,.gif,.bmp",accept: "image/*"}};
-var UPLOAD_URL = globalApi_+":81/upload";
+var UPLOAD_URL = globalApi_+"/box/yunFile/file";
 var updata_url = globalApi_+"/box/files/add/";
-var formdata = {'token':_token,'url':'','title':'','tags':'["我们"]','status':0};
+var formdata = {'token':_token,'url':'','title':'','tags':'我们','status':0};
 var uploader = new Q.Uploader({
     url: UPLOAD_URL ,
     target: document.getElementById("upload-image"),

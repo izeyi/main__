@@ -4,7 +4,7 @@
 * @Author: TongZhou
 * @Date:   2020-03-03 11:37:30
 * @Last Modified by:   TongZhou
-* @Last Modified time: 2020-04-07 17:31:56
+* @Last Modified time: 2020-04-08 15:18:49
 * @email: 993234530@qq.com
 * @des: ---
 */
@@ -242,7 +242,7 @@ function FullScreen(el){
 function audio_switch(t){//麦克风开关
   if($('#microphone').hasClass('off')){ opaudio();
     $('#microphone').removeClass('off');
-    $('#microphone i').removeClass('icon-maikefeng-jingyin-copy1').addClass('icon-maikefeng-shi');
+    $('#microphone i').removeClass('icon-maikefeng-jingyin1').addClass('icon-maikefeng-shi');
   }else { disaudio();
     $('#microphone').addClass('off');
     $('#microphone i').removeClass('icon-maikefeng-shi').addClass('icon-maikefeng-jingyin1');
@@ -288,14 +288,14 @@ socket.on('new message', function(_msg){// 后端推送来消息时
     if(!$('#microphone').hasClass('off')){
       disaudio(); //关闭他人麦克风
       $('#microphone').addClass('off');
-      $('#microphone i').removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng-jingyin1');
+      $('#microphone i').removeClass('icon-maikefeng-shi').addClass('icon-maikefeng-jingyin1');
     }
   }else if(msgarr.uid == _uid){//是本人时
     msg('抢麦成功！');
     if($('#microphone').hasClass('off')){
       opaudio();//打开自己麦克风
       $('#microphone').removeClass('off');
-      $('#microphone i').removeClass('icon-maikefeng-jingyin1').addClass('icon-maikefeng-jingyin');
+      $('#microphone i').removeClass('icon-maikefeng-jingyin1').addClass('icon-maikefeng-shi');
     }
   }
 //询问框

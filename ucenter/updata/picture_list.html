@@ -139,7 +139,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr class='content' v-for="(tt,index) in data"  v-if="data.length != 0 || tt.status !== 9">
+									<tr class='content' v-for="(tt,index) in data" :key="tt.id">
 										<td><input type="checkbox"><a class="spotlight" :href="tt.picurl" :data-description="tt.tags +' '+ timenow(tt.time)"><img :src="tt.picurl+'_s'"></a></td>
 										<td>{{tt.id}}</td>
 										<td>{{tt.tags}}</td>

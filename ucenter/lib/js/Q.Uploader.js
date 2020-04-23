@@ -3,7 +3,7 @@
 /*
 * Q.Uploader.js 文件上传管理器 1.0
 * https://github.com/devin87/web-uploader
-* author:devin87@qq.com  
+* author:devin87@qq.com
 * update:2018/11/07 12:27
 */
 (function (window, undefined) {
@@ -184,15 +184,15 @@
             //上传回调事件(function)
             on: {
                 init,          //上传管理器初始化完毕后触发
-    
+
                 select,        //点击上传按钮准备选择上传文件之前触发,返回false可禁止选择文件
                 add[Async],    //添加任务之前触发,返回false将跳过该任务
                 upload[Async], //上传任务之前触发,返回false将跳过该任务
                 send[Async],   //发送数据之前触发,返回false将跳过该任务
-    
+
                 cancel,        //取消上传任务后触发
                 remove,        //移除上传任务后触发
-    
+
                 progress,      //上传进度发生变化后触发(仅html5模式有效)
                 complete       //上传完成后触发
             },
@@ -201,7 +201,7 @@
             UI:{
                 init,       //执行初始化操作
                 draw,       //添加任务后绘制任务界面
-                update,     //更新任务界面  
+                update,     //更新任务界面
                 over        //任务上传完成
             }
         });
@@ -298,7 +298,7 @@
             var UI = ops.UI || {};
             if (UI.init) self.init = UI.init;             //执行初始化操作
             if (UI.draw) self.draw = UI.draw;             //添加任务后绘制任务界面
-            if (UI.update) self.update = UI.update;       //更新任务界面  
+            if (UI.update) self.update = UI.update;       //更新任务界面
             if (UI.over) self.over = UI.over;             //任务上传完成
 
             //上传回调事件

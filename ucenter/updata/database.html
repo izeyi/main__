@@ -148,7 +148,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr class='content' v-for="tt in data" v-if="data.length != 0 || tt.status != 9">
+									<tr class='content' v-for="tt in data" :key="tt.id">
 										<td>
 											<!-- <input type="checkbox"> -->
 											<span>{{tt.title}}</span>

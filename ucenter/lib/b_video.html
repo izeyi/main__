@@ -202,7 +202,7 @@ tbody tr td span:first-child{margin-right: 16px;}
           '    <div class="next-table-cell-wrapper">'+
           '      <div class="settings">'+
           '        <a id="delete" href="javascript:;">删除</a></div>'+
-          '        <a id="cancel" href="javascript:;">取消</a></div>'+
+          // '        <a id="cancel" href="javascript:;">取消</a></div>'+
           '    </div>'+
           '  </td>'+
           '</tr>';
@@ -228,7 +228,7 @@ tbody tr td span:first-child{margin-right: 16px;}
               ", bucket:" + uploadInfo.bucket +
               ", object:" + uploadInfo.object
               );
-          // if (!uploadInfo.videoId) {
+          if (!uploadInfo.videoId) {
             var createUrl =globalApi_+'/box/videososs/CreateUploadVideo/?title='+uploadInfo.file.name+'&token='+encodeURIComponent(_token)+'&tags='+encodeURI(__tags)
             $.get(createUrl, function (data) {
               var uploadAuth = data.UploadAuth
@@ -238,19 +238,19 @@ tbody tr td span:first-child{margin-right: 16px;}
             }, 'json')
             $('#status').text('上传中')
             console.log("onUploadStarted:"+uploadInfo.file.name+", endpoint:"+uploadInfo.endpoint+",bucket:"+uploadInfo.bucket+",object:"+uploadInfo.object)
-          // }else{
-          //   // 如果videoId有值，根据videoId刷新上传凭证
-          //   // https://help.aliyun.com/document_detail/55408.html?spm=a2c4g.11186623.6.630.BoYYcY
-          //   var refreshUrl = globalApi_+'/box/videososs/RefreshUploadVideo/?VideoId='+uploadInfo.videoId+'&token='+encodeURIComponent(_token)
-          //   $.get(refreshUrl, function (data) {
-          //     var uploadAuth = data.UploadAuth
-          //     var uploadAddress = data.UploadAddress
-          //     var videoId = data.VideoId
-          //     uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress,videoId)
-          //   }, 'json')
-          //   $('#status').text('上传中')
-          //   console.log("onUploadStarted:"+uploadInfo.file.name+", endpoint:"+uploadInfo.endpoint+",bucket:"+uploadInfo.bucket+",object:"+uploadInfo.object)
-          // }
+          }else{
+            // 如果videoId有值，根据videoId刷新上传凭证
+            // https://help.aliyun.com/document_detail/55408.html?spm=a2c4g.11186623.6.630.BoYYcY
+            var refreshUrl = globalApi_+'/box/videososs/RefreshUploadVideo/?VideoId='+uploadInfo.videoId+'&token='+encodeURIComponent(_token)
+            $.get(refreshUrl, function (data) {
+              var uploadAuth = data.UploadAuth
+              var uploadAddress = data.UploadAddress
+              var videoId = data.VideoId
+              uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress,videoId)
+            }, 'json')
+            $('#status').text('上传中')
+            console.log("onUploadStarted:"+uploadInfo.file.name+", endpoint:"+uploadInfo.endpoint+",bucket:"+uploadInfo.bucket+",object:"+uploadInfo.object)
+          }
         },
         onUploadSucceed: function (uploadInfo) {// 文件上传成功
           $('#status').text('上传成功')
@@ -299,23 +299,23 @@ tbody tr td span:first-child{margin-right: 16px;}
     };
 
     $('#fileUpload').on('change', function (e) {
-      console.log(uploader)
       var file = e.target.files[0]
       _tag = document.getElementById("tags").value
       var userData = '{"Vod":{}}'
       if(!_tag){msg('请选择视频分类！若无分类，请先添加分类后上传')}
       if(!file){msg("请先选择需要上传的文件!"); return }
-      file.progress = 0
-      // var Title = file.name
-      if(uploader) {
+      if(uploader){
         uploader.stopUpload()
         $('#progress').text('0')
         $('#status').text("")
       }
+      console.log(uploader)
+      file.progress = 0
+      // var Title = file.name
       uploader = createUploader()
       // 首先调用 uploader.addFile(event.target.files[i], null, null, null, userData)
       uploader.addFile(file, null, null, null, userData)
-      console.log(uploader)
+      // console.log(uploader)
     })
 
     // 第一种方式 UploadAuth 上传
@@ -346,18 +346,19 @@ tbody tr td span:first-child{margin-right: 16px;}
     //关闭上传窗口
     $('#clos_box').on('click',function (){
       $('#fileUpload').val('')
-      if (uploader !== null) {
-        uploader.cancelFile(0)
-        uploader = null
-      }
+      // if (uploader !== null) {
+      //   uploader.cancelFile(0)
+      //   uploader = null
+      // }
       parent.layer.closeAll();//关闭窗口
     })
 
     // 取消上传
     $('#upload-view').on('click','#cancel',function (){
-      console.log(uploader.listFiles())
+      console.log(uploader)
       $('#fileUpload').val('')
       if (uploader !== null) {
+        // uploader.stopUpload();
         uploader.cancelFile(0)      //uploader.listFiles()[0]['videoId']
         // $('#resumeUpload').attr('disabled', false)
         // $('#pauseUpload').attr('disabled', true)

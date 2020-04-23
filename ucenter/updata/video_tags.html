@@ -142,7 +142,7 @@
 									</tr>
 								</thead>
 								<tbody v-if="cominfo.videotags != null">
-									<tr class='content' v-for="tt in cominfo.videotags">
+									<tr class='content' v-for="tt in cominfo.videotags" :key="tt.id">
 										<td><span>{{tt}}</span></td>
 										<td>
 											<span class="t_icon iconfont icon-all_edit" @click="_set(tt)"></span>
@@ -174,7 +174,7 @@
 
 function _det(_tag) {//删除
 	del_data.tag = _tag;
-	layer.open({title:'删除视频分类',content: '真的要删掉我吗？',btn: ['是的', '算了'],yes: function(index, layero){
+	layer.open({title:'删除视频分类',content: '删除分类，将同步删除分类下所有视频~',btn: ['是的', '算了'],yes: function(index, layero){
 		httpx.post(detvideotagsApi,del_data,function (ent) {msg(JSON.parse(ent).info);getdata()})
 	}});
 }

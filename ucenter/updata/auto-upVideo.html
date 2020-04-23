@@ -27,7 +27,7 @@
 	var _videosApi = globalApi_+"/box/videos/list/";
 	var _videosDelApi = _GlobalsApi+"/api/videos/update";
 	var del_data = {'token':_user.token,'id':[]};
-	var requestData = {'token':_user.token,"filter":JSON.stringify({"tags[~]":"我们的"})};
+	var requestData = {'token':_user.token,"order":JSON.stringify({"time":"DESC"}),"pagesize":500,"filter":JSON.stringify({"tags[~]":"我们"})};
 	// var requestData = {'token':_user.token,"filter":"我们的"};
 	var default_data = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id": "14","uid": "0","gid": "0","tags": "","title": "","coverurl": "","url": "","sort": "0","ali_vid": "","status": "1"}]};
 	function getdata() {
@@ -144,8 +144,8 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr class='content' v-for="tt in data" v-if="data.length != 0 || tt.status != 9">
-										<td @click="parent.parent.open_video(tt.ali_vid,tt.title)">
+									<tr class='content' v-for="tt in data" :key="tt.id">
+										<td @click="parent.parent.open_video(tt.ali_vid,tt.title)" >
 											<!-- <input type="checkbox"> -->
 											<img :src="tt.coverurl">
 											<span>{{tt.title}}</span>

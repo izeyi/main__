@@ -27,7 +27,7 @@
 	var _filesApi = globalApi_+"/box/files/list/";
 	var _fileDelApi = _GlobalsApi+"/api/files/update";
 	var del_data = {'token':_user.token,'id':[]};
-	var requestData = {'token':_user.token,"order":JSON.stringify({"time":"DESC"}),"filter":JSON.stringify({"tags[~]":"我们"})};
+	var requestData = {'token':_user.token,"order":JSON.stringify({"time":"DESC"}),"pagesize":500,"filter":JSON.stringify({"tags[~]":"我们"})};
 	var default_data = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id": "14","uid": "0","gid": "0","tags": "","title": "","coverurl": "","url": "","sort": "0","ali_vid": "","status": "1"}]};
 	function getdata() {
 		httpx.post(_filesApi,requestData,function (data){
@@ -133,13 +133,13 @@
 								<thead>
 									<tr>
 										<th><span>文件信息</span></th>
-										<th>视频来源</th>
+										<th>来源</th>
 										<th>创建时间</th>
 										<th>操作</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr class='content' v-for="tt in data" v-if="data.length != 0 || tt.status != 9">
+									<tr class='content' v-for="tt in data" :key="tt.id">
 										<td>
 											<!-- <input type="checkbox"> -->
 											<span>{{tt.title}}</span>

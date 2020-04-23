@@ -137,7 +137,7 @@
 									</tr>
 								</thead>
 								<tbody v-if="cominfo.pictags != null">
-									<tr class='content' v-for="tt in cominfo.pictags">
+									<tr class='content' v-for="tt in cominfo.pictags" :key="tt.id">
 										<td><span>{{tt}}</span></td>
 										<td>
 											<span class="t_icon iconfont icon-all_edit" :onclick="'_set('+JSON.stringify(tt)+')'"></span>
@@ -179,7 +179,7 @@
 
 function _det(_tag) {//删除
 	del_data.tag = _tag;
-	layer.open({title:'删除相册分类',content: '真的要删掉我吗？',btn: ['是的', '算了'],yes: function(index, layero){
+	layer.open({title:'删除相册分类',content: '删除分类，将同步删除分类下所有图片~',btn: ['是的', '算了'],yes: function(index, layero){
 		httpx.post(detpictagsApi,del_data,function (ent) {msg(JSON.parse(ent).info);getdata()})
 	}});
 }

@@ -31,7 +31,10 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 <script type="text/javascript">
 
 Vue.filter('is_cover', function (str) {if(!str){return '../static/images/nopic.png'}else{return str}});
-Vue.filter('location', function (str) {switch (str){case '0': return '已下订单';break;case '2': return '已签合同';break;case '3': return '已完工';}});
+Vue.filter('location', function (str) {
+	console.log(str)
+	switch (str){case 1: return '待接单';break;case 2: return '已结束';break;case 3: return '已完工';}
+});
 Vue.filter('_type', function (str) {switch (str){case '1': return '影视类';break;case '2': return '非影视类';break;case '3': return '个人类';}});
 
 	// console.log(getUrlParam('token'))
@@ -39,10 +42,10 @@ Vue.filter('_type', function (str) {switch (str){case '1': return '影视类';br
 	// var _token = getUrlParam('token');
 	var _user = store.get('userinfo');
 	var _token = _user.token;
-	var searchkey={"pagesize":500,"token":_token,"order":JSON.stringify({"time":"DESC"}),"filter":JSON.stringify({"status[!]":"9"})};
+	var searchkey={"uid":_user.userinfo.uid};
 	var _uppicApi = globalApi_+"/box/ucenter/uppic/";
 	function getdata() {
-		httpx.get(globalApi_+'/box/project/list/',searchkey,function(data){
+		httpx.get(globalApi_+'/mfy/api/get_my_project',searchkey,function(data){
 			var _data = JSON.parse(data);
 			if(_data.success)vmup(listData,_data);
 		});
@@ -57,7 +60,7 @@ Vue.filter('_type', function (str) {switch (str){case '1': return '影视类';br
 		<div class="main_sideLf">
 			<ul>
 				<li class="cur"><a href="index.html"><img src="../static/images/photo1.png" alt=""><span>项目列表</span></a></li>
-				<li><a href="classify.html"><img src="../static/images/photo2.png" alt=""><span>新增项目</span></a></li>
+				<li><a href="person/add1.html"><img src="../static/images/photo2.png" alt=""><span>新增项目</span></a></li>
 			</ui>
 		</div>
 
@@ -68,38 +71,35 @@ Vue.filter('_type', function (str) {switch (str){case '1': return '影视类';br
 						<div class='add_title'>项目列表<span>&nbsp;&nbsp;Project List</span></div>
 						<div class="up_btn_sou">
 							<div class="up_btn_sou_lf">
-								<span class="up_btn_sou_lf_up"><a href="classify.html">新增项目</a></span>
-								<!-- <span class="up_btn_sou_lf_delete" id="del_all">删除</span> -->
+								<span class="up_btn_sou_lf_up"><a href="person/add1.html">新增项目</a></span>
 							</div>
-							<!-- <div class="up_btn_sou_rh">
-								<input placeholder="项目关键字" type="text"><div id='sousou'><img src="../static/images/sou.png" alt=""></div>
-							</div> -->
 						</div>
 					</div>
 					<div>
 						<table class="v_tabmain">
 							<thead>
 								<tr>
-									<th><!-- <input type="checkbox" id="Select_all"> --><span>项目名称</span></th>
+									<th><span>项目名称</span></th>
 									<th>项目类型</th>
 									<th>项目金额</th>
 									<th>项目进度</th>
-									<th style="width: 106px;padding: 0;text-align: center;line-height: 1.2;">时间</th>
+									<th style="padding: 0;text-align: center;line-height: 1.2;">时间</th>
 									<!-- <th>完整作品（项目完成以后可上传）</th> -->
 									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr class='content' v-for="tt in data">
-									<td><span>{{tt.name}}</span></td>
-									<td>{{tt.workers | _type}}</td>
-									<td>{{tt.arrall.inv_money}}元</td>
-									<td>{{tt.status | location}}</td>
-									<td style="text-align: center;">{{tt.time | time}}</td>
+									<td><span>{{tt.project_name}}</span></td>
+									<td>{{tt.type }}</td>
+									<td>{{tt.price}}元</td>
+									<td v-if="tt.status == 1" style="color: #f56c6c">{{tt.status | location}}</td>
+									<td v-if="tt.status == 2" style="color: #67c23a">{{tt.status | location}}</td>
+									<td style="text-align: center;">{{tt.time }}</td>
 									<!-- <td><span class="zi">宁波浙东建材集团有限.宁波浙东建材集团有限</span>点击上传<span></span><span>查看</span></td> -->
 									<td>
 										<!-- <span class="t_btn" :onclick="'_det('+tt.id+')'"><i class="t_icon iconfont icon-browse"></i></a></span> -->
-										<span class="t_btn" :onclick="'_del('+tt.id+')'"><i class="t_icon iconfont icon-all_delete"></i></span>
+										<!-- <span class="t_btn" :onclick="'_del('+tt.id+')'"><i class="t_icon iconfont icon-all_delete"></i></span> -->
 										<!-- <div :onclick="'_del('+tt.id+')'">删除</div>
 											<div><a :href="'project_details.html?id='+tt.id">修改</a></div> -->
 										<!-- <div onclick="b_video()">上传视频</div>
@@ -150,7 +150,12 @@ Vue.filter('_type', function (str) {switch (str){case '1': return '影视类';br
 		</div>
 	</div>
 	<script>
-		var default_data={"success": true,"total": 1, "data": [{"id": "5","name": "测试项目","workers": "项目经理","status": "1","arrall": {"cover": globalApi_+"/box/upfiles/upload/pic/uid4/2019/03/25/155351534233950.jpg","name": "测试项目","nickname": "客户B","phone": "13845458888","workers": "项目经理","originality": "这是策划","status": "1"},"time": "1553585347"}]}
+		var default_data={
+			"success": true,
+			"total": 1,
+			"data":[{"id": "5","project_name": "","price": "","type": "","time": "","status": "1"}],
+			"Color":["#409eff","#67c23a","#f56c6c"]
+			}
 		var del_data = {'token':_token,'status':'9','id':[]};
 		var listData = new Vue({el: '#admin_console',data:default_data});
 

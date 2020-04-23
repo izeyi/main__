@@ -143,11 +143,11 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 								</tr>
 							</thead>
 							<tbody>
-								<tr class='content' v-for="tt in data" v-if="data.length != 0 || tt.status != 9">
+								<tr class='content' v-for="tt in data" :key="tt.id">
 									<td><img :src="tt.icon_url"></td>
-									<td>{{tt.icon_name}}</td>
-									<td>{{tt.icon_desc}}</td>
-									<td>
+									<td style="width: 260px">{{tt.icon_name}}</td>
+									<td style="line-height: 1.6;padding-right: 30px;"><span style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">{{tt.icon_desc}}</span></td>
+									<td style="width: 60px">
 										<!-- <span class="t_icon iconfont icon-all_delete" @click="_del(tt.id)"></span> -->
 										<div tooltip="订阅"><span class="t_icon iconfont icon-attachment" @click="_take(tt.id)"></span></div>
 									</td>

@@ -167,7 +167,7 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 								</tr>
 							</thead>
 							<tbody>
-								<tr class='content' v-for="tt in data.data" v-if="data.data.length != 0 || tt.status != 9">
+								<tr class='content' v-for="tt in data.data" :key="tt.id">
 									<td @click="parent.parent.open_video(tt.ali_vid,tt.title)">
 										<img :src="tt.coverurl"><span>{{tt.title}}</span>
 									</td>
@@ -176,7 +176,7 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 									<td>上传</td>
 									<td>{{tt.time | time}}</td>
 									<td>
-										<span class="t_icon iconfont icon-all_edit"   @click="_set(tt.id,tt.coverurl,tt.title)"></span>
+										<span class="t_icon iconfont icon-all_edit" @click="_set(tt.id,tt.coverurl,tt.title)"></span>
 										<span class="t_icon iconfont icon-all_delete" @click="_del(tt.id)"></span>
 									</td>
 								</tr>

@@ -161,7 +161,7 @@ img{ pointer-events: none;}
 .v_tabmain td:first-child{padding-left: 25px;display: inline-block;}
 .v_tabmain td:first-child span{max-width: 280px}
 /*.v_tabmain td input{margin-right: 14px;}*/
-.v_tabmain td img{width: 106px;height: 70px;display: inline-block;vertical-align: middle;margin: 0 12px}
+.v_tabmain td img{width: 106px;height: 70px;display: inline-block;vertical-align: middle;margin-right:12px}
 /*.v_tabmain td span{margin-right: 6px}*/
 .v_tabmain tr td:nth-child(2) img{width: 20px;height: 20px;margin-right: 8px; display: inline-block;}
 .v_tabmain tr td:last-child div{display: inline-block; color: #5479ff;}

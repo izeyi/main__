@@ -74,7 +74,7 @@
 		</div>
 		<ul class="case" data-step="2" data-intro="已上传案例在这里出现！">
 			<li v-for="tt in data" :key="tt.id"><!--  v-if="total !== 0" -->
-				<figure  @click="parent.open_video(tt.ali_vid,tt.title)">
+				<figure @click="parent.open_video(tt.ali_vid,tt.title)">
 					<img :src="tt.coverurl" alt="">
 				</figure>
 				<p>{{tt.title}}</p>

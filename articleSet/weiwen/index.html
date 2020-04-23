@@ -25,7 +25,7 @@
 			<h2>资讯动态</h2>
 			<div class="about_content_ about_content_lf">
 				<ul>
-					<li v-for="tt in data">
+					<li v-for="tt in data" :key="tt.id">
 						<a :href="tt.url">
 						<div class="about_content_tou">
 							<img :src="tt.cover">

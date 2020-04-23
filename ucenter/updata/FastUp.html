@@ -25,7 +25,7 @@
 	var _videosApi = globalApi_+"/box/videos/list/";
 	var _videosDelApi = globalApi_+"/mfy/api/videos/update/";
 	var del_data = {'token':_user.token,'status':'9','id':[]};
-	var requestData = {'token':_user.token,"order":JSON.stringify({"time":"DESC"}),"filter":JSON.stringify({"status[!]":"9","tags[~]":"闪传"})};
+	var requestData = {'token':_user.token,"order":JSON.stringify({"time":"DESC"}),"pagesize":500,"filter":JSON.stringify({"status[!]":"9","tags[~]":"闪传"})};
 	var default_data = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id": "14","uid": "0","gid": "0","tags": "","title": "","coverurl": "","url": "","sort": "0","ali_vid": "","status": "1"}]};
 	function getdata() {httpx.post(_videosApi,requestData,function (data){var _data = JSON.parse(data);if(_data.success)vmup(_app,_data)})}
 	getdata();
@@ -136,7 +136,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr class='content' v-for="tt in data" v-if="data.length != 0 || tt.status != 9">
+									<tr class='content' v-for="tt in data" :key="tt.id">
 										<td @click="parent.parent.open_video(tt.ali_vid,tt.title)">
 											<!-- <input type="checkbox"> -->
 											<img :src="tt.coverurl">

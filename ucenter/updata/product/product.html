@@ -143,13 +143,17 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 								</tr>
 							</thead>
 							<tbody>
-								<tr class='content' v-for="tt in data" v-if="data.length != 0 || tt.status != 9">
+								<tr class='content' v-for="tt in data" :key="tt.id">
 									<td><img :src="tt.icon_url"></td>
-									<td>{{tt.icon_name}}</td>
-									<td>{{tt.icon_desc}}</td>
-									<td>
-										<span class="t_icon iconfont icon-all_delete" @click="_del(tt.id)"></span>
-										<!-- <span class="t_icon iconfont icon-attachment" @click="_take(tt.id)"></span> -->
+									<td style="width: 260px">{{tt.icon_name}}</td>
+									<td style="line-height: 1.6;padding-right: 30px;"><span style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">{{tt.icon_desc}}</span></td>
+									<td style="width: 60px">
+										<div v-if="tt.gid == _user['cominfo'].gid" tooltip="删除产品">
+											<span class="t_icon iconfont icon-all_delete" @click="_del(tt.id)"></span>
+										</div>
+										<div v-else tooltip="取消订阅">
+											<span class="t_icon iconfont icon-attachment" style="color: #ff2d2dad" @click="_take(tt.id)"></span>
+										</div>
 									</td>
 								</tr>
 							</tbody>
@@ -170,6 +174,17 @@ body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;
 		del_data.id = _id;
 		layer.open({content: '真的要删掉我吗？',btn: ['是的', '算了'],yes: function(index, layero){console.log(index+'----'+layero);
 			httpx.post(globalApi_+"/mfy/api/del_product",del_data,function (ent) {
+				msg(JSON.parse(ent).info);
+				del_data.id = []
+				getdata()
+			})
+		}});
+	}
+	function _take(_id) {//删除项目
+		if(_id == 4){msg('默认数据，无法操作');return}
+		del_data.id = _id;
+		layer.open({content: '真的要取消订阅吗？',btn: ['是的', '算了'],yes: function(index, layero){console.log(index+'----'+layero);
+			httpx.post(globalApi_+"/mfy/api/cancel_select_product",del_data,function (ent) {
 				msg(JSON.parse(ent).info);
 				del_data.id = []
 				getdata()
