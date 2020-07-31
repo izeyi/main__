@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>闪传视频</title>
+	<link rel="stylesheet" href="../static/css/style.css">
+	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+	<script type="text/javascript" src="../../js/config/index.js"></script>
+	<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+	<script src="../../js/config.js" type="text/javascript"></script>
+	<!-- Madong -->
+	<style>
+		body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
+		#admin_console{width: 100%;height: 100%}
+		.t_icon{margin: 0 2px;cursor: pointer;}
+		.icon-all_edit{color: #03a9f4;}
+		.icon-all_delete{color: #ff2d2dad}
+
+		.gong .paging{display: flex;align-items: center;justify-content: center;float: none;}
+	</style>
+	<script type="text/javascript">
+	Vue.filter('is_status', function (str) {if(str == 0){return '上传中';}else if(str == 1){return '已完成';}});
+
+	var _user = store.get('userinfo');
+	var _videosApi = globalApi_+"/box/videos/list/";
+	var _videosDelApi = globalApi_+"/mfy/api/videos/update/";
+	var del_data = {'token':_user.token,'status':'9','id':[]};
+	var requestData = {'token':_user.token,"order":JSON.stringify({"time":"DESC"}),"filter":JSON.stringify({"status[!]":"9","tags[~]":"闪传"})};
+	var default_data = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id": "14","uid": "0","gid": "0","tags": "","title": "","coverurl": "","url": "","sort": "0","ali_vid": "","status": "1"}]};
+	function getdata() {httpx.post(_videosApi,requestData,function (data){var _data = JSON.parse(data);if(_data.success)vmup(_app,_data)})}
+	getdata();
+	</script>
+</head>
+<body>
+	<div id="admin_console">
+		<!-- 主体 -->
+		<div class="main" id="App">
+			<div class="main_sideLf">
+				 <div class="sidebar-menu">
+                    <ul>
+						<li class="sidebar-dropdown">
+							<a  href="javascript:;" >
+								<i class="fa fa-tv"><img src="../static/images/photo1.png" alt=""></i><span>图片管理</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="photo_list.html">相册分类</a> </li>
+									<li><a href="picture_list.html">图片列表</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown">
+							<a href="javascript:;">
+								<i class="fa fa-photo"><img src="../static/images/photo1.png" alt=""></i><span>视频管理</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="video_tags.html">视频分类</a></li>
+									<li><a href="index.html">视频列表</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown">
+							<a href="javascript:;">
+								<i class="fa fa-photo"><img src="../static/images/photo1.png" alt=""></i>
+								<span>微文圈</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="Weiwen/index.html">微文列表</a></li>
+									<li><a href="Weiwen/add.html">添加微文</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown">
+							<a href="javascript:;">
+								<i class="fa fa-photo"><img src="../static/images/photo1.png" alt=""></i>
+								<span>产品库</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="product/product.html">我的产品</a></li>
+									<li><a href="product/index.html">产品列表</a></li>
+									<li><a href="product/add.html">添加产品</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="cur">
+							<a href="FastUp.html">
+								<i class="fa fa-tv"><img src="../static/images/photo1.png" alt=""></i><span>闪传视频</span>
+							</a>
+						</li>
+						<li>
+							<a href="auto-upVideo.html">
+								<i class="fa fa-photo"><img src="../static/images/photo1.png" alt=""></i><span>我们的视频</span>
+							</a>
+						</li>
+						<li>
+							<a href="FileUp.html">
+								<i class="fa fa-photo"><img src="../static/images/photo1.png" alt=""></i><span>文件上传</span>
+							</a>
+						</li>
+						<li>
+							<a href="database.html">
+								<i class="fa fa-bar-chart-o"><img src="../static/images/photo1.png" alt=""></i><span>资料库</span>
+							</a>
+						</li>
+					</ul>
+                </div><!-- sidebar-menu  -->
+			</div>
+
+			<div class="main_sideRh">
+				<div class="update-box">
+					<div>
+						<div class="up_btn_head">
+							<div class='add_title'>闪传视频<span>&nbsp;&nbsp;Company Video</span><span style="margin-left: 20px;font-size: 16px">(闪传栏目)</span></div>
+							<div class="up_btn_sou">
+								<div class="up_btn_sou_lf">
+									<span class="up_btn_sou_lf_up" onclick='b_video()'>上传视频</span>
+									<!-- <span class="up_btn_sou_lf_delete">删除</span> -->
+								</div>
+								<!-- <div class="up_btn_sou_rh">
+									<input placeholder="视频关键字" type="text"><div id='sousou'><img src="../static/images/sou.png" alt=""></div>
+								</div> -->
+							</div>
+						</div>
+						<div>
+							<table class="v_tabmain">
+								<thead>
+									<tr>
+										<th><span>视频信息</span></th>
+										<th>状态</th>
+										<th>视频来源</th>
+										<th>创建时间</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class='content' v-for="tt in data" v-if="data.length != 0 || tt.status != 9">
+										<td @click="parent.parent.open_video(tt.ali_vid,tt.title)">
+											<!-- <input type="checkbox"> -->
+											<img :src="tt.coverurl">
+											<span>{{tt.title}}</span>
+										</td>
+										<td>{{tt.status | is_status}}</td>
+										<td>上传</td>
+										<td>{{tt.time | time}}</td>
+										<td>
+											<span class="t_icon iconfont icon-all_delete" @click="_del(tt.id)"></span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<!-- <div class="gong">
+						<div class="paging">
+							<p>
+								<a href=""><</a>
+								<a href="">1</a>
+								<a href="">2</a>
+								<a href="">3</a>
+								<a href="">></a>
+								<a href="">共3页</a>
+							</p>
+						</div>
+					</div> -->
+				</div>
+
+			</div>
+		</div>
+	</div>
+<script src="../static/js/rubilk.js"></script>
+<script>
+	var _app = new Vue({el : "#App",data:default_data});
+//删除项目
+function _del(_id) {
+	del_data.id = _id;
+	layer.open({
+		content: '真的要删掉我吗？'
+		,btn: ['是的', '算了']
+		,yes: function(index, layero){
+        	console.log(index+'----'+layero);
+            httpx.post(_videosDelApi,del_data,function (ent) {msg(JSON.parse(ent)['info']);getdata()})
+      	}
+    });
+}
+function b_video(){
+	layer.open({
+	  type: 2,
+	  title: '上传视频',
+	  closeBtn: 1,
+	  area: ['820px', '440px'],
+	  shadeClose: true,
+	  content: '../lib/upvideo/index.html',
+	  end: function () {//无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。layer.open关闭事件
+		//location.reload();　　//layer.open关闭刷新
+		getdata();
+	  }
+	});
+}
+</script>
+</body>
+</html>

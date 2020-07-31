@@ -1,0 +1,1 @@
+document.getElementById("topmenu").innerHTML='<li><a href="../../updata/index.html">上传管理</a></li><li><a href="../../project/index.html">项目管理</a><li><a href="../../bid/index.html">招投标</a></li><li><a href="../../finance/index.html">财务管理</a></li><li><a href="../../company/index.html">公司设置</a></li>';

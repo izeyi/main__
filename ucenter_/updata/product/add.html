@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>产品库-添加</title>
+	<link rel="stylesheet" href="../../static/css/style.css">
+	<link rel="stylesheet" href="../../static/iconfont/iconfont.css" type="text/css">
+	<script type="text/javascript" src="../../../js/config/index.js"></script>
+	<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+	<script src="../../../js/config.js" type="text/javascript"></script>
+	<!-- Madong -->
+	<style>
+		body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
+		#admin_console{width: 100%;height: 100%}
+		.t_icon{margin: 0 2px;cursor: pointer;}
+		.icon-all_edit{color: #03a9f4;}
+		.icon-all_delete{color: #ff2d2dad}
+		#skip-name{width: 0;font-size: 16px;}
+		.Head_img.loading{background-image: url(../../static/images/loading.gif);background-repeat: no-repeat;background-size: 20px;    padding-left: 26px;background-position: center left;display: none;}
+		.demo-class{background: #fef0f0;border: none;}
+		.demo-class .layui-layer-content{color: #f56c6c}
+
+		.input_item>label{display: inline-block;width: 100px;font-weight: 500;color: #2b2b2b;text-align: right;padding-right: 12px;}
+		.input_item>input{display:inline-block;width: 650px;border: 1px solid #e5e5e5;box-sizing: border-box;height: 56px;padding-left: 15px;font-size: 16px;}
+		input#is_open{display: none;}
+		#is_open+label{
+			cursor: pointer;
+		    background-color: #fafbfa;
+		    padding: 9px;
+		    border-radius: 50px;
+		    display: inline-block;
+		    position: relative;
+		    margin-right: 30px;
+		    -webkit-transition: all .1s ease-in;
+		    transition: all .1s ease-in;
+		    width: 40px;
+		    height: 9px;
+		    vertical-align: middle;
+		}
+		#is_open+label:before {
+		    content: ' ';
+		    position: absolute;
+		    background: #fff;
+		    top: 1px;
+		    left: 1px;
+		    z-index: 999999;
+		    width: 31px;
+		    -webkit-transition: all .1s ease-in;
+		    transition: all .1s ease-in;
+		    height: 25px;
+		    border-radius: 100px;
+		    box-shadow: 0 3px 1px rgba(0,0,0,.05), 0 0 1px rgba(0,0,0,.3);
+		}
+		#is_open+label:after {
+			content: ' ';
+			position: absolute;
+			top: 0;
+			-webkit-transition: box-shadow .1s ease-in;
+			transition: box-shadow .1s ease-in;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			border-radius: 100px;
+			box-shadow: inset 0 0 0 0 #eee, 0 0 1px rgba(0,0,0,.4);
+		}
+		#is_open:checked+label:after {
+		    content: ' ';
+		    font-size: 1.5em;
+		    position: absolute;
+		    background: #61b0ff;
+		    box-shadow: 0 0 1px #61b0ff;
+		}
+		#is_open:checked+label:before {
+		    content: ' ';
+		    position: absolute;
+		    left: 26px;
+		    border-radius: 100px;
+		}
+	</style>
+	<script type="text/javascript">
+	var _user = store.get('userinfo');
+	var user_add = globalApi_+"/mfy/api/user_product";
+	</script>
+</head>
+<body>
+	<div id="admin_console">
+		<!-- 头部 -->
+		<!-- 主体 -->
+		<div class="main">
+			<div class="main_sideLf">
+				<div class="sidebar-menu">
+					<ul>
+						<li class="sidebar-dropdown">
+							<a  href="javascript:;" ><i class="fa fa-tv"><img src="../../static/images/photo1.png" alt=""></i><span>图片管理</span></a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="../photo_list.html">相册分类</a> </li>
+									<li><a href="../picture_list.html">图片列表</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown">
+							<a href="javascript:;"><i class="fa fa-photo"><img src="../../static/images/photo1.png" alt=""></i><span>视频管理</span></a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="../video_tags.html">视频分类</a></li>
+									<li><a href="../index.html">视频列表</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown">
+							<a href="javascript:;">
+								<i class="fa fa-photo"><img src="../../static/images/photo1.png" alt=""></i>
+								<span>微文圈</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="../Weiwen/index.html">微文列表</a></li>
+									<li><a href="../Weiwen/add.html">添加微文</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="sidebar-dropdown active">
+							<a href="javascript:;">
+								<i class="fa fa-photo"><img src="../../static/images/photo1.png" alt=""></i>
+								<span>产品库</span>
+							</a>
+							<div class="sidebar-submenu">
+								<ul>
+									<li><a href="product.html">我的产品</a></li>
+									<li><a href="index.html">产品列表</a></li>
+									<li><a href="add.html">添加产品</a></li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<a href="../FastUp.html">
+								<i class="fa fa-tv"><img src="../../static/images/photo1.png" alt=""></i>
+								<span>闪传视频</span>
+							</a>
+						</li>
+						<li>
+							<a href="../auto-upVideo.html">
+								<i class="fa fa-photo"><img src="../../static/images/photo1.png" alt=""></i>
+								<span>我们的视频</span>
+							</a>
+						</li>
+						<li>
+							<a href="../FileUp.html">
+								<i class="fa fa-photo"><img src="../../static/images/photo1.png" alt=""></i>
+								<span>文件上传</span>
+							</a>
+						</li>
+						<li>
+							<a href="../database.html">
+								<i class="fa fa-bar-chart-o"><img src="../../static/images/photo1.png" alt=""></i>
+								<span>资料库</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="main_sideRh">
+				<div class="update-box">
+					<div class="addUser">
+						<form id="T_add_form">
+							<div class="add_title">添加产品&nbsp;&nbsp;<span></span></div>
+							<div class="input_item" id="Head" >
+								<label for="icon_url">产品图标:</label>
+								<div class="Head_img">
+									<img src="../../static/images/add_img.png" alt="">
+									<input type="text" name="icon_url" class="form-control-hidden icon_url" value="">
+									<input type="file" name="upfile" id="icon_url" class="form-control-hidden" accept="image/*">
+									<p>点击上传</p>
+								</div>
+							</div>
+							<div class="input_item">
+								<label for="icon_name">产品名称:</label>
+								<input type="text" name="icon_name" id="icon_name" placeholder="请输入产品名称">
+							</div>
+							<div class="input_item upload">
+								<label for="skip_url">上传产品:</label>
+								<span class="Head_img loading"></span>
+								<div class="Head_img">
+									<!-- <img src="../../static/images/head.png" alt=""> -->
+									<input type="text" id="skip-name" class="skip_url-name" value="">
+									<input type="text" name="skip_url" class="form-control-hidden skip_url" value="">
+									<input type="file" name="upfile" id="skip_url" class="form-control-hidden" accept="application/pdf">
+									<p id="loading">点击上传</p>
+								</div>
+							</div>
+							<!-- <div class="input_item">
+								<label for="skip_url">产品地址:</label>
+								<input type="text" name="skip_url" id="skip_url" placeholder="请输入产品地址,例http://www.baidu.com/img/bd_logo1.png">
+							</div> -->
+							<div class="input_item">
+								<label for="icon_desc">产品介绍:</label>
+								<input type="text" name="icon_desc" id="icon_desc" placeholder="请输入产品简介">
+							</div>
+							<div class="input_item">
+								<label>是否公开:</label>
+								<input type="checkbox" name="is_open" id="is_open" checked>
+								<label for="is_open"></label>
+							</div>
+						</form>
+					</div>
+					<div class="gong">
+						<div id="add_people"><button type="button" class="update">添加产品</button></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script src="../../static/js/rubilk.js"></script>
+<script>
+$(function () {
+	$('.update').on('click',function(){
+		var _status = 1;
+		if($("input[type='checkbox']").is(':checked')){_status = 1}else {_status =2};
+		var _fromdata = serialize(document.forms["T_add_form"]);
+	    _fromdata["token"] = _user.token;
+	    _fromdata["is_open"] = _status;
+	    var checkVal = checkvalue(_fromdata,{
+	    	"icon_name":"产品名称",
+	    	"skip_url":"产品地址",
+	    	"icon_url":"产品图标",
+	    	"icon_desc":"产品介绍",
+	    	"is_open":"是否公开"
+	    });
+	    console.log(_fromdata)
+	    if(checkVal['success']){
+	        httpx.post(user_add,_fromdata,function (data) {
+	        	var _data = JSON.parse(data);
+            msg(_data['info']);
+            if(_data['success'])setInterval(function (){location.href="index.html";},700)
+	        })
+	    }else {
+	        msg(checkVal['info']);
+	    }
+	});
+	// 上传图片 and
+	$("[type='file'].form-control-hidden").bind('change',function (e) {
+    e.preventDefault();
+    var formData = new FormData();
+    var _file = $(this).attr('id');
+    var _FileDes = document.getElementById(_file).files[0]
+    if(!_FileDes){return false}
+    if( _FileDes.size >= 41943040){
+    	layer.msg('上传的文件不能小于0KB且不能大于40MB',{skin:'demo-class'});
+    	_file.value = '';return false;
+    } else {
+  		$('#'+_file).siblings('p').text('正在上传，请稍等...')
+    }
+    console.log(_FileDes)
+    // console.log(_name)
+    // console.log(_file)
+    // formData.append("token",_user.token);
+    console.log(formData)
+    console.log(_FileDes)
+    formData.append("upfile",_FileDes);
+    $.ajax({
+        url: globalApi_+'/box/yunFile/file',
+        type: 'POST',
+        data: formData,
+        dataType: "json",
+        beforeSend:function (){
+  			// $("#loading").text('正在上传，请稍等...');
+      	},
+        // async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (returndata) {
+        	// var returndata = JSON.parse(returndata)
+            if(returndata['success'] != false){
+            	console.log(returndata)
+            	console.log(returndata['url'])
+                $('#'+_file).siblings('img').attr("src",returndata['url']);
+								// $("#"+_file).parent().removeClass('loading');
+  							$(".Head_img.loading").css("display","none");
+                $('.'+_file).val(returndata['url'])
+                if(_FileDes['type'] == "application/pdf"){
+                	$('.'+_file+'-name').val(_FileDes['name'])
+                	$('.'+_file+'-name').css('width','auto')
+                }
+                $('#'+_file).siblings('p').text('重新上传');
+            }else{
+                msg(returndata.info);
+            }
+        }
+    });
+  })// 上传图片 end
+
+})
+
+</script>
+</body>
+</html>

@@ -182,7 +182,7 @@ output = output + String.fromCharCode(chr3);
 output = _utf8_decode(output);
 return output;
 }
- 
+
 // private method for UTF-8 encoding
 _utf8_encode = function (string) {
 string = string.replace(/\r\n/g,"\n");
@@ -300,7 +300,7 @@ for(var i in imgs){
 imgs[i].index=i;
 if(imgs[i].width > window.screen.width){
 imgs[i].width=window.screen.width*0.9;
-imgs[i].height=imgs[i].naturalHeight*((window.screen.width*0.9)/imgs[i].naturalWidth);	
+imgs[i].height=imgs[i].naturalHeight*((window.screen.width*0.9)/imgs[i].naturalWidth);
 }
 //imgs[i].onclick=function(){
 //alert(this.index);
@@ -315,7 +315,7 @@ imgs[i].height=imgs[i].naturalHeight*((window.screen.width*0.9)/imgs[i].naturalW
 // 把字符串中的汉字转换成Unicode
 function toUnicodeFun(data){
   if(data == '' || typeof data == 'undefined') return '请输入汉字';
-   var str =''; 
+   var str ='';
    for(var i=0;i<data.length;i++){
       str+="\\u"+data.charCodeAt(i).toString(16);
    }
@@ -336,7 +336,7 @@ function toChineseWords(data){
     return str;
 }
 
-// var resultChineseWords = toChineseWords("\u4e2d\u56fd"); 
+// var resultChineseWords = toChineseWords("\u4e2d\u56fd");
 // console.log(resultChineseWords);//中国
 
 
@@ -447,7 +447,7 @@ done: function(value, date, endDate){
     console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
     console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
   }
-  
+
 });
 }
 //Pdf阅读器
@@ -460,7 +460,7 @@ first = touches[0],
 type = "";
 switch(event.type){
 case "touchstart": type = "mousedown"; break;
-case "touchmove":  type = "mousemove"; break;        
+case "touchmove":  type = "mousemove"; break;
 case "touchend":   type = "mouseup";   break;
 default:           return;
 }
@@ -475,7 +475,7 @@ function init() {
 document.addEventListener("touchstart", touchHandler, true);
 document.addEventListener("touchmove", touchHandler, true);
 document.addEventListener("touchend", touchHandler, true);
-document.addEventListener("touchcancel", touchHandler, true);    
+document.addEventListener("touchcancel", touchHandler, true);
 }
 init();
 

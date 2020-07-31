@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>申请提现01</title>
+	<link rel="stylesheet" href="../static/css/style.css">
+	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+	<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+	<script src="../../js/config.js" type="text/javascript"></script>
+	<script src="../static/js/rubilk.js"></script>
+	<!-- Madong -->
+<style>
+	body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
+	#admin_console{width: 100%;height: 100%}
+	.t_icon{margin: 0 2px;cursor: pointer;}
+	.icon-all_edit{color: #03a9f4;}
+	.icon-all_delete{color: #ff2d2dad}
+
+	/*.gong .paging{display: flex;align-items: center;justify-content: center;float: none;}*/
+
+	.M_title{color: #3c3c3c;font-weight: bolder;font-size: 26px;border-left: 3px solid #ff7e16;padding-left: 10px;margin: 40px 0 0px 40px;}
+	.M_title span{color: #838383;font-size: 16px;font-weight: lighter;}
+
+
+	.content_z{color: #00cb48;}
+	.content_t{color: #ff7e16;}
+	#add_people a{font-size: 18px;font-weight: bolder;color: #fff;display: block;width: 150px;height: 50px;background: #3c3c3c;text-align: center;line-height: 50px;border-radius: 8px;}
+	#add_people{margin-left: 40px;}
+
+	.M_title_tip{padding: 18px 20px;margin: 28px 40px 22px 40px;color: #ff7e16; border: 1px solid #ff7e16;box-sizing:border-box;background: #fcfad8;}
+	.up_btn_head_team{color: #3c3c3c;height: 56px;line-height: 56px;margin-top: 36px;}
+	.up_btn_head_team label,.up_btn_head_team input,.up_btn_head_team span{display: inline-block;height: 100%;}
+	.up_btn_head_team label{font-weight: bolder;}
+	.up_btn_head_team input{border: 1px solid #777;padding-left: 8px;vertical-align: top;box-sizing: border-box;}
+	.up_btn_head_team label{margin-right: 40px;width: 100%;max-width: 64px;}
+	.up_btn_head_team1{margin-top: 0;}
+	.up_btn_head_team2{margin-top: 10px;}
+	.up_btn_head_team3 input{width: 344px;}
+	/*layer关闭按钮*/
+	.layui-layer-setwin .layui-layer-close2{top: 318px; width: 80px; left: -90px; opacity: 0;}
+
+</style>
+	<script type="text/javascript">
+	var _user = store.get('userinfo');
+	var availableMoney=0;//可用金额
+	var	expenseApiUrl = globalApi_+"/box/expense/home/";
+	var getCondi 	= {"pagesize":500,'token':_user.token,"filter":JSON.stringify({"status":"1","type":'1'})};//充值金额
+	var requestData = {'token':_user.token,"order":JSON.stringify({"time":"DESC"})};
+	httpx.post(expenseApiUrl,getCondi,function(data){var _t = JSON.parse(data);availableMoney=_thisItemTotal(_t.data);console.log(_thisItemTotal(_t.data))})//充值金额
+	</script>
+</head>
+<body>
+	<div id="admin_console">
+		<!-- 主体 -->
+		<div class="main">
+			<div class="main_sideLf">
+				<ul>
+					<li><a href="index.html"><img src="../static/images/bao.png" alt=""><span>账户总览</span></a></li>
+					<li class="cur"><a href="withdrawal.html"><img src="../static/images/ti.png" alt=""><span>申请提现</span></a></li>
+					<li><a href="invoice/index.html"><img src="../static/images/ti.png" alt=""><span>申请发票</span></a></li>
+					<li><a href="invoice/applyForInvoice.html"><img src="../static/images/ti.png" alt=""><span>申请记录</span></a></li>
+				</ui>
+			</div>
+
+			<div class="main_sideRh">
+				<div class='M_title'>申请提现<span>&nbsp;&nbsp;Application For Cash Withdrawal</span></div>
+				<div class='M_title_tip'>
+					<p>1.请您认真核对金额提现及提现账户，以免造成提现失败甚至金额损失。</p>
+					<p>2.提现时需要提供抬头为本公司的发票，再邮寄到本公司。<span onclick='b_money1()' style="color:#2e5fff;">查看开票资料</span></p>
+				</div>
+				<div class="update-box">
+					<form class="up_btn_head" id="withdrawals_from">
+						<div class="up_btn_head_team up_btn_head_team1">
+							<label for="">账户余额</label>
+							<span>{{balance}} 元</span>
+						</div>
+						<div class="up_btn_head_team up_btn_head_team2">
+							<label for="">本次提现</label><input name="money" placeholder="请输入金额" type="text">&nbsp;&nbsp;&nbsp;&nbsp;元
+						</div>
+						<div class="up_btn_head_team up_btn_head_team3">
+							<label for="">发票号码</label><input name="invoice" placeholder="请输入发票单上两串号码" type="text">
+						</div>
+						<div class="up_btn_head_team up_btn_head_team3">
+							<label for="">快递单号</label><input name="courier" placeholder="请输入快递单号" type="text">
+						</div>
+						<div class="up_btn_head_team up_btn_head_team3">
+							<label for="">备注</label><input name="info" placeholder="请输入备注信息" type="text">
+						</div>
+					</form>
+				</div>
+				<div id="add_people" class="mr_top"><a href="javascript:;" class="apply_for_withdrawals">下一步</a></div>
+			</div>
+		</div>
+	</div>
+<script>
+var defaultData = {"success":true,"total":1,"page":1,"totalpage":1,"data":[{"id":"6","gid":"2","uid":"2","type":"1","status":"0","money":"","info":"","arrall":{"money":"1000","info":""},"time":"1554797983"}],"balance":"","comname":""}
+var _app = new Vue({el:'#admin_console',data:defaultData});
+	httpx.get(expenseApiUrl,requestData,function(data){var _data = JSON.parse(data);_data.comname=_user.cominfo.comname;_data.balance=availableMoney;if(_data.success)vmup(_app,_data)});
+$('.apply_for_withdrawals').on('click',function (e) {
+	var form_fata = serialize(document.forms["withdrawals_from"]);
+	form_fata['token'] = _user.token;
+	var checkVal = checkvalue(form_fata,{'money': '提现金额','invoice': '发票号码','courier': '快递单号'});
+    if(checkVal['success']){
+    	location.href= 'accounts_t02.html?withdrawals='+JSON.stringify(form_fata);
+	}else{
+		msg(checkVal.info)
+	}
+	e.preventDefault();
+});
+function _thisItemTotal(_data) {var _money = 0;for (var i = 0; i < _data.length; i++) {_money += _data[i].money};return _money;}
+function b_money1(){
+	layer.open({
+	  type: 2,
+	  title: ['提现金额','color:#3c3c3c;background:#fff;font-weight:bold;font-size:16px;border-bottom:1px solid #bcbcbc;'],
+	  area: ['655px', '350px'],
+	  shadeClose: true,
+	  closeBtn: 2,
+	  content: '../lib/b_money1.html'
+	});
+}
+</script>
+</body>
+</html>

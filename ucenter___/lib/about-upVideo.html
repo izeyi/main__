@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>上传视频</title>
+  <!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+  <script src="../../js/config.js" type="text/javascript"></script>
+  <script src="../static/js/lib/aliyun-upload-sdk/aliyun-upload-sdk-1.5.0.min.js"></script>
+  <script src="../static/js/lib/aliyun-upload-sdk/lib/es6-promise.min.js"></script>
+  <script src="../static/js/lib/aliyun-upload-sdk/lib/aliyun-oss-sdk-5.3.1.min.js"></script>
+  <script type="text/javascript" src="../../js/config/index.js"></script>
+  <script type="text/javascript">var _user = store.get('userinfo');</script>
+  <!-- Madong -->
+<style>
+  body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select{margin:0;padding:0}
+  *, :after, :before {box-sizing: border-box;}
+  html,body{width: 100%;height: 100%;overflow:hidden;}
+  body{-webkit-text-size-adjust:100%;font:14px "Microsoft YaHei","PingFangSC-Regular";font-size: 14px;color: #fff;user-select:none;}
+  input{outline:none;}
+  a{color:#2d374b;text-decoration:none}
+  a:link{color: #ff5d58}
+  a:hover{color:#cd0200;text-decoration:underline}
+  em{font-style:normal}
+  li{list-style:none}
+  img{border:0;vertical-align:middle}
+  table{border-collapse:collapse;border-spacing:0}
+  p{word-wrap:break-word}
+
+  button, input, select, textarea {color: inherit;font: inherit;margin: 0;}
+    .next-btn {position: relative;display: inline-block;font-style: normal;font-family: inherit;background: transparent;cursor: pointer;
+      transition: all .3s ease-out;box-shadow: none;border-radius: 0;border-style: solid;text-align: center;outline: 0;}
+    .next-btn[disabled] {background-color: #f5f5f6;border-color: #ebecec;}
+    .btn-primary {border-style: solid;background-color: #1E9FFF;border-color: transparent;color: #fff}
+
+    .upLoader{font-size: 14px;color: #373d41;padding: 20px;background: #fff;max-width: 820px}
+    .action-bar{margin-bottom: 16px;}
+    .action-btn{display: inline-block;position: relative;}
+    .action-select{float: right;}
+    .next-btn-medium {margin: 0;height: 32px;padding: 0 16px;font-size: 12px;line-height: 30px;border-width: 1px;}
+    .action-bar-item {display: inline-block;vertical-align: middle;margin-right: 8px;}
+
+    .video-table {max-height: 350px;margin-bottom: 20px;border: 1px solid #ebecec;font-size: 12px;}
+    .next-table-header {background: #ebecec;}
+    .next-table table {border-collapse: collapse;border-spacing: 0;width: 100%;table-layout: fixed;background: #fff}
+    table tr th:first-child { border-left-width: 0;border-top-width: 0;border-width: 0 0 1px;}
+    .next-table th {padding: 0;background: #ebecec;color: #73777a;text-align: left;font-weight: 400;border: 1px solid #ebecec;}
+    .next-table th .next-table-cell-wrapper,.next-table td .next-table-cell-wrapper {padding: 12px 16px;overflow: hidden;text-overflow: ellipsis;word-break: break-all;display: block;}
+    .next-table .next-input-medium input{height: 30px;margin: 0;padding: 0 8px;font-size: 12px;width: 100%;}
+    .next-table-row {transition: all .3s ease;}
+    .next-checkbox {display: block;vertical-align: middle;position: relative;width: 16px;height: 16px;line-height: 14px;cursor: pointer;}
+    /*.next-table th:first-child,.next-table td:first-child{width: 50px}*/
+    .next-btn[disabled] {cursor: not-allowed;color: #c3c5c6;}
+    .next-dialog-footer {width: 100%;padding: 0 20px 20px;border-top: 1px solid transparent;background: transparent;text-align: right;color: #333;position: absolute;bottom: 0}
+
+    .file_input{position: absolute;top: 0;left: 0;opacity: 0;width: 50%;height: 100%;cursor: pointer;}
+
+    /*@tong 下拉列表 and*/
+    .select-menu-ul{margin-top:50px;list-style:none;opacity:0;display:none;width: 100%;right: 0px;top: 100%;
+      text-align:left;border:1px solid #ddd;background:#fff;position:absolute;z-index:9;}
+    .select-menu-ul li{padding:4% 8%;font-size: 14px;cursor: pointer;}
+    .select-menu-ul li:hover{background:#f2f2f2;color: #333}
+    .select-this{background:#ec302c;color:#fff;}
+    .select-this:hover{background:#ec302c!important;}
+    .select-menu-ul i{margin-right:5px;position:absolute;right:0;top:7px;}
+    .select-menu-i{transform:rotate(180deg);}
+    .select-menu-ul i{-webkit-transition: all 0.4s ease;-o-transition: all 0.4s ease;transition: all 0.4s ease;}
+    .zt_input{height: 32px;font-size: 12px;line-height: 1.3;border-width: 1px;border-style: solid;background-color: #ededed;border-radius: 2px;display: block;width: 100%;transition: border-color .2s cubic-bezier(.645,.045,.355,1);box-sizing: border-box;padding-left: 10px;border-color: transparent;position: relative;}
+    .zt_input_block {position: relative;max-width: 370px;text-align: left;display: flex;}
+    label.zt_form_label {margin: 0;float: left;display: block;font-size: 14px;line-height: 32px;text-align: center;color: #333;padding-right: 12px}
+    input.select-menu-input{width: 100%}
+    /* 下拉列表 end*/
+
+
+    .ui-file .u-size{}
+    .ui-file .u-speed{}
+    .ui-file .u-progress-bar{}
+    .ui-file .u-detail{width: 70px;}
+    .ui-file .u-op{}
+    .ui-file .u-state { min-width: 55px;}
+
+</style>
+</head>
+<body>
+
+  <section id="main" class="upLoader">
+    <div class="action-bar">
+      <div class="action-btn">
+        <button class="action-bar-item next-btn-medium btn-primary next-btn" type="button" x="video">添加视频</button>
+        <input type="file" name="file_input" class="file_input" id="fileUpload" accept = "video/*">
+        <button class="action-bar-item next-btn-medium next-btn" disabled type="button">删除</button>
+      </div>
+    </div>
+    <div class="video-table next-table">
+      <div class="next-table-inner">
+        <div class="next-table-header">
+          <table>
+            <colgroup><col style="min-width:100px;width: 230px"></colgroup>
+            <tbody>
+              <tr>
+                <th rowspan="1"><span class="next-table-cell-wrapper">名称</span></th>
+                <th rowspan="1"><span class="next-table-cell-wrapper" style="text-align: center;">大小</span></th>
+                <th rowspan="1"><span class="next-table-cell-wrapper" style="text-align: center;">格式</span></th>
+                <th rowspan="1"><span class="next-table-cell-wrapper" style="text-align: center;">进度</span></th>
+                <!-- <th rowspan="1"><span class="next-table-cell-wrapper" style="text-align: center;">细节</span></th> -->
+                <th rowspan="1"><span class="next-table-cell-wrapper" style="text-align: center;">状态</span></th>
+                <th rowspan="1"><span class="next-table-cell-wrapper">操作</span></th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="next-table-body" ><!-- id="upload-view" -->
+        <table>
+          <colgroup><col style="min-width:100px;width: 230px"></colgroup>
+          <tbody id="upload-view"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <footer class="next-dialog-footer">
+    <button class="next-btn next-btn-primary next-btn-medium btn-primary" id="authUpload">开始上传</button>
+    <button class="next-btn next-btn-primary next-btn-medium" id="clos_box" onclick="parent.layer.closeAll()">取消</button>
+  </footer>
+
+<script>
+$(document).ready(function () {
+
+  /** GH3XMjgZbNDW7nV2cKEEiA7hFpWiQMgpUno9/9iiy9Yy6YYRQs+LQ6sAEw9Hvy65yhgr
+   * 创建一个上传对象
+   * 使用 UploadAuth 上传方式
+   */
+  var _user = store.get('userinfo');
+  var _token = _user.token;
+  var _tags = _user.cominfo.videotags;
+
+
+  function createUploader () {
+    var uploader = new AliyunUpload.Vod({
+      timeout: 60000,
+      partSize: 1048576,
+      parallel: 5,
+      retryCount: 3,
+      retryDuration: 2,
+      region: "cn-shanghai",
+      userId: "1118602938238759",
+      // 添加文件成功
+      addFileSuccess: function (uploadInfo) {
+        videoList = '<tr class="next-table-row">'+
+        '  <td class="next-table-cell">'+
+        '    <div class="next-table-cell-wrapper">'+
+        '      <span class="next-input next-input-single next-input-medium" style="min-width: 120px;">'+
+        '        <input type="text" value="' + uploadInfo.file.name + '" height="100%"></span>'+
+        '    </div>'+
+        '  </td>'+
+        '  <td class="next-table-cell" style="text-align: center;">'+
+        '    <div class="next-table-cell-wrapper">' + formatBytes(uploadInfo.file.size) + '</div></td>'+
+        '  <td class="next-table-cell" style="text-align: center;">'+
+        '    <div class="next-table-cell-wrapper">' + uploadInfo.file.type + '</div></td>'+
+        '  <td class="next-table-cell" style="text-align: center;">'+
+        '    <div class="next-table-cell-wrapper" id="progress">' + uploadInfo.file.progress + '%</div></td>'+
+        '  <td class="next-table-cell" style="text-align: center;">'+
+        '    <div class="next-table-cell-wrapper" id="status">待上传</div></td>'+
+        '  <td class="next-table-cell last" style="text-align: left;">'+
+        '    <div class="next-table-cell-wrapper">'+
+        '      <div class="settings">'+
+        '        <a href="javascript:;">删除</a></div>'+
+        '    </div>'+
+        '  </td>'+
+        '</tr>';
+        $('#upload-view').html(videoList)
+
+        $('#authUpload').attr('disabled', false)
+        $('#resumeUpload').attr('disabled', false)
+        $('#status').text('待上传')
+        $('#fileName').text(uploadInfo.file.name)
+        console.log("addFileSuccess: " + uploadInfo.file.name)
+      },
+      // 开始上传
+      onUploadstarted: function (uploadInfo) {
+        // 如果是 UploadAuth 上传方式, 需要调用 uploader.setUploadAuthAndAddress 方法
+        // 如果是 UploadAuth 上传方式, 需要根据 uploadInfo.videoId是否有值，调用点播的不同接口获取uploadauth和uploadAddress
+        // 如果 uploadInfo.videoId 有值，调用刷新视频上传凭证接口，否则调用创建视频上传凭证接口
+        // 注意: 这里是测试 demo 所以直接调用了获取 UploadAuth 的测试接口, 用户在使用时需要判断 uploadInfo.videoId 存在与否从而调用 openApi
+        // 如果 uploadInfo.videoId 存在, 调用 刷新视频上传凭证接口(https://help.aliyun.com/document_detail/55408.html)
+        // 如果 uploadInfo.videoId 不存在,调用 获取视频上传地址和凭证接口(https://help.aliyun.com/document_detail/55407.html)
+        console.log(uploadInfo)
+        if (!uploadInfo.videoId) {
+          var createUrl =globalApi_+'/box/videososs/CreateUploadVideo/?title='+uploadInfo.file.name+'&token='+encodeURIComponent(_token)+'&tags='+encodeURI('["我们的"]')
+          $.get(createUrl, function (data) {
+            var uploadAuth = data.UploadAuth
+            var uploadAddress = data.UploadAddress
+            var videoId = data.VideoId
+            uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress,videoId)
+          }, 'json')
+          $('#status').text('上传中')
+          console.log("onUploadStarted:"+uploadInfo.file.name+", endpoint:"+uploadInfo.endpoint+",bucket:"+uploadInfo.bucket+",object:"+uploadInfo.object)
+        } else {
+          // 如果videoId有值，根据videoId刷新上传凭证
+          // https://help.aliyun.com/document_detail/55408.html?spm=a2c4g.11186623.6.630.BoYYcY
+          var refreshUrl = globalApi_+'/box/videososs/RefreshUploadVideo/?videoid='+uploadInfo.videoId+'&token='+encodeURIComponent(_token)
+          $.get(refreshUrl, function (data) {
+            var uploadAuth = data.UploadAuth
+            var uploadAddress = data.UploadAddress
+            var videoId = data.VideoId
+            uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress,videoId)
+          }, 'json')
+          $('#status').text('上传中')
+          console.log("onUploadStarted:"+uploadInfo.file.name+", endpoint:"+uploadInfo.endpoint+",bucket:"+uploadInfo.bucket+",object:"+uploadInfo.object)
+        }
+      },
+      // 文件上传成功
+      onUploadSucceed: function (uploadInfo) {
+        $('#status').text('上传成功')
+        console.log("onUploadSucceed:"+uploadInfo.file.name +",endpoint:"+uploadInfo.endpoint+",bucket:"+uploadInfo.bucket+",object:"+uploadInfo.object)
+      },
+      // 文件上传失败
+      onUploadFailed: function (uploadInfo, code, message) {
+        $('#status').text('上传失败')
+        console.log("onUploadFailed: file:"+ uploadInfo.file.name +",code:"+ code +",message:"+ message)
+      },
+      // 取消文件上传
+      onUploadCanceled: function (uploadInfo, code, message) {
+        $('#status').text('暂停上传')
+        console.log("Canceled file:"+ uploadInfo.file.name +",code:"+ code +",message:"+ message)
+      },
+      // 文件上传进度，单位：字节, 可以在这个函数中拿到上传进度并显示在页面上
+      onUploadProgress: function (uploadInfo, totalSize, progress) {
+        var progressPercent = Math.ceil(progress * 100)
+        $('#progress').text(progressPercent+"%")
+        $('#status').text('上传中')
+        console.log("onUploadProgress:file:"+ uploadInfo.file.name +",fileSize:"+ totalSize +",percent:"+ Math.ceil(progress * 100) +"%")
+      },
+      // 上传凭证超时
+      onUploadTokenExpired: function (uploadInfo) {
+        // 上传大文件超时, 如果是上传方式一即根据 UploadAuth 上传时
+        // 需要根据 uploadInfo.videoId 调用刷新视频上传凭证接口(https://help.aliyun.com/document_detail/55408.html)重新获取 UploadAuth
+        // 然后调用 resumeUploadWithAuth 方法, 这里是测试接口, 所以我直接获取了 UploadAuth
+        $('#status').text('上传超时')
+        let refreshUrl = globalApi_+'/box/videososs/RefreshUploadVideo/?videoid='+ uploadInfo.videoId +'&token='+ encodeURIComponent(_token)
+        $.get(refreshUrl, function (data) {
+          var uploadAuth = data.UploadAuth
+          uploader.resumeUploadWithAuth(uploadAuth)
+          console.log('upload expired and resume upload with uploadauth'+ uploadAuth)
+        }, 'json')
+      },
+      // 全部文件上传结束
+      onUploadEnd: function (uploadInfo) {$('#status').text('上传完成');$('#clos_box').text('完成');console.log("onUploadEnd: uploaded all the files")}
+    })
+    return uploader
+  }
+
+  var uploader = null
+  var videoList= ""
+
+  $('#fileUpload').on('change', function (e) {
+    var file = e.target.files[0]
+    if (!file) { msg("请先选择需要上传的文件!"); return }
+    file.progress = 0
+    var Title = file.name
+    var userData = '{"Vod":{}}'
+    if (uploader) {
+      uploader.stopUpload()
+      $('#progress').text('0')
+      $('#status').text("")
+    }
+    uploader = createUploader()
+    // 首先调用 uploader.addFile(event.target.files[i], null, null, null, userData)
+    uploader.addFile(file, null, null, null, userData)
+  })
+
+  // 第一种方式 UploadAuth 上传
+  $('#authUpload').on('click', function () {
+    // if( !document.getElementById("tags").value ){ msg('请选择视频分类！');return;}
+    // 然后调用 startUpload 方法, 开始上传
+    console.log(uploader)
+    if (uploader !== null) {
+      uploader.startUpload()
+      $('#authUpload').attr('disabled', true)
+      $('#pauseUpload').attr('disabled', false)
+    }else{
+      msg('请先选择需要上传的视频文件!')
+    }
+  })
+
+  // 暂停上传
+  $('#pauseUpload').on('click', function () {
+    if (uploader !== null) {
+      uploader.stopUpload()
+      $('#resumeUpload').attr('disabled', false)
+      $('#pauseUpload').attr('disabled', true)
+    }
+  })
+
+  // 重新上传
+  $('#resumeUpload').on('click', function () {
+    if (uploader !== null) {
+      uploader.startUpload()
+      $('#resumeUpload').attr('disabled', true)
+      $('#pauseUpload').attr('disabled', false)
+    }
+  })
+
+  // @tong -------------------------------
+  var _option = '';
+
+  function formatBytes(bytes) {
+     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+     if (bytes == 0) return '0 Byte';
+     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+  };
+
+
+})
+
+</script>
+</body>
+</html>

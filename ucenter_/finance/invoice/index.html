@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../../static/css/style.css">
+	<link rel="stylesheet" href="../../static/iconfont/iconfont.css" type="text/css">
+	<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+	<script src="../../js/config.js" type="text/javascript"></script>
+	<script src="../../static/js/rubilk.js"></script>
+	<!-- Madong -->
+<style>
+	body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
+	#admin_console{width: 100%;height: 100%}
+	.t_icon{margin: 0 2px;cursor: pointer;}
+	.icon-all_edit{color: #03a9f4;}
+	.icon-all_delete{color: #ff2d2dad}
+
+	.gong .paging{display: flex;align-items: center;justify-content: center;float: none;}
+
+	.M_title{color: #3c3c3c;font-weight: bolder;font-size: 26px;border-left: 3px solid #ff7e16;padding-left: 10px;/*margin: 40px 0 0px 40px;*/}
+	.M_title span{color: #838383;font-size: 16px;font-weight: lighter;}
+	.money,.money_e .money_e_M1{color: #000;font-weight: bolder;}
+	.money{font-size: 16px;}
+	.money_e{margin: 8px 0;}
+	.money_e_M1{font-size: 30px;}
+	.money_e_M2{color: #787878;}
+	.money_btn{display: block;width: 76px;height: 28px; background: #ff7e16;border-radius: 6px; border: 0;font-weight: lighter;color: #fff;}
+
+	.v_tabmain thead{border: 0!important;border-bottom: 1px solid #e2e2e2!important;}
+	.update-box1{padding: 0!important;}
+	.content{border: 0!important;border-bottom: 1px solid #e2e2e2!important;}
+	.v_tabmain tr{height: 68px;}
+	.content_z{color: #00cb48;}
+	.content_t{color: #ff7e16;}
+	/*layer关闭按钮*/
+	.layui-layer-setwin .layui-layer-close2{top: 318px; width: 80px; left: -90px; opacity: 0;}
+
+	.input_item{margin-top: 28px}
+	.input_item>label{display: inline-block;width: 126px;font-weight: 500;color: #2b2b2b;text-align: right;padding-right: 12px;}
+	.input_item>input{display:inline-block;width: 450px;border: 1px solid #e5e5e5;box-sizing: border-box;height: 50px;padding-left: 15px;font-size: 16px;}
+	.select label input{height: 34px;}
+</style>
+<script type="text/javascript">
+	var _user = store.get('userinfo');
+</script>
+</head>
+<body>
+	<div id="admin_console">
+		<!-- 主体 -->
+		<div class="main" id="App">
+			<div class="main_sideLf">
+				<ul>
+					<li><a href="../index.html"><img src="../../static/images/bao.png" alt=""><span>账户总览</span></a></li>
+					<li><a href="../withdrawal.html"><img src="../../static/images/ti.png" alt=""><span>申请提现</span></a></li>
+					<li class="cur"><a href="index.html"><img src="../../static/images/ti.png" alt=""><span>申请发票</span></a></li>
+					<li><a href="applyForInvoice.html"><img src="../../static/images/ti.png" alt=""><span>申请记录</span></a></li>
+				</ui>
+			</div>
+
+			<div class="main_sideRh">
+				<div class='M_title'>申请发票<span>&nbsp;&nbsp;Apply For Invoice</span></div>
+				<div class="update-box">
+					<div class="addUser">
+						<form id="forms">
+							<div class="add_set">
+								<div class="add_set_lf" style="width: 80%;">
+									<div class="input_item">
+										<label for="inv_money">发票金额:</label>
+										<input style="width: 200px;" type="text" name="inv_money" id="inv_money"> 元
+									</div>
+									<div class="input_item">
+										<label for="title">发票抬头:</label>
+										<input type="text" name="title" id="title" placeholder="请输入户名">
+									</div>
+									<div class="input_item">
+										<label for="inv_bank">开户银行:</label>
+										<input type="text" name="inv_bank" id="inv_bank" placeholder="请输入开户银行">
+									</div>
+									<div class="input_item">
+										<label for="inv_family">公司账号:</label>
+										<input type="text" name="inv_family" id="inv_family" placeholder="请输入公司账号">
+									</div>
+									<div class="input_item">
+										<label for="inv_identifyNum">纳税人识别号:</label>
+										<input type="text" name="inv_identifyNum" id="inv_identifyNum" placeholder="请输入纳税人识别号 ">
+									</div>
+									<div class="input_item">
+										<label for="inv_address">地址:</label>
+										<input type="text" name="inv_address" id="inv_address" placeholder="请输入地址">
+									</div>
+									<div class="input_item">
+										<label for="inv_phone">电话:</label>
+										<input type="text" name="inv_phone" id="inv_phone" placeholder="请输入电话">
+									</div>
+									<div class="add_checkbox input_item">
+										<label>发票类型:</label>
+										<div class="select" id="position_23" style="display: inline;margin-left: 10px;">
+											<label for="bill1">
+												<input type="radio" name="inv_type" id="bill1" value="1" checked="checkbox">
+												<span>普通发票</span>
+											</label>
+											<label for="bill2">
+												<input type="radio" name="inv_type" id="bill2" value="2">
+												<span>专用发票</span>
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="add_people" class="mr_top" style="margin-left: 0;">
+								<button type="button" class="update"><a href="javascript:;" style="color: #fff;">完成</a></button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+	$('.update').on('click',function(){
+		var form_data = serialize(document.forms["forms"]);
+		form_data['token'] = _user.token;
+		var checkVal = checkvalue(form_data,{'inv_money':'项目金额','title': '户名','inv_bank': '开户银行','inv_family': '公司账号','inv_identifyNum': '纳税人识别号','inv_address':'地址','inv_phone': '联系人电话','inv_type': '发票类型'});
+		if(checkVal['success']){
+			httpx.post(globalApi_+"/box/invoices/add/",form_data,function (data){
+				var _data = JSON.parse(data);msg(_data.info);
+				if(_data.success)location.href = 'applyForInvoice.html';
+			})
+		}else {msg(checkVal.info);}
+	})
+</script>
+</body>
+</html>

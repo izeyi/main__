@@ -73,12 +73,14 @@
 	Vue.filter('bg', function (str) {
 		if(str){
 			var name=str.substring(str.lastIndexOf(".")+1)
-			if(name == "word"){return 'img/dataIcon01.png';
-			}else if(name == "pdf"){return 'img/dataIcon02.png';
-			}else if(name == "mp3"){return 'img/dataIcon03.png';
-			}else if(name == "exl"){return 'img/dataIcon04.png';
-			}else {return 'img/dataIcon01.png'}
-		}else{
+            switch (name) {
+                case 'word': return 'img/dataIcon01.png'; break;
+                case 'pdf' : return 'img/dataIcon02.png'; break;
+                case 'mp3' : return 'img/dataIcon03.png'; break;
+                case 'exl' : return 'img/dataIcon04.png'; break;
+                default: return 'img/dataIcon01.png'; break;
+            }
+        }else{
 			return 'img/dataIcon01.png';
 		}
 	});
@@ -90,7 +92,8 @@
 </style>
 </head>
 <body>
-    <!-- <div class="up" onclick='upLooader()'><img src="img/shang.png"><p>上传视频</p></div> -->
+    <div style="display: flex;width: 100%;justify-content: center;overflow: hidden;"><img src="img/banner.jpg" alt=""></div>
+        <!-- <div class="up" onclick='upLooader()'><img src="img/shang.png"><p>上传视频</p></div> -->
 	<div class="stage" id="App" data-step="1" data-intro="公司资料展示区域，可被下载">
 		<header class="header">
 			<div class="herader_container">

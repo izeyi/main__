@@ -225,7 +225,9 @@ button {
 .tab {
 	display: flex;
 	max-width: 1280px;
-	margin:0 auto;
+  margin:0 auto;
+  padding: 150px 0 120px;
+  box-sizing: border-box;
 	/*position: absolute;*/
 	/*left: 50%;*/
 	height: 100%;

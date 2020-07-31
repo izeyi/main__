@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<link rel="stylesheet" href="../static/css/style.css">
+<link rel="stylesheet" href="../static/elementUi/element-ui.css">
+<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+<script type="text/javascript" src="../../js/config/index.js"></script>
+<script src="../../js/config.js" type="text/javascript"></script>
+<script src="../static/elementUi/element-ui.js" type="text/javascript"></script>
+<script src="../static/js/rubilk.js"></script>
+<!-- Madong -->
+<style>
+	body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
+	#admin_console{width: 100%;height: 100%}
+	.t_icon{margin: 0 2px;cursor: pointer;}
+	.icon-all_edit{color: #03a9f4;}
+	.icon-all_delete,.icon-bad{color: #ff2d2dad}
+
+	.gong .paging{display: flex;align-items: center;justify-content: center;float: none;}
+	.zi{width: 120px; overflow: hidden;display: inline-block; vertical-align: top; text-overflow:ellipsis;white-space :nowrap;}
+	/*上传图片 end*/
+
+	.v_tabmain tbody td{padding:0;line-height: 1.6;height: 66px}
+	.v_tabmain td:first-child{line-height:66px;}
+</style>
+<script type="text/javascript">
+
+	Vue.filter('is_cover', function (str) {if(!str){return '../static/images/nopic.png'}else{return str}});
+	Vue.filter('location', function (str) {
+		switch (str){
+			case 1: return '待平台审核';break;
+			case 2: return '已接单制作中';break;
+			case 3: return '项目已完成';break;
+			default: return '未知';break;
+		}
+	});
+	Vue.filter('_plan', function (str) {
+		switch (str){
+			case 1: return '未申请';break;
+			case 2: return '已经申请';break;
+			case 3: return '派单待签合同';break;
+			case 4: return '合同签约完成待跟进';break;
+			case 5: return '待平台审核';break;
+			case 6: return '任务待审核';break;
+			case 7: return '最终审核';break;
+			default: return '已完工';break;
+		}
+	});
+	Vue.filter('_price',function(num) {
+		if(num == 0) return '不详'
+		return num+'元'
+	});
+	// console.log(getUrlParam('token'))
+	// var _token = store.get('userinfo').token || getUrlParam('token');
+	// var _token = getUrlParam('token');
+	var _user = store.get('userinfo');
+	var _token = _user.token;
+	var searchkey={"uid":_user.userinfo.uid};
+	// function getdata() {
+	// 	httpx.get(globalApi_+'/mfy/api/get_my_project',searchkey,function(data){
+	// 		var _data = JSON.parse(data);
+	// 		console.log(listData['lidata'])
+	// 		if(_data.success)vmup(listData['lidata'],_data);
+	// 	});
+	// }
+	// getdata();
+</script>
+</head>
+<body>
+<div id="admin_console">
+	<!-- 主体 -->
+	<div class="main">
+		<div class="main_sideLf">
+			<ul>
+				<li>
+					<a href="index.html"><img src="../static/images/photo1.png" alt=""><span>我要转包</span></a>
+				</li>
+				<li class="cur">
+					<a href="index2.html"><img src="../static/images/photo2.png" alt=""><span>我要转介绍</span></a>
+				</li>
+				<li>
+					<a href="recruit.html"><img src="../static/images/photo2.png" alt=""><span>我要招工</span></a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="main_sideRh">
+			<div class="update-box">
+				<div>
+					<div class="up_btn_head">
+						<div class='add_title'>转介绍项目<span>&nbsp;&nbsp;Project List</span></div>
+						<div class="up_btn_sou">
+							<div class="up_btn_sou_lf">
+								<span class="up_btn_sou_lf_up"><a href="person/add2.html">我要转介绍</a></span>
+							</div>
+						</div>
+					</div>
+					<div>
+						<table class="v_tabmain">
+							<thead>
+								<tr>
+									<th><span>项目名称</span></th>
+									<th>联系人</th>
+									<th>联系电话</th>
+									<th>项目金额</th>
+									<th>项目进度</th>
+									<th>时间</th>
+									<th>其他</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class='content' v-for="tt in lidata.data" :key="tt.id">
+									<td><span>{{tt.project_name}}</span></td>
+									<td>{{tt.nickname }}</td>
+									<td>{{tt.phone }}</td>
+									<td>{{tt.price | _price}}</td>
+									<td v-if="tt.status == 1" style="color: #67c23a">{{tt.status | location}}</td>
+									<td v-else-if="tt.status == 2" style="color: #f56c6c">{{tt.status | location}}</td>
+									<td v-else>项目已完结</td>
+									<td>{{tt.time}}</td>
+									<td>
+										<!-- <span class="t_btn" @click="_det(tt.id,tt.project_name)">
+											<i class="t_icon iconfont icon-browse"> 查看</i>
+										</span>
+										<span class="t_btn" @click="finalAudit(tt.id)" v-if="tt.status == 2">
+											<i class="t_icon iconfont icon-supplierfeatures"> 最终审核</i>
+										</span> -->
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- <template>
+					  <el-table :data="gridData">
+					    <el-table-column prop="title" label="任务名称" width="250"></el-table-column>
+					    <el-table-column prop="tags" label="类型" width="100"></el-table-column>
+					    <el-table-column prop="cycle" label="时长"></el-table-column>
+					    <el-table-column prop="status" label="进度"></el-table-column>
+					  </el-table>
+					</template> -->
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+		<el-dialog :title="lisTitle" :visible.sync="dialogTableVisible">
+			<table class="v_tabmain" v-loading="loading">
+				<thead>
+					<tr>
+						<th>任务名称</th>
+						<th>类型</th>
+						<th>周期</th>
+						<th>任务进度</th>
+						<th>查看作品</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class='content' v-for="(tt,index) in gridData" :key="tt.index">
+						<td>{{tt.title}}</td>
+						<td>{{tt.tags}}</td>
+						<td>{{tt.cycle}}</td>
+						<td>{{tt.status | _plan}}</td>
+						<td>
+							<span class="t_btn" @click="investigate(tt.data_url,tt.title+'详情')">
+								<i class="t_icon iconfont icon-browse"> 查看</i>
+							</span>
+						</td>
+						<td  v-if="tt.status == 6"><!-- -->
+							<span class="t_btn" @click="_userdata(tt)">
+								<i class="t_icon iconfont icon-filter"> 审核</i>
+							</span>
+							<span class="t_btn" @click="rejected(tt.id)">
+								<i class="t_icon iconfont icon-bad"> 驳回</i>
+							</span>
+						</td>
+						<td v-else></td>
+					</tr>
+				</tbody>
+			</table>
+		</el-dialog>
+</div>
+<script>
+	var default_data={
+		"success": true,
+		"total": 1,
+		"data":[{"id": "5","project_name": "","price": "","type": "","time": "","status": "1"}],
+		"Color":["#409eff","#67c23a","#f56c6c"]
+	}
+	var def_gridData = [{title: "--",tags: "---",type: 1,cycle: "-1-",status: 1,realname: "-0-"}]
+	var del_data = {'token':_token,'status':'9','id':[]};
+	var listData = new Vue({
+		el: '#admin_console',
+		data:{
+			lidata:default_data,
+			gridData:def_gridData,
+			dialogTableVisible:false,
+			lisTitle:'项目详情',
+        	loading: true
+		},
+		methods:{
+			_det(_id,_tit) {
+				var _this = this;
+				_this.dialogTableVisible = true
+				// _this.gridData = def_gridData
+				// const loading = this.$loading({lock: true,text: 'Loading',spinner: 'el-icon-loading',background: 'rgba(0, 0, 0, 0.7)'});
+				_this.lisTitle = _tit +'--项目明细'
+				httpx.get(globalApi_+'/mfy/api/get_my_project_task?project_id='+_id,function(data){
+				// httpx.get(globalApi_+'/mfy/api/get_my_project_task?project_id=12',function(data){
+					var _data = JSON.parse(data);
+					if(!_data['success']) {return msg(_data['info'] || '网络异常，请重新加载！')}
+					_this.gridData = _data['data']
+          			_this.loading = false
+				});
+			},
+			finalAudit:function (_id){
+				var _this = this;
+				httpx.post(globalApi_+"/mfy/api/examine_project",{"id":_id},function (res) {
+					var res = JSON.parse(res)
+					_this.$message(res['info'])
+					if(res['success'])_this.updata()
+				})
+			},
+			rejected:function (_id){
+				var _this = this;
+				this.$prompt('请简要说明驳回原因！', '驳回说明', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					// inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+					// inputErrorMessage: '邮箱格式不正确'
+					}).then(({ value }) => {
+						httpx.post(globalApi_+"/mfy/api/reject",{"id":_id,"remark":value},function (res) {
+							var res = JSON.parse(res)
+							_this.$message(res['info'])
+							if(res['success'])_this.updata()
+						})
+					}).catch(() => {
+						this.$message({ type: 'info',message: '取消驳回'});
+					});
+
+			},
+			investigate:function (_url,_tit) {console.log(_url)
+				if(!_url) return this.$message.error('任务进行中，暂无作品！！！');
+				var format = _url.substring(_url.lastIndexOf(".")+1);
+				// if(format != 'jpeg' || format != 'mp4' || ) return this.$message.error('文件格式不正确！！！');
+				var _lastData;
+				switch (format) {
+					case 'mp4':
+						_lastData = "<video controls autoplay name='media' style='width:100%' src="+_url+"></video>"
+						break;
+					case 'pdf':
+						_lastData = "<iframe src="+_url+" width='100%' height='560'></iframe>"
+						break;
+					default:
+						_lastData = "<img src="+_url+" width='100%'>"
+						break;
+				}
+				if(format != 'pdf'){
+					this.$alert(_lastData, _tit, {
+						dangerouslyUseHTMLString: true,
+						customClass:"alertCustomClass",
+						callback: (action, instance) => {instance['message']=''}
+					})
+				}else{
+					parent.parent.pdfview(_tit,_url)
+				}
+			},
+			_userdata:function (_scope){
+				console.log(_scope)
+				if(!_scope['data_url']){ this.$message.error('项目暂未完成！');return}
+				var _this = this
+				var order_status = {"id":_scope.id,"status":"7"}
+				httpx.post(globalApi_+"/mfy/api/update_order_status",order_status,function (res) {
+					var res = JSON.parse(res)
+					_this.$message(res['info'])
+					if(res['success'])_this.dialogTableVisible = false
+				})
+
+			},
+			updata:function(){
+				var _this = this
+				httpx.get(globalApi_+'/mfy/api/get_my_introd',searchkey,function(data){
+					var _data = JSON.parse(data);
+					console.log(listData['lidata'])
+					if(_data.success)_this.lidata= _data;
+				});
+			}
+		},
+		mounted:function(){
+			this.updata()
+		}
+	})
+
+
+	function _del(_id) {
+		del_data.id = JSON.stringify(_id);
+		layer.open({
+			content: '真的要删掉我吗？'
+			,btn: ['是的', '算了']
+			,yes: function(index, layero){
+				console.log(index+'----'+layero);
+				httpx.post(globalApi_+'/box/project/update/',del_data,function (ent) {msg(JSON.parse(ent).info);getdata()})
+			}
+		});
+	}
+	//全选
+	$("#Select_all").on('click', function() {
+		$("tbody input:checkbox").prop("checked", $(this).prop('checked'))
+	})
+
+	$("tbody input:checkbox").on('click', function() {
+		//当选中的长度等于checkbox的长度的时候,就让控制全选反选的checkbox设置为选中,否则就为未选中
+		if($("tbody input:checkbox").length === $("tbody input:checked").length) {
+			$("#Select_all").prop("checked", true)
+		} else {
+			$("#Select_all").prop("checked", false)
+		}
+	})
+
+	$('#del_all').on('click',function(){
+		var vals = [];$('tbody input:checkbox:checked').each(function (index, item) {vals.push($(this).val());});_del(vals)
+	});
+
+
+
+</script>
+</body>
+</html>

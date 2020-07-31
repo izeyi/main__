@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../static/css/style.css">
+	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+	<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+	<script src="../../js/config.js" type="text/javascript"></script>
+	<!-- Madong -->
+	<style>
+		body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
+		#admin_console{width: 100%;height: 100%}
+		.t_icon{margin: 0 2px;cursor: pointer;}
+		.icon-all_edit{color: #03a9f4;}
+		.icon-all_delete{color: #ff2d2dad}
+
+		.input_item{margin-top: 28px}
+		.input_item>label{display: inline-block;width: 150px;font-weight: 500;color: #2b2b2b;text-align: right;padding-right: 12px;}
+		.input_item>input{display:inline-block;width: 450px;border: 1px solid #e5e5e5;box-sizing: border-box;height: 50px;padding-left: 15px;font-size: 16px;}
+		
+		.add_set_lf,.add_set_rh{display: inline-block;width: 49%; vertical-align: top;}
+		.add_set_rh label{display: inline-block;line-height: 160px;vertical-align: text-bottom;}
+		#add_set_rh_next{width: 260px;}
+
+
+		#add_people button{display: inline-block;}
+		#add_people button:last-child{margin-left:10px;}
+		#add_people button a{color: inherit;}
+		.input_item_label_mar div>div label{width: 126px;}
+	</style>
+	<script type="text/javascript">
+		var _carryData = JSON.parse(getUrlParam('data'));
+		var _id = getUrlParam('id');
+		var _user = store.get('userinfo').token;
+	</script>
+</head>
+<body>
+	<div id="admin_console">
+		<!-- 头部 -->
+		<!-- <div class="head">
+			<div class="head_logo">
+				<div>管理工作云</div>
+			</div>
+			<div class="head_user"><a href="../user_info.html"><img id="user" src="../static/images/user.png" alt=""></a></div>
+			<div class="head_nav">
+				<ul id="topmenu"></ul>
+				<script src="../static/js/lib/topmenu.js" type="text/javascript"></script>
+			</div>
+		</div> -->
+		<!-- 主体 -->
+		<div class="main">
+			<div class="main_sideLf">
+				<ul>
+					<li><a href="index.html"><img src="../static/images/photo1.png" alt=""><span>投标列表</span></a></li>
+					<li><a href="add.html"><img src="../static/images/photo2.png" alt=""><span>新增投标</span></a></li>
+					<li class="cur"><a href="add1.html"><img src="../static/images/photo2.png" alt=""><span>跟进投标</span></a></li>
+				</ui>	
+			</div>
+
+			<div class="main_sideRh">
+				<div class="update-box">
+					<div class="addUser">
+						<form id="T_add_form">
+							<div class="add_title">投标信息&nbsp;&nbsp;<span>Tender Information</span></div>
+							<div class="add_set">
+								<div class="add_set_lf">
+									<div class="input_item">
+										<label for="startTime">开标时间:</label>
+										<input type="text" name="startTime" id="startTime" placeholder="如李XX">
+									</div>
+									<div class="input_item">
+										<label for="pledge">保证金:</label>
+										<input type="text" name="pledge" id="pledge" placeholder="如13534423460">
+									</div>
+									<div class="input_item">
+										<label for="pledgeAcc">保证金账户:</label>
+										<input type="text" name="pledgeAcc" id="pledgeAcc" placeholder="如13534423460">
+									</div>
+									<div class="input_item">
+										<label for="openingBank">保证金开户行:</label>
+										<input type="text" name="openingBank" id="openingBank" placeholder="如13534423460">
+									</div>
+									<div class="input_item">
+										<label for="accountNum">账号:</label>
+										<input type="text" name="accountNum" id="accountNum" placeholder="如13534423460">
+									</div>
+									<div class="input_item">
+										<label for="paymentType">付款方式:</label>
+										<input type="text" name="paymentType" id="paymentType" placeholder="如13534423460">
+									</div>
+								</div>
+
+								<div class="add_set_rh">
+									<div class="input_item">
+										<label for="requirements">供应商资质要求:</label>
+										<textarea name="requirements" id="add_set_rh_next" cols="30" rows="10"></textarea>	
+									</div>
+									<div class="input_item">
+										<label for="note">备注:</label>
+										<textarea name="note" id="add_set_rh_next" cols="30" rows="10"></textarea>	
+									</div>
+									<div id="Head">
+										<span class="class">上传标书:</span>
+										<div class="Head_img">
+											<img src="images/head.png" alt="">
+											<input type="text" name="projectFile" class="form-control-hidden face cover" >
+											<input type="file" name="projectFile" id="cover" class="form-control-hidden" accept="image/*">
+											<p>上传</p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							</div>
+
+
+							<div id="add_people" class="mr_top" style="margin-left: 0;">
+								<button type="button" class="update"><a href="add.html">上一步</a></button>
+								<button type="button" class="update"><a href="javascript:to_post()">完成</a></button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+	
+<script>
+// var default_data={"success": true,"total": 1, "data": ["id": "5","name": "测试项目","workers": "项目经理","status": "1","arrall": {"cover": globalApi_+"/box/upfiles/upload/pic/uid4/2019/03/25/155351534233950.jpg","name": "测试项目","nickname": "客户B","phone": "13845458888","workers": "项目经理","originality": "这是策划","status": "1"},"time": "1553585347"]}
+// var listData = new Vue({el: '#admin_console',data:default_data});
+
+	Vue.filter('is_admin', function (str) {if(str == 0){return '员工';}else if(str == 1){return '管理员';}});
+	Vue.filter('is_open', function (str) {if(str == 0){return '开启'}else if(str == 1){return '关闭'}});
+	Vue.filter('is_face', function (str) {if(!str){return '../static/images/head.png'}else{return str}});
+
+	function b_hend(){
+		layer.open({
+		  type: 2,
+		  title: ['修改头像','color:#3c3c3c;background:#fff;font-weight:bold;font-size:16px;border-bottom:1px solid #bcbcbc;'],
+		  closeBtn: 1,
+		  area: ['655px', '326px'],
+		  shadeClose: true,
+		  content: '../lib/b_head .html'
+		});
+	}
+	// 上传图片 and
+	$("[type='file'].form-control-hidden").bind('change',function (e) {
+        e.preventDefault();
+        var formData = new FormData();
+        var _name = $(this).attr('name');
+        formData.append("token",_user.token);
+        console.log(formData)
+        formData.append(_name,document.getElementById(_name).files[0]);
+        $.ajax({
+            url: globalApi_+'/box/upfiles/pic/',
+            type: 'POST',
+            data: formData,
+            dataType: "json",
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (returndata) {
+                if(returndata.success != false){
+                	console.log(returndata)
+                    $('#'+_name).siblings('img').attr("src",returndata[_name]);
+                    $('.'+_name).val(returndata[_name]);
+                }else{
+                    msg(returndata.info);
+                }
+            }
+        });
+    })// 上传图片 end
+
+	/*$('.update').on('click',function(){
+		var _fromdata = serialize(document.forms["T_add_form"]);
+        console.log(_fromdata)
+        _fromdata["token"] = _user.token;
+        var checkVal = checkvalue(_fromdata,{'cover': '封面','name': '项目名称','nickname': '联系人','phone': '联系人电话','workers': '项目经理','money':'项目金额'});
+        if(checkVal['success']){
+            httpx.post(globalApi_+"/box/project/add/",_fromdata,function (data) {
+            	var _data = JSON.parse(data);
+                msg(_data.info);
+                if(_data.success){
+                	setInterval(function () {
+                	msg('修改成功');
+                	location.href="index.html";
+                },700)
+                }
+            })
+        }else {
+            msg(checkVal.info);
+        }
+	})*/
+
+	function to_post() {
+		var _FormData =  serialize(document.forms['T_add_form']);
+		// var form_data =  serialize(document.forms['T_add_form']);
+		// var _FormData = extend(_carryData,form_data);
+		var checkVal = checkvalue(_FormData,{
+			'startTime': '开标时间',
+			'pledge': '保证金',
+			'pledgeAcc': '保证金账户',
+			'openingBank': '保证金开户行',
+			'accountNum': '账号',
+			'paymentType': '付款方式',
+			'requirements': '供应商资质要求',
+			'note': '备注',
+			// 'projectFile': '标书'
+		});
+		if(checkVal['success']){
+			console.log(_FormData)
+			httpx.post(globalApi_+'/box/bids/update/',{'id':_id,'arrall':JSON.stringify(_FormData),'status':'3','token':_user},function (data) {
+				var backData = JSON.parse(data);
+				msg(backData.info);
+				if(backData.success){
+					location.href = 'details.html?id='+_id;
+				}
+			})
+		}else{
+			msg(checkVal.info)
+		}
+
+	}
+</script>
+</body>
+</html>

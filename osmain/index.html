@@ -29,7 +29,7 @@
     var zoomFactor = window.innerHeight / devInnerHeight * window.devicePixelRatio / devDevicePixelRatio * devScaleFactor / scaleFactor;
     require('electron').webFrame.setZoomFactor(zoomFactor);
     /*loading*/
-    var _LoadingHtml = '<div id="loader-wrapper"><div id="loader"></div><div class="loader-section section-left"></div><div class="loader-section section-right"></div><div class="load_title">技术天橙，缔造完美<br><span></span></div></div>';
+    var _LoadingHtml = '<div id="loader-wrapper"><div id="loader"></div><div class="loader-section section-left"></div><div class="loader-section section-right"></div><div class="load_title"><br><span></span></div></div>';
     //呈现loading效果
     document.write(_LoadingHtml)
     setInterval(function () {$('body').addClass('loaded');$('#loader-wrapper .load_title').remove()},1500)
@@ -43,7 +43,9 @@
     var sendcodeApi = globalApi_+"/box/sms/sendcode/";//获取验证码
     var _ucenter = globalApi_+"/box/ucenter/info/";
 </script>
-
+<style>
+  /* .layui-layer-content{background-color:#fff} */
+</style>
 </head>
 <body>
 
@@ -64,56 +66,81 @@
     </header>
     <!-- tong end -->
     <div id="desk">
-      <ul style="display: flex;width: 336px" data-step="4" data-intro="这里是我们常用的功能模块！">
-        <li style="left:30px;top:40px" onclick='openwindow("视频案例","../anlie/index.html","1");'>
+      <ul data-step="4" data-intro="这里是我们常用的功能模块！">
+        <header class="item_head">
+          <div class="item_box">
+            <h4 class="item-head">营销赋能</h4>
+            <div class="item-tool">•••</div>
+          </div>
+        </header>
+        <li onclick='openwindow("视频案例","../anlie/index.html","1");'>
           <img src="static/images/icon.png" /><span title="视频案例">视频案例</span><em></em>
         </li>
-        <li style="left:30px;top:170px" onclick='openwindow("魔方会议室","../meeting/index.html","2");'>
+        <li onclick='openwindow("魔方会议室","../meeting/index.html","2");'>
           <img src="static/images/icon2.png" /><span title="魔方会议室">魔方会议室</span><em></em>
         </li>
-         <!-- <li style="left:30px;top:300px" onclick='ipcRenderer.send("cam");'> -->
-        <li style="left:30px;top:300px" onclick='onlookers("超级提案","../rtc/cam.html","3");' id="_draft">
+        <li onclick='onlookers("超级提案","../rtc/cam.html","3");' id="_draft">
           <img src="static/images/icon6.png" /><span title="超级提案">超级提案</span><em></em>
         </li>
-        <li style="left:30px;top:430px" onclick='openStaticWin("闪传","../pushvideolist/index.html","1");'>
+        <li onclick='openStaticWin("闪传","../pushvideolist/index.html","1");'>
           <img src="static/images/icon3.png" /><span title="闪传">闪传</span><em></em>
         </li>
-        <li style="left: 30px; top: 560px;" onclick='openwindow("产品库","../product/index.html","3");'>
+        <li onclick='openwindow("产品库","../product/index.html","3");'>
           <img src="static/images/icon00.png" /><span title="产品库">产品库</span><em></em>
         </li>
-        <!-- <li style="left:30px;top:560px" onclick='pdfview("AI智慧营销",`file://${__dirname}/../pdffiles/「橙影互联」AI智慧营销.pdf`)'>
-          <img src="static/images/icon14.png" /><span title="AI智慧营销">AI智慧营销</span><em></em>
-        </li> -->
-        <li style="left:30px;top:690px" onclick='openActivity("用户福利","http://yun.greatorange.cn/activity/index.html?id="+_user.token,"3")'>
-          <img src="static/images/icon99.png" /><span title="用户福利">用户福利</span><em></em>
-        </li>
-        <!-- 2 col -->
-        <li style="left: 136px; top: 40px;" onclick='openwindow("资料库","../document/index.html","5");'>
+        <li onclick='openwindow("资料库","../document/index.html","5");'>
           <img src="static/images/icon10.png" /><span title="资料库">资料库</span><em></em>
         </li>
-        <li style="left: 136px; top: 170px;" onclick='ipcRenderer.send("website");'>
+        <!-- <li onclick='ipcRenderer.send("website");'> -->
+          <li onclick='openwindow("空间站","../website/index.html","5");'>
           <img src="static/images/icon8.png" /><span title="空间站">空间站</span><em></em>
         </li>
-        <li style="left: 136px; top: 300px;" onclick='openwindow("关于我们","../about/index.html","6");'>
+        <li onclick='openwindow("关于我们","../about/index.html","6");'>
           <img src="static/images/icon5.png" /><span title="关于天橙">关于我们</span><em></em>
         </li>
-        <!-- <li style="left: 136px; top: 430px;" onclick='msg("即将开放...")'> -->
-        <!-- <li style="left: 30px; top: 430px;" onclick='msg("即将开放...")'> -->
-        <!-- <li style="left: 136px; top: 430px;" onclick='openwindow("任务大厅","http://yun.greatorange.cn/task/task.html?loc=box","7");'> -->
-        <li style="left: 136px; top: 430px;" onclick='openwindow("任务大厅","http://yun.greatorange.cn/newTask/task.html","7");'>
-          <img src="static/images/icon4.png" /><span title="任务大厅">任务大厅</span><em></em>
-        </li>
-        <li style="left: 136px; top: 560px;" onclick='msg("即将开放...")'>
-          <img src="static/images/icon23.png" /><span title="园区宝">园区宝</span><em></em>
-        </li>
-        <!-- 3 col -->
-        <li style="left: 242px; top: 40px;" onclick='ipcRenderer.send("opfiles");'>
-          <img src="static/images/icon9.png"/><span title="打开文件">打开文件</span><em></em>
-        </li>
-        <li style="left: 242px; top: 170px;" onclick='ipcRenderer.send("articleSet");'>
+        <li onclick='ipcRenderer.send("articleSet");'>
           <img src="static/images/icon1.png"/><span title="微文圈">微文圈</span><em></em>
         </li>
-     </ul>
+        <!-- <li onclick='openweb("商机•橙标","http://ai.namenb.com/toolbox/phoneviewer/?url=http://api.greatorange.cn/bid/index.html?_openid=oSDiUwITps0WeY6ur1m5R0Omp-0w")'> -->
+         <li onclick='openweb("商机•橙标","http://api.greatorange.cn/bid/index.html?_openid=oSDiUwITps0WeY6ur1m5R0Omp-0w")'>
+          <img src="static/images/icon18.png"/><span title="商机•橙标">商机•橙标</span><em></em>
+        </li>
+      </ul>
+      <ul data-step="5" data-intro="这里是我们常用的功能模块！">
+        <header class="item_head">
+          <div class="item_box">
+            <h4 class="item-head">制作赋能</h4>
+            <div class="item-tool">•••</div>
+          </div>
+        </header>
+        <li onclick='openwindow("园区宝","http://www.skyorange.cn")'>
+          <img src="static/images/icon23.png" /><span title="园区宝">园区宝</span><em></em>
+        </li>
+        <li onclick='openwindow("任务大厅","http://yun.greatorange.cn/newTask/task.html","7");'>
+          <img src="static/images/icon4.png" /><span title="任务大厅">任务大厅</span><em></em>
+        </li>
+        <li onclick='to_ucenter("../ucenter/project/person/add1.html")'>
+          <img src="static/images/icon7.png" /><span title="我要转包">我要转包</span><em></em>
+        </li>
+        <li onclick='to_ucenter("../ucenter/project/person/add2.html")'>
+          <img src="static/images/icon7.png" /><span title="我要转介绍">我要转介绍</span><em></em>
+        </li>
+        <li onclick='openwindow("拍拍拍报价","http://www.chinavcr.com.cn/")'>
+          <img src="static/images/icon_pai1.png" /><span title="拍拍拍报价">拍拍拍报价</span><em></em>
+        </li>
+        <li onclick='openwindow("拍拍拍下单","http://www.chinavcr.net/")'>
+          <img src="static/images/icon_pai2.png" /><span title="拍拍拍下单">拍拍拍下单</span><em></em>
+        </li>
+        <li onclick='openwindow("拍拍拍分享","http://www.chinavcr.com/")'>
+          <img src="static/images/icon_pai3.png" /><span title="拍拍拍分享">拍拍拍分享</span><em></em>
+        </li>
+        <li onclick='openwindow("AI云营销","http://icci.greatorange.cn/pc/")'>
+          <img src="static/images/icon13.png" /><span title="AI云营销">AI云营销</span><em></em>
+        </li>
+        <li onclick='msg("即将开放...")'><!-- openwindow("我要推广","http://www.tencentui.com/") -->
+          <img src="static/images/icon24.png"/><span title="我要推广">我要推广</span><em></em>
+        </li>
+      </ul>
     </div>
   </div>
   <!-- 工具栏 -->
@@ -131,29 +158,18 @@
       <li onclick='ipcRenderer.send("airplay");msg("请将手机连接WIFI后使用AirPlay投屏！")' tooltip="魔方投屏" flow="down">
         <img src="static/images/icon22.png"/><span title="魔方投屏">魔方投屏</span>
       </li>
-     <!--  <li class="boundary" style="width: 0"></li>
-      <li onclick='openwindow("商机•电销","https://web.kdzl.cn/","9")' tooltip="商机•电销" flow="down">
-        <img src="static/images/icon13.png"/><span title="商机•电销">商机•电销</span>
-      </li> -->
-      <li onclick='openweb("商机•橙标","http://ai.namenb.com/toolbox/phoneviewer/?url=http://api.greatorange.cn/bid/index.html?_openid=oSDiUwITps0WeY6ur1m5R0Omp-0w")' tooltip="商机•橙标" flow="down">
-        <img src="static/images/icon18.png"/>
-        <span title="商机•橙标">商机•橙标</span>
+      <li onclick='ipcRenderer.send("opfiles");'>
+        <img src="static/images/icon9.png"/><span title="打开文件">打开文件</span>
       </li>
-     <!--  <li onclick='msg("即将开放...");' tooltip="商机•橙标" flow="down">
-        <img src="static/images/icon18.png"/>
-        <span title="商机•橙标">商机•橙标</span>
-      </li> -->
-      <!-- <li onclick='openweb("商机•橙标","http://ai.namenb.com/toolbox/phoneviewer/?url=http://api.greatorange.cn/bid_pro/index.html?_openid=oSDiUwITps0WeY6ur1m5R0Omp-0w")' tooltip="商机•意向" flow="down">
-        <img src="static/images/icon17.png"/><span title="商机•意向">商机•意向</span>
-      </li> -->
-       <li onclick='msg("即将开放...");' tooltip="我要推广" flow="down">
-        <img src="static/images/icon7.png"/><span title="我要推广">我要推广</span>
+      <li onclick='openActivity("用户福利","http://yun.greatorange.cn/activity/index.html?id="+_user.token,"3")'>
+        <img src="static/images/icon99.png" /><span title="用户福利">用户福利</span>
       </li>
     </ul>
   </div>
   <!-- 用户信息 板块 -->
   <div class="webos-card" id="userApp" data-step="1" data-intro="您可以在这里，点击设置修改您的信息！">
-    <div class="card-close" onclick="openwindow('信息设置','../ucenter/user_info.html')">设置</div>
+    <div class="card-set card-btn" onclick="openwindow('信息设置','../ucenter/user_info.html')" tooltip="个人信息设置" flow="left"><span class="app-dash"></span></div>
+    <div class="card-main card-btn" onclick="to_ucenter()" tooltip="进入控制台" flow="left"><span class="app-dash"></span></div>
     <div class="thumbnail"><img :src="userinfo.face | is_face"/></div>
     <div class="content">
       <div>
@@ -161,7 +177,6 @@
         <span>{{userinfo.position}}</span>
       </div>
       <p>{{cominfo.comname}}</p>
-      <!-- <p> <span>宣传片</span> <span>广告片</span> </p> -->
     </div>
   </div>
   <!-- 管理员 板块 -->
@@ -172,62 +187,6 @@
       <div id="t_rt" class="Previou t_icon" tooltip="返回系统" flow="right"></div>
     </div>
   </div>
-  <!-- IM 板块 -->
-  <!-- <div class="IM_box">
-    <div class="chat_container" id="chat">
-      <div class="chat_inner clearfix">
-        <div class="thumbnail panel">
-          <div class="header">
-            <div class="avatar"><img class="img" :src="userinfo.face | is_face"/></div>
-            <div class="info">
-              <h3 class="nickname">
-                <span class="display_name ng-binding">{{userinfo.nickname}}</span>
-                <a class="opt chat_min_win" href="javascript:;" tooltip="收起聊天" flow="down"><i class="wechat_min_win web_wechat_icon"><svg t="1563523720489" class="icon" viewBox="0 0 1086 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4880" xmlns:xlink="http://www.w3.org/1999/xlink" width="31.81640625" height="30"><defs><style type="text/css"></style></defs><path d="M954.23116 954.040083a36.685113 36.685113 0 0 1-53.040085 0l-257.704399-256.966153v173.828374c0 22.71524-15.162423 37.820875-37.877663 37.820875s-37.877663-15.105635-37.877662-37.820875v-279.624605l22.71524-22.658452h280.419638c22.772028 0 37.877663 15.105635 37.877663 37.820875 0 22.658452-15.105635 37.764087-37.877663 37.764086h-174.282679l257.64761 256.966154a36.401172 36.401172 0 0 1 0 52.869721zM150.16845 451.976489c-22.772028 0-37.934451-15.105635-37.934451-37.764086 0-22.71524 15.162423-37.820875 37.934451-37.820875h174.282679L66.803519 119.425375a36.401172 36.401172 0 0 1 0-52.869722 36.628325 36.628325 0 0 1 53.040086 0l257.704398 256.966154V149.693432c0-22.71524 15.162423-37.820875 37.877663-37.820875s37.877663 15.105635 37.877663 37.820875V429.318037l-22.71524 22.658452H150.16845z" p-id="4881" fill="#e6e6e6"></path></svg></i></a>
-                <a class="opt chat_max_win" href="javascript:;" tooltip="展开聊天" flow="down"><i class="wechat_max_win web_wechat_icon"><svg t="1563523605119" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4701" width="30" height="30" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><style type="text/css"></style></defs><path d="M236.8 192 384 192c19.2 0 32-12.8 32-32C416 140.8 403.2 128 384 128L160 128c0 0 0 0-6.4 0 0 0-6.4 0-6.4 0C140.8 134.4 134.4 140.8 128 147.2c0 0 0 6.4 0 6.4 0 0 0 0 0 6.4L128 384c0 19.2 12.8 32 32 32S192 403.2 192 384L192 236.8l217.6 217.6c12.8 12.8 32 12.8 44.8 0l0 0c12.8-12.8 12.8-32 0-44.8L236.8 192z" p-id="4702" fill="#e6e6e6"></path><path d="M864 608C844.8 608 832 620.8 832 640l0 147.2L614.4 569.6c-12.8-12.8-32-12.8-44.8 0l0 0c-12.8 12.8-12.8 32 0 44.8l217.6 217.6L640 832c-19.2 0-32 12.8-32 32 0 19.2 12.8 32 32 32l224 0c0 0 0 0 6.4 0 0 0 6.4 0 6.4 0 6.4-6.4 12.8-12.8 19.2-19.2 0 0 0-6.4 0-6.4 0 0 0 0 0-6.4L896 640C896 620.8 883.2 608 864 608z" p-id="4703" fill="#e6e6e6"></path></svg></i></a>
-                <a class="opt" href="javascript:;" tooltip="关闭聊天" flow="down"><i class="wechat_hid_win web_wechat_icon"><svg class="icon" width="30px" height="30.00px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#e6e6e6" d="M823.5 99q41.5 0 41.5 41.5v747q0 41.5-41.5 41.5T782 887.5v-747Q782 99 823.5 99zM603.5 858.83L244.89 514 603.5 169.17a40.31 40.31 0 0 0 12.5-29c0-36.58-46-54.9-72.88-29L184.51 455.94c-33.35 32.07-33.35 84.05 0 116.12l358.61 344.83c26.89 25.87 72.88 7.55 72.88-29a40.31 40.31 0 0 0-12.5-29.06z" /></svg></i></a>
-              </h3>
-            </div>
-          </div>
-          <div class="caption nav_view">
-            <div class="nav_title"><h4>在线用户 </h4> <span class="title_count" id="tit_count">(1)</span></div>
-            <div class="scroll-wrapper">
-              <ul class="scroll-content" id="userlist"></ul>
-            </div>
-          </div>
-        </div>
-        <div class="contentView column">
-          <div class="box chat" id="chatArea">
-            <div class="thumbnail">
-              <div class="caption">
-                <div class="box_hd">
-                      <div class="title_wrap">
-                          <div class="title_box">
-                              <a class="title_name">魔方云系统</a>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="box_bd clearfix" id="dialog"></div>
-              </div>
-            </div>
-            <div class="box_ft">
-              <div>
-                <div class="tool_bar" id="tool_bar"><select id="client_list"><option value="all">所有人</option></select></div>
-                <div class="textarea_box"><textarea class="textarea thumbnail" id="textarea"></textarea></div>
-                <div class="say-btn action"><input type="button" onclick="onSubmit()" class="btn btn-default btn_send" value="发送" /></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="block-sidebar" id="chat_bar">
-      <div class="bar-item" tooltip="消息" flow="left">
-        <p class="iconfont icon-xiaoxi">
-          <span class="icon-car-count" id="newMsg">0</span>
-        </p>
-      </div>
-    </div>
-  </div> -->
 
 </div>
 
@@ -253,7 +212,6 @@
     <button type="button" class="login" id="to_ucenter_btn">进入用户中心</button>
   </article>
 </div>
-<!-- <script type="text/javascript" src="static/js/common.js"></script> -->
 <script src="http://mfyfile.greatorange.cn/socket.io.js"></script>
 <script>
 var ucenter_key,
@@ -335,8 +293,9 @@ $("#btn_getCode_ucerner").on("click",function(){
 $('#to_ucenter_btn').on('click',function() {
   _tcsys.phone = $("#ucenter_phone").val();
   _tcsys.code = $("#ucenter_code").val();
+  _tcsys.gid = _gid;
   httpx.get(loginAdminApi,_tcsys,function(data){
-    if (JSON.parse(data).success || _tcsys.code=='9089'){
+    if (JSON.parse(data).success || _tcsys.code == '0916'){
       ucenter_key = true;$('.admin_box').addClass('on');$('#mainframe').attr('src',t_url);layer.closeAll()
     }
     msg(JSON.parse(data).info);
@@ -363,8 +322,13 @@ function onlookers(tit,url,id){
   layer.open({type:2,title:tit,id:id,shadeClose:false,skin: 'layui-layer-nobg',shade:false,area: ['1280px','800px'],maxmin:true,content:url,cancel:function () {store.set('channelid','')}})
 }
 
-function openweb(_tit,_url){layer.open({type:2,title:_tit,shadeClose:false,skin: 'layui-layer-nobg',shade:false,area: ['500px','910px'],content: _url});}
+// function openweb(_tit,_url){
+//   layer.open({type:2,title:_tit,shadeClose:false,skin: 'layui-layer-nobg',shade:false,area: ['500px','910px'],content: _url});
+// }
 
+function openweb(_title,_url){
+  layer.open({type:2,title:_title,shadeClose:false,shade:false,area: ['500px','910px'],content:'http://ai.namenb.com/toolbox/phoneviewer/?url='+_url})
+}
 function updata() {
   if(_user['token'])httpx.post(_ucenter,{'token':_user.token},function (data){
     var _data = JSON.parse(data);
@@ -390,12 +354,24 @@ socket.on('new message', function(msg){
 // msg=msg.replace(/&quot;/g,'"');
 // msg=JSON.parse(msg)
 // var msgarr=DE_JSON(msg);
+//     msgarr=msg.replace(/&quot;/g,'"');
+//     msgarr=JSON.parse(msg)
+//     msgarr=DE_JSON(msg);
 var msgarr=msg;
-console.log(msgarr);
+// console.log(msgarr.message);
+// console.log(msgarr['uid'] +":"+ _uid);
+// console.log(msgarr['type'] +":"+ uid);
 if(!msgarr.gid || msgarr.gid !== uid)return;
 if(msgarr.uid == _uid && msgarr.type == "video"){layer.msg('推送成功!');return;}
-if(msgarr.content == "pushVideo" && msgarr.type == "video"){ MsgTts('收到视频'+msgarr.title,_user.token);
-  layer.confirm('收到视频推送！是否打开？',{offset:'rt',btn: ['立即查看','取消操作']}, function(index){open_video(msgarr.ali_vid,msgarr.title);layer.close(index)});
+if(msgarr.content == "pushVideo" && msgarr.type == "video"){
+    MsgTts('收到视频'+msgarr.title,_user.token);
+    layer.confirm('收到视频推送！是否打开？',{
+      offset:'rt',
+      btn: ['立即查看','取消操作']
+    }, function(index){
+      open_video(msgarr.ali_vid,msgarr.title);
+      layer.close(index)}
+    );
   }
 });
 // 后端推送来在线数据时
@@ -524,7 +500,8 @@ function startTour() {
   })
   tour.start()
 }
-
+//客服沟通
+(function(a, b, c, d, e, j, s) { a[d] = a[d] || function() { (a[d].a = a[d].a || []).push(arguments) }; j = b.createElement(c), s = b.getElementsByTagName(c)[0]; j.async = true; j.charset = 'UTF-8'; j.src = 'https://static.meiqia.com/widget/loader.js'; s.parentNode.insertBefore(j, s); })(window, document, 'script', '_MEIQIA'); _MEIQIA('entId', 243251);
 </script>
 
 </body>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../static/css/style.css">
+	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+  <script type="text/javascript" src="../../js/config/index.js"></script>
+  <!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+  <script src="../../js/config.js" type="text/javascript"></script>
+	<!-- Madong -->
+	<style>
+		body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
+		#admin_console{width: 100%;height: 100%}
+		.t_icon{margin: 0 2px;cursor: pointer;}
+		.icon-all_edit{color: #03a9f4;}
+		.icon-all_delete{color: #ff2d2dad}
+
+		.input_item{margin-top: 28px}
+		.input_item>label{display: inline-block;width: 100px;font-weight: 500;color: #2b2b2b;text-align: right;padding-right: 12px;}
+		.input_item>input{display:inline-block;width: 450px;border: 1px solid #e5e5e5;box-sizing: border-box;height: 50px;padding-left: 15px;font-size: 16px;}
+
+		.add_set_lf,.add_set_rh{display: inline-block;width: 49%; vertical-align: top;}
+		.add_set_rh label{display: inline-block;line-height: 160px;vertical-align: text-bottom;}
+		#add_set_rh_next{width: 260px;}
+
+		.update-box{height: 86%;}
+		.add_classify{width: 82%;height: 560px;border: 1px;margin: auto;margin-top: 70px;}
+		.add_classify a{
+			display: inline-block;width: 30%;height: 100%;text-align: center;margin-left: 3%;background: #fff;
+			border-radius: 6px;box-shadow: rgba(39, 39, 39, 0.2) 1px 3px 8px 1px;
+			vertical-align: top;transition: 1s;
+		}
+		.add_classify a:hover{background: #ff7e16;color: #fff;}
+		.add_classify a img{width: 60px;margin: 0 auto; margin-top: 135px;background: #fff;border-radius: 8px;}
+		.add_classify a:first-child{margin-left: 0; }
+		.add_classify a p:nth-child(2){font-size: 38px;margin: 42px 0;}
+		.add_classify a p:nth-child(3){font-size: 24px;color: #3c3c3c;}
+		.add_classify a:hover p{color: #fff;}
+	</style>
+	<script type="text/javascript">
+		var _user = store.get('userinfo');
+	</script>
+</head>
+<body>
+	<div id="admin_console">
+		<!-- 主体 -->
+		<div class="main">
+			<div class="main_sideLf">
+				<ul>
+					<li><a href="index.html"><img src="../static/images/photo1.png" alt=""><span>项目列表</span></a></li>
+					<li class="cur"><a href="classify.html"><img src="../static/images/photo2.png" alt=""><span>新增项目</span></a></li>
+				</ui>
+			</div>
+
+			<div class="main_sideRh">
+				<div class="update-box">
+					<div class="addUser">
+						<form id="T_add_form">
+							<div class="add_title">新增项目&nbsp;&nbsp;<span>New Projects</span></div>
+
+							<div class="add_classify">
+								<a href="movers/add.html">
+									<img src="../static/images/movers.png">
+									<p>影视类</p>
+									<p>宣传片、微电影等影视<br>行业的项目</p>
+								</a>
+								<a href="nomovers/add.html">
+									<img src="../static/images/nomovers.png">
+									<p>非影视类</p>
+									<p>医疗、建筑、饮食、旅游<br>等除影视行业的项目</p>
+								</a>
+								<a href="person/add1.html">
+									<img src="../static/images/nomovers1.png">
+									<p>个人</p>
+									<p>个人业务转包</p>
+								</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

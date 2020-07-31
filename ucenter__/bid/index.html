@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../static/css/style.css">
+	<link rel="stylesheet" href="../static/iconfont/iconfont.css" type="text/css">
+	<!-- <script src="http://static.namenb.com/web/js/?tcbox" type="text/javascript"></script> -->
+	<script src="../../js/config.js" type="text/javascript"></script>
+	<script src="../static/js/rubilk.js"></script>
+	<!-- Madong -->
+	<style>
+		body{width: 100%;height: 100%; font-size: 16px;color: #fff;font-weight: lighter;overflow: hidden;}
+		#admin_console{width: 100%;height: 100%}
+		.t_icon{margin: 0 2px;cursor: pointer;}
+		.icon-all_edit{color: #03a9f4;}
+		.icon-all_delete{color: #ff2d2dad}
+
+		.gong .paging{display: flex;align-items: center;justify-content: center;float: none;}
+
+
+		/*@tong 下拉列表 and*/
+		.select-menu-ul{margin-top:50px;list-style:none;opacity:0;display:none;width: 100%;max-width: 346px;right: 70px;text-align:left;border:1px solid #ddd;background:#fff;position:absolute;z-index:9;}
+		.select-menu-ul li{padding:2% 0 2% 3%;font-size: 16px}
+		.select-menu-ul li:hover{background:#f2f2f2;}
+		.select-this{background:#ec302c;color:#fff;}
+		.select-this:hover{background:#ec302c!important;}
+		.select-menu-ul i{margin-right:5px;position:absolute;right:0;top:7px;}
+		.select-menu-i{transform:rotate(180deg);}
+		.select-menu-ul i{-webkit-transition: all 0.4s ease;-o-transition: all 0.4s ease;transition: all 0.4s ease;}
+		.zt_input_block {margin-left: 100px;min-height: 46px;position: relative;max-width: 370px;text-align: left;display: flex;}
+		label.zt_form_label {margin: 0;float: left;display: block;font-size: 20px;line-height: 46px;text-align: center;color: #333;}
+		.zt_form_item{margin-top: 30px;}
+		input.select-menu-input{width: 100%}
+		/* 下拉列表 end*/
+
+		/*@tong 上传图片 and*//*width: 280px;*/
+		#uppic{padding:0 20px 30px}
+		.upload-item{position: relative;display: inline-block;margin-left: 20px;border: 1px solid #e0e0e0;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;vertical-align: top;}
+		.upload-item .upload-photo {padding: 40px 20px;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;text-align: center;color: #999;font-size: 14px;}
+		.upload-item .upload-photo .icon-add {display: inline-block;margin-bottom: 20px;color: #ccc;}
+		.upload-item input.file-input {position: absolute;top: 0;left: 0;width: 100%;height: 100%;opacity: 0;cursor: pointer;z-index: 2;margin: 0;padding: 0}
+		.upload-item .upload-img{position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index:-1;text-align:center;background: #fff;opacity: 0;transition: all .3s ease;}
+		.upload-item .upload-img img{max-width: 100%;max-height: 100%;position: absolute;top: 0;left: 0;right: 0;bottom: 0;margin: auto;}
+		.upload-item.success .upload-img{z-index: 0;opacity: 1}
+		/*上传图片 end*/
+	</style>
+	<script type="text/javascript">
+		var _token = store.get('userinfo').token || getUrlParam('token');
+		// var _token = getUrlParam('token');
+		var _uppicApi = globalApi_+"/box/ucenter/uppic/";
+		var searchkey={"pagesize":500,"token":_token,"filter":JSON.stringify({"status[!]":"9"})};
+		function getdata() {
+			httpx.get(globalApi_+'/box/bids/list/',searchkey,function(data){
+				var _data = JSON.parse(data);
+				if(_data.success)vmup(listData,_data);
+			});
+		}
+		getdata();
+	</script>
+</head>
+<body>
+	<div id="admin_console">
+		<!-- 主体 -->
+		<div class="main">
+			<div class="main_sideLf">
+				<ul>
+					<li class="cur"><a href="index.html"><img src="../static/images/photo1.png" alt=""><span>投标列表</span></a></li>
+					<li><a href="add.html"><img src="../static/images/photo2.png" alt=""><span>新增投标</span></a></li>
+					<!-- <li><a href="project_zp_list.html"><img src="../static/images/zuoping.png" alt=""><span>作品列表</span></a></li> -->
+				</ui>
+			</div>
+
+			<div class="main_sideRh">
+				<div class="update-box">
+					<div>
+						<div class="up_btn_head">
+							<div class='add_title'>投标列表<span>&nbsp;&nbsp;Tender List</span></div>
+							<div class="up_btn_sou">
+								<div class="up_btn_sou_lf">
+									<span class="up_btn_sou_lf_up"><a href="add.html">新增投标</a></span><span class="up_btn_sou_lf_delete" id="del_all">删除</span>
+								</div>
+								<!-- <div class="up_btn_sou_rh">
+									<input placeholder="项目关键字" type="text"><div id='sousou'><img src="../static/images/sou.png" alt=""></div>
+								</div> -->
+							</div>
+						</div>
+						<div>
+							<table class="v_tabmain">
+								<thead>
+									<tr>
+										<th><input type="checkbox" id="Select_all"><span>项目名称</span></th>
+										<th>项目编号</th>
+										<th>所在地</th>
+										<th>项目预算</th>
+										<th>报名截止</th>
+										<th>递交投标截止</th>
+										<th>状态</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class='content' v-for="tt in data">
+										<td>
+											<input type="checkbox" name="id" :value="tt.id">
+											<span>{{tt.arrall.title}}</span>
+										</td>
+										<td>{{tt.arrall.workers}}</td>
+										<td>{{tt.arrall.city}}</td>
+										<td>￥{{tt.arrall.money}}</td>
+										<td>{{tt.arrall.StopTime1}}</td>
+										<td>{{tt.arrall.StopTime2}}</td>
+										<td>
+											{{tt.status | location}}
+											<span v-if="tt.status == 2" class="t_btn" :onclick="'_add('+tt.id+')'"><i class="t_icon iconfont icon-all_edit"></i></a></span>
+										</td>
+										<td>
+											<span class="t_btn" :onclick="'_det('+tt.id+')'"><i class="t_icon iconfont icon-browse"></i></a></span>
+											<span class="t_btn" :onclick="'_del('+tt.id+')'"><i class="t_icon iconfont icon-all_delete"></i></span>
+											<!-- <span class="t_btn" :onclick="'_add('+tt.id+')'"><i class="t_icon iconfont icon-all_edit"></i></a></span> -->
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div v-if="total == 0" style="padding:25px;color: #333;text-align: center;"><p>暂无项目<a style="color:#03a9f4;margin-left: 4px" href="add.html">去添加</a></p></div>
+						</div>
+					</div>
+
+					<!-- <div class="gong">
+						<div class="paging">
+							<p>
+								<a href=""><</a>
+								<a href="">1</a>
+								<a href="">2</a>
+								<a href="">3</a>
+								<a href="">></a>
+								<a href="">共3页</a>
+							</p>
+						</div>
+					</div> -->
+				</div>
+
+			</div>
+		</div>
+	</div>
+<script>
+var default_data={"success": true,"total": 1, "data": [{"id": "2","uid": "4","status": "1","arrall": {"title": "测试tong01","workers": "001","city": "上海","money": "50000","StopTime1": "2019-10-14","StopTime2": "2019-10-14","req": "1.要求。。。","startTime": "2019-10-14","pledge": "500","pledgeAcc": "765432165432","openingBank": "中国银行","accountNum": "765432165432","paymentType": "转账","requirements": "56432","note": "312","projectFile": ""},"time": "1562129971"}]}
+var del_data = {'token':_token,'status':'9','id':[]};
+var listData = new Vue({el: '#admin_console',data:default_data});
+
+
+Vue.filter('is_cover', function (str) {if(!str){return '../static/images/nopic.png'}else{return str}});
+Vue.filter('location', function (str) {switch (str){case '1': return '待审核';break;case '2': return '待跟进';break;case '3': return '跟进中';case '4': return '已完成';case '5': return '弃单';}});
+
+function _del(_id) {
+	del_data.id = JSON.stringify(_id);
+	layer.open({
+		content: '真的要删掉我吗？'
+		,btn: ['是的', '算了']
+		,yes: function(index, layero){
+        	console.log(index+'----'+layero);
+            httpx.post(globalApi_+'/box/bids/update/',del_data,function (ent) {msg(JSON.parse(ent).info);getdata()})
+      	}
+    });
+}
+function _add(_id) {location.href = 'add1.html?id='+_id;}
+function _det(_id) {location.href = 'details.html?id='+_id;}
+
+//全选
+$("#Select_all").on('click', function() {$("tbody input:checkbox").prop("checked", $(this).prop('checked'));})
+$("tbody input:checkbox").on('click', function() {
+if($("tbody input:checkbox").length === $("tbody input:checked").length){$("#Select_all").prop("checked",true);}else{$("#Select_all").prop("checked",false)}
+})
+$('#del_all').on('click',function(){var vals = [];$('tbody input:checkbox:checked').each(function (index, item) {vals.push($(this).val());});_del(vals)})
+
+
+
+
+</script>
+</body>
+</html>

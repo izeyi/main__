@@ -293,7 +293,7 @@
                     'comphone': '公司电话','license': '营业执照','comindustry': '所属行业','comscale': '企业规模','comtype': '公司类型'
                 });
                 if(checkVal['success']){//http://api.greatorange.cn/box/userlogin/newcom/
-                    httpx.post(globalApi_+"/mfy/api/create_company",_fromdata,function (data) {
+                    httpx.post(globalApi_+"/mfy/api/create_company/",_fromdata,function (data) {
                         var _Data = JSON.parse(data)
                         _Data['token'] = store.get('userinfo')['token']
                         console.log(_Data)
